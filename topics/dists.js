@@ -19,17 +19,34 @@
     body: `
 <p>離散分布は「回数・個数」を数える確率変数の分布です。どれも<strong>試行の設定の違い</strong>から生まれます。</p>
 <table class="simple">
-<tr><th>分布</th><th>数えるもの</th><th>平均</th><th>分散</th></tr>
-<tr><td>ベルヌーイ $\\mathrm{Bern}(p)$</td><td>1回の成功(1)/失敗(0)</td><td>$p$</td><td>$p(1-p)$</td></tr>
-<tr><td>二項 $\\mathrm{Bin}(n,p)$</td><td>独立 $n$ 回中の成功数</td><td>$np$</td><td>$np(1-p)$</td></tr>
-<tr><td>超幾何</td><td>非復元抽出での成功数</td><td>$n\\frac{K}{N}$</td><td>$n\\frac{K}{N}\\frac{N-K}{N}\\frac{N-n}{N-1}$</td></tr>
-<tr><td>ポアソン $\\mathrm{Po}(\\lambda)$</td><td>単位時間のまれな事象数</td><td>$\\lambda$</td><td>$\\lambda$</td></tr>
-<tr><td>幾何 $\\mathrm{Geo}(p)$</td><td>初成功までの試行回数</td><td>$1/p$</td><td>$(1-p)/p^2$</td></tr>
-<tr><td>負の二項 $\\mathrm{NB}(r,p)$</td><td>$r$ 回成功するまでの失敗数</td><td>$r(1-p)/p$</td><td>$r(1-p)/p^2$</td></tr>
+<tr><th>分布</th><th>数えるもの</th><th>確率関数 $P(X=k)$</th><th>平均</th><th>分散</th></tr>
+<tr><td>ベルヌーイ $\\mathrm{Bern}(p)$</td><td>1回の成功(1)/失敗(0)</td><td>$p^k(1-p)^{1-k}$</td><td>$p$</td><td>$p(1-p)$</td></tr>
+<tr><td>二項 $\\mathrm{Bin}(n,p)$</td><td>独立 $n$ 回中の成功数</td><td>$\\dbinom{n}{k}p^k(1-p)^{n-k}$</td><td>$np$</td><td>$np(1-p)$</td></tr>
+<tr><td>超幾何</td><td>非復元抽出での成功数</td><td>$\\dfrac{\\binom{K}{k}\\binom{N-K}{n-k}}{\\binom{N}{n}}$</td><td>$n\\frac{K}{N}$</td><td>$n\\frac{K}{N}\\frac{N-K}{N}\\frac{N-n}{N-1}$</td></tr>
+<tr><td>ポアソン $\\mathrm{Po}(\\lambda)$</td><td>単位時間のまれな事象数</td><td>$\\dfrac{e^{-\\lambda}\\lambda^k}{k!}$</td><td>$\\lambda$</td><td>$\\lambda$</td></tr>
+<tr><td>幾何 $\\mathrm{Geo}(p)$</td><td>初成功までの試行回数（$k\\ge1$）</td><td>$(1-p)^{k-1}p$</td><td>$1/p$</td><td>$(1-p)/p^2$</td></tr>
+<tr><td>負の二項 $\\mathrm{NB}(r,p)$</td><td>$r$ 回成功するまでの失敗数（$k\\ge0$）</td><td>$\\dbinom{k+r-1}{k}p^r(1-p)^k$</td><td>$r(1-p)/p$</td><td>$r(1-p)/p^2$</td></tr>
+<tr><td>離散一様 $\\{1,\\dots,K\\}$</td><td>どの目も等確率</td><td>$1/K$</td><td>$\\frac{K+1}{2}$</td><td>$\\frac{K^2-1}{12}$</td></tr>
+<tr><td>多項 $\\mathrm{Mult}(n,\\boldsymbol p)$</td><td>$m$ カテゴリへの振り分け</td><td>$\\dfrac{n!}{k_1!\\cdots k_m!}p_1^{k_1}\\cdots p_m^{k_m}$</td><td>$np_i$</td><td>$np_i(1-p_i)$</td></tr>
 </table>
+<p>確率関数はどれも「<strong>何回成功 × 何回失敗 × その並べ方の数</strong>」の3因子でできています。二項の $\\binom{n}{k}$ は「$n$ 回のうちどこで成功したか」の場合の数、幾何に係数が付かないのは「最後が成功」と並びが1通りに決まるから、と読めば暗記せず再構成できます。</p>
 <p><strong>二項 vs 超幾何</strong>：くじを引くとき「戻す」なら二項、「戻さない」なら超幾何。$N$ が大きいと両者はほぼ一致します。<br>
 <strong>二項 vs ポアソン</strong>：$n$ 大・$p$ 小の極限が $\\mathrm{Po}(np)$。ポアソンは平均＝分散が特徴。<br>
-<strong>幾何 vs 負の二項</strong>：幾何は「1回成功するまで」、その一般化（$r$ 回）が負の二項。</p>
+<strong>離散一様</strong>：連続一様の $(b-a)^2/12$ の離散版。サイコロ（$K=6$）なら平均 3.5、分散 $35/12\\approx2.92$。</p>
+<h3>幾何分布と負の二項分布：2つの流儀に注意</h3>
+<p>この2つは<strong>教科書によって定義が違う</strong>ので、式を突き合わせるときは必ず流儀を確認してください。</p>
+<ul>
+<li><strong>試行回数版</strong>：初成功までに<strong>何回試したか</strong>（$k\\ge1$、平均 $1/p$）。本サイトの幾何はこちら。</li>
+<li><strong>失敗数版</strong>：初成功までに<strong>何回失敗したか</strong>（$k\\ge0$、平均 $(1-p)/p$）。本サイトの負の二項（$r$ 回成功までの失敗数）はこちら。</li>
+</ul>
+<p>両者は $k$ を1ずらしただけで、分散はどちらも $(1-p)/p^2$ で同じです。したがって「幾何は負の二項の $r=1$ の場合」という対応が成り立つのは<strong>同じ流儀どうしで比べたとき</strong>——本サイトの負の二項で $r=1$ とすると平均 $(1-p)/p$ の<strong>失敗数版</strong>の幾何になり、表の幾何（$1/p$）とは1だけずれます。試験では問題文が「回数」を数えているのか「失敗数」を数えているのかを読み取るのが第一歩です。</p>
+<h3>多項分布：カテゴリが3つ以上のとき</h3>
+<p>二項の一般化で、$n$ 個を $m$ 個のカテゴリに振り分けたときの内訳 $(k_1,\\dots,k_m)$ の分布です。押さえるべき性質が2つあります。</p>
+<ul>
+<li><strong>周辺分布は二項</strong>：1つのカテゴリだけ見れば「そこに入るか否か」なので $X_i\\sim\\mathrm{Bin}(n,p_i)$。</li>
+<li><strong>成分どうしは負の相関</strong>：$\\mathrm{Cov}(X_i,X_j)=-np_ip_j$。合計が $n$ に固定されているので、どこかが増えれば別のどこかは必ず減ります。</li>
+</ul>
+<p>この負の相関は飾りではなく、<a href="#/prep1/goodness-of-fit">適合度検定</a>の自由度が $k$ ではなく $k-1$ になる理由そのものです。<a href="#/prep1/contingency">分割表</a>の土台でもあります。</p>
 <h3>なぜその平均・分散になるか</h3>
 <p>二項は独立なベルヌーイ試行の和 $X=\\sum B_i$ なので、期待値と分散が<strong>そのまま足し算</strong>で $E=np$、$V=np(1-p)$（独立ゆえ共分散項なし）。ポアソンは<strong>二項の極限</strong>——$n\\to\\infty,\\ p\\to0$ を $np=\\lambda$ 一定で取ると $\\mathrm{Bin}(n,\\lambda/n)\\to\\mathrm{Po}(\\lambda)$（数値でも $P(X{=}2)$ が $n{=}10$ の0.234 → $n{=}1000$ の0.224 と収束）。極限で $V=np(1-p)\\to\\lambda(1-0)=\\lambda=E$ となり、<strong>ポアソンの「平均＝分散」はこの極限の名残</strong>です。幾何分布の無記憶性——「すでに $k$ 回失敗しても、次に成功するまでの分布は最初と同じ」——は離散版の指数分布にあたります。</p>
 <h3>分布の選択が仮定になっている（崩れたときの注意）</h3>
@@ -119,17 +136,26 @@
     body: `
 <p>連続分布は密度 $f(x)$ で表され、面積が確率です。準1級で頻出のものを整理します。</p>
 <table class="simple">
-<tr><th>分布</th><th>使いどころ・素性</th></tr>
-<tr><td>連続一様 $U(a,b)$</td><td>区間内で等しい確率。乱数生成の土台</td></tr>
-<tr><td>正規 $N(\\mu,\\sigma^2)$</td><td>誤差・平均の分布。中心極限定理の到達点</td></tr>
-<tr><td>指数 $\\mathrm{Exp}(\\lambda)$</td><td>「次に起こるまでの待ち時間」。無記憶性をもつ</td></tr>
-<tr><td>ガンマ $\\mathrm{Ga}(k,\\theta)$</td><td>指数の和（$k$ 回起こるまでの時間）。$k$ で形が変わる</td></tr>
-<tr><td>ベータ $\\mathrm{Be}(a,b)$</td><td>$[0,1]$ 上。割合・確率そのものの分布（ベイズの事前）</td></tr>
-<tr><td>対数正規</td><td>$\\ln X$ が正規。正の右歪みデータ（濃度・所得）</td></tr>
-<tr><td>コーシー</td><td>裾が極端に重く、平均・分散が存在しない（要注意）</td></tr>
+<tr><th>分布</th><th>密度 $f(x)$</th><th>平均</th><th>分散</th><th>使いどころ・素性</th></tr>
+<tr><td>連続一様 $U(a,b)$</td><td>$\\dfrac{1}{b-a}$</td><td>$\\frac{a+b}{2}$</td><td>$\\frac{(b-a)^2}{12}$</td><td>区間内で等しい確率。乱数生成の土台</td></tr>
+<tr><td>正規 $N(\\mu,\\sigma^2)$</td><td>$\\dfrac{1}{\\sqrt{2\\pi}\\sigma}e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$</td><td>$\\mu$</td><td>$\\sigma^2$</td><td>誤差・平均の分布。中心極限定理の到達点</td></tr>
+<tr><td>指数 $\\mathrm{Exp}(\\lambda)$</td><td>$\\lambda e^{-\\lambda x}$</td><td>$1/\\lambda$</td><td>$1/\\lambda^2$</td><td>「次に起こるまでの待ち時間」。無記憶性をもつ</td></tr>
+<tr><td>ガンマ $\\mathrm{Ga}(k,\\theta)$</td><td>$\\dfrac{x^{k-1}e^{-x/\\theta}}{\\Gamma(k)\\theta^k}$</td><td>$k\\theta$</td><td>$k\\theta^2$</td><td>指数の和（$k$ 回起こるまでの時間）。$k$ で形が変わる</td></tr>
+<tr><td>ベータ $\\mathrm{Be}(a,b)$</td><td>$\\dfrac{x^{a-1}(1-x)^{b-1}}{B(a,b)}$</td><td>$\\frac{a}{a+b}$</td><td>$\\frac{ab}{(a+b)^2(a+b+1)}$</td><td>$[0,1]$ 上。割合・確率そのものの分布（ベイズの事前）</td></tr>
+<tr><td>対数正規</td><td>$\\dfrac{1}{\\sqrt{2\\pi}\\sigma x}e^{-\\frac{(\\ln x-\\mu)^2}{2\\sigma^2}}$</td><td>$e^{\\mu+\\sigma^2/2}$</td><td>$(e^{\\sigma^2}-1)e^{2\\mu+\\sigma^2}$</td><td>$\\ln X$ が正規。正の右歪みデータ（濃度・所得）</td></tr>
+<tr><td>コーシー</td><td>$\\dfrac{1}{\\pi(1+x^2)}$（標準）</td><td colspan="2"><strong>どちらも存在しない</strong></td><td>裾が極端に重い（要注意）</td></tr>
 </table>
-<p><strong>指数の無記憶性</strong>：$P(X>s+t\\mid X>s)=P(X>t)$。すでに待った時間は次の待ち時間に影響しません。<br>
-<strong>ガンマ</strong>は指数（$k=1$）を含み、$k$ を増やすと山ができて正規に近づきます。カイ二乗は $\\mathrm{Ga}(k/2,2)$ の特別な場合です。</p>
+<p><strong>ガンマのパラメータ化に2流儀</strong>：本サイトは<strong>尺度</strong> $\\theta$ 表記（平均 $k\\theta$）ですが、教科書やソフトでは<strong>率</strong> $\\beta=1/\\theta$ 表記（平均 $\\alpha/\\beta$）も一般的です（R の <code>rgamma</code> は率が既定）。式を突き合わせて合わないときはここを疑ってください。カイ二乗 $\\chi^2_k=\\mathrm{Ga}(k/2,\\ \\theta=2)$ も尺度表記です。ガンマは指数（$k=1$）を含み、$k$ を増やすと山ができて正規に近づきます。</p>
+<h3>指数の無記憶性とハザード関数</h3>
+<p>指数分布の生存関数は $P(X>t)=e^{-\\lambda t}$。これを条件付き確率に入れると</p>
+<p>$$ P(X>s+t\\mid X>s)=\\frac{e^{-\\lambda(s+t)}}{e^{-\\lambda s}}=e^{-\\lambda t}=P(X>t) $$</p>
+<p>と、$s$ がきれいに約分で消えます——<strong>すでに待った時間は次の待ち時間に影響しない</strong>（無記憶性）。これは<strong>ハザード関数</strong> $h(t)=\\dfrac{f(t)}{S(t)}$（「$t$ まで生き延びた上で、今まさに起きる勢い」）が一定であることと同値で、指数では $h(t)=\\lambda e^{-\\lambda t}/e^{-\\lambda t}=\\lambda$ で定数です。ワイブル分布はこれを一般化し、形状 $m<1$ でハザード減少（初期故障）、$m=1$ で指数、$m>1$ で増加（摩耗）——信頼性工学のバスタブ曲線に対応します（<a href="#/prep1/survival">生存時間解析</a>へ）。</p>
+<h3>対数正規：戻すと平均でなく中央値になる</h3>
+<p>実務で最も誤解が多い分布です。$\\ln X\\sim N(\\mu,\\sigma^2)$ のとき、代表値は次の順に並びます。</p>
+<p>$$ \\underbrace{e^{\\mu-\\sigma^2}}_{\\text{最頻値}}\\ <\\ \\underbrace{e^{\\mu}}_{\\text{中央値}}\\ <\\ \\underbrace{e^{\\mu+\\sigma^2/2}}_{\\text{平均}} $$</p>
+<p>つまり「対数変換して平均を取り、指数で戻す」と得られるのは $e^{\\bar{\\ln x}}\\approx e^\\mu$ ＝<strong>中央値（幾何平均）であって算術平均ではありません</strong>。$\\mu=0,\\sigma=1$ なら中央値 1 に対し平均は $e^{0.5}=1.65$ と6割以上違います。濃度データを対数で解析して報告するときは、どちらの代表値を示しているのかを明示してください（<a href="#/math/linearization">線形化</a>の補正項 $\\exp(\\hat\\sigma^2/2)$ はこのズレを埋めるためのものです）。</p>
+<h3>コーシー：大数の法則が効かない分布</h3>
+<p>コーシーは $t_1$（自由度1の $t$ 分布）そのもので、独立な標準正規の比 $Z_1/Z_2$ としても作れます。決定的な性質は<strong>標本平均 $\\bar X_n$ がまた同じコーシー分布に従う</strong>こと——$n$ をいくら増やしても分布が1ミリも縮まないので、<a href="#/prep1/lln">大数の法則</a>が成り立ちません。「たくさん測れば平均が安定する」という直感が通用しない反例として押さえておいてください。</p>
 <h3>分布どうしのつながり（なぜ関係するか）</h3>
 <p>連続分布の多くは<strong>操作でつながっています</strong>。指数分布の無記憶性 $P(X>s+t\\mid X>s)=P(X>t)$ は「ハザード（瞬間故障率）が一定」と同値で、その独立な和が<strong>ガンマ</strong>（$k$ 個の待ち時間の合計）。$\\chi^2_k=\\mathrm{Ga}(k/2,2)$ なので平均 $k$・分散 $2k$（数値でも $k{=}5$ で平均5・分散10）。<strong>対数正規</strong>は「多数の要因が<em>掛け算</em>で効く」過程から出ます——対数を取ると和になり<a href="#/prep1/clt">中心極限定理</a>で正規、だから元は右歪みの正の量（濃度・所得・粒径）に合います。<strong>ベータ</strong>は $[0,1]$ 上で割合そのものを表し、二項の共役事前として<a href="#/prep1/bayes">ベイズ</a>で主役。<strong>正規</strong>は和の極限（CLT）の到達点です。</p>
 <h3>裾と前提の注意</h3>
@@ -201,11 +227,21 @@
 <p>多変量正規分布は、複数の正規変数がまとめて従う分布です。密度は</p>
 <p>$$ f(\\boldsymbol x)=\\frac{1}{(2\\pi)^{p/2}|\\Sigma|^{1/2}}\\exp\\!\\left(-\\tfrac12(\\boldsymbol x-\\boldsymbol\\mu)^\\top\\Sigma^{-1}(\\boldsymbol x-\\boldsymbol\\mu)\\right) $$</p>
 <p>平均ベクトル $\\boldsymbol\\mu$ が丘の位置、<strong>分散共分散行列 $\\Sigma$</strong> が広がりと傾きを決めます。等高線は $\\Sigma$ の固有ベクトル方向を軸とする楕円で、軸の長さは固有値の平方根に比例します（＝<a href="#/prep1/pca">主成分</a>）。</p>
-<h3>2つの便利な性質</h3>
+<h3>すべての基は「線形変換で閉じる」こと</h3>
+<p>多変量正規のいちばん強い性質はこれ一つです。</p>
+<p>$$ \\boldsymbol X\\sim N(\\boldsymbol\\mu,\\Sigma)\\ \\Longrightarrow\\ A\\boldsymbol X+\\boldsymbol b\\sim N\\!\\left(A\\boldsymbol\\mu+\\boldsymbol b,\\ A\\Sigma A^\\top\\right) $$</p>
+<p>よく挙げられる性質は、$A$ の選び方を変えただけの系にすぎません。</p>
 <ul>
-<li><strong>周辺分布も正規</strong>：どの1変数を取り出しても正規分布。</li>
+<li><strong>周辺分布も正規</strong>：$A$ を「1行だけ取り出す行列」にすれば、どの1変数を取り出しても正規分布。</li>
+<li><strong>主成分は無相関な正規</strong>：$A=V^\\top$（固有ベクトルを並べた行列）とすると $V^\\top\\Sigma V=\\Lambda$ が対角＝<a href="#/prep1/pca">主成分</a>どうしは無相関で、分散は固有値そのもの。</li>
+<li><strong>白色化</strong>：$A=\\Sigma^{-1/2}$ とすれば $N(\\boldsymbol 0,I)$ になり、相関を消して単位分散に揃えられる。</li>
 <li><strong>条件付き分布も正規</strong>：$X_2$ を固定した $X_1$ も正規で、$\\rho$ が大きいほど条件付き分散が小さくなる（＝予測が効く）。</li>
 </ul>
+<h3>楕円が含む確率は $\\chi^2$ で決まる（1σ楕円は68%ではない）</h3>
+<p>マハラノビス距離の2乗は、$p$ 変量正規のもとで<strong>自由度 $p$ のカイ二乗分布</strong>に従います。</p>
+<p>$$ (\\boldsymbol x-\\boldsymbol\\mu)^\\top\\Sigma^{-1}(\\boldsymbol x-\\boldsymbol\\mu)\\ \\sim\\ \\chi^2_p $$</p>
+<p>ここに1次元の感覚を持ち込むと誤ります。1次元では「$\\pm1\\sigma$ に約68%、$\\pm2\\sigma$ に約95%」ですが、<strong>2次元の1σ楕円が含むのは約39%、2σ楕円でも約86%</strong>にすぎません（$\\chi^2_2$ で $P(\\chi^2_2\\le1)=0.393$、$P(\\chi^2_2\\le4)=0.865$）。次元が増えるほど「中心から離れた殻」に確率が逃げていくためです。</p>
+<p>逆に95%を含む楕円が欲しければ $\\chi^2_2$ の上側5%点 $5.991$ を使い、半径は $\\sqrt{5.991}\\approx2.45\\sigma$ になります。この $\\chi^2$ 基準はそのまま<strong>多変量の外れ値検出</strong>（マハラノビス距離が $\\chi^2_{p,0.99}$ を超える点を疑う）や、<a href="#/chemo/pls">PLS</a> のホテリング $T^2$ 管理限界にも使われます。</p>
 <h3>指数の中身と条件付きの公式</h3>
 <p>密度の指数部にある $(\\boldsymbol x-\\boldsymbol\\mu)^\\top\\Sigma^{-1}(\\boldsymbol x-\\boldsymbol\\mu)$ は<strong>マハラノビス距離</strong>の2乗——「$\\Sigma$ の形で測った中心からの距離」で、これが一定の点が等高線の楕円です。$\\Sigma=V\\Lambda V^\\top$ と<a href="#/prep1/pca">固有分解</a>すると、楕円の軸が固有ベクトル $V$ の向き、軸の長さが $\\sqrt{\\lambda}$ に比例します。2変数の条件付き分布は</p>
 <p>$$ X_1\\mid X_2{=}x_2\\ \\sim\\ N\\!\\Big(\\mu_1+\\rho\\tfrac{\\sigma_1}{\\sigma_2}(x_2-\\mu_2),\\ \\sigma_1^2(1-\\rho^2)\\Big) $$</p>
