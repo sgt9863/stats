@@ -57,10 +57,10 @@
 
 <h3>有意性と実質的な意味</h3>
 <p>校正データでの $R^2$ は成分を増やすほど<strong>ほぼ必ず上がる</strong>ため、当てはまりの良さは予測力の証拠になりません（数値実験では成分数 1→10 で $R^2$ が 0.951→0.993 と上がり続けました）。判断は<strong>交差検証した $Q^2$（または RMSECV）</strong>で行い、これは真の潜在次元（この例では2）付近でピークを打って以降は下がります（$Q^2$ は $A{=}2{\\sim}3$ の 0.976 が最大で $A{=}10$ では 0.969）。<strong>$R^2$ と $Q^2$ の乖離＝過学習の大きさ</strong>です。変数の効き具合は VIP（変数重要度）で読み、最終的な性能は校正に使っていない<strong>独立試料の RMSEP</strong> で報告します。「$R^2$ が高い＝良いモデル」ではなく「$Q^2$・RMSEP で汎化を確かめる」が鉄則です。</p>
-<div class="note">下は潜在的に2成分で駆動されるスペクトル様データ。PLSの成分数を増やすと予測（実測 vs 予測の散布）が対角線に乗り、R²が上がります。ただし真の成分数（2）を超えて増やすとノイズを拾い、かえって悪化する場合があります。ノイズを上げて過学習の起こりやすさも確かめてください。</div>`,
+<div class="note">下は潜在的に2成分で駆動されるスペクトル様データ。青が<strong>校正</strong>（自分自身を当てはめた予測、$R^2$）、オレンジが<strong>一つ抜き交差検証</strong>（自分を除いて学習したモデルの予測、$Q^2$）です。成分数を増やすと青は必ず対角線に寄って $R^2$ が上がり続けますが、真の成分数（2）を超えるとオレンジは散らばり始め $Q^2$ が下がります。この<strong>$R^2$ と $Q^2$ の乖離が過学習</strong>そのもの——だから成分数は $R^2$ ではなく $Q^2$ で決めます。ノイズを上げると乖離が起きやすくなることも確かめてください。</div>`,
     demo: {
       heading: '📈 実測 vs 予測（PLS）',
-      note: '点が対角線（y=x）に乗るほど予測が良好。成分数を増やすと当てはまりは上がりますが、真の成分数を超えるとノイズを学習して汎化が崩れることがあります。',
+      note: '点が対角線（y=x）に乗るほど予測が良好。成分数を増やすと青（校正 R²）は上がり続けますが、オレンジ（交差検証 Q²）は真の成分数2〜3でピークを打ち、以降は下がります。この差が過学習です。',
       controls: [
         { type: 'range', id: 'ncomp', label: '潜在成分の数', min: 1, max: 8, step: 1, value: 2 },
         { type: 'range', id: 'noise', label: '測定ノイズ', min: 0.05, max: 1.2, step: 0.05, value: 0.3 },
@@ -81,27 +81,43 @@
           y.push([4 * f1 - 2 * f2 + 10 + 0.5 * p.noise * st.randn(rand)]);
         }
         const ncomp = Math.min(Math.round(p.ncomp), pdim - 1);
-        const model = st.plsNipals(X, y, ncomp);
         // 予測 yhat = (X - xmean) B + ymean
-        const yhat = X.map(row => {
+        const predict = (model, row) => {
           const xc = row.map((v, j) => v - model.xmean[j]);
           return st.dot(xc, model.B.map(r => r[0])) + model.ymean[0];
+        };
+        // 校正（自分自身を当てはめた予測）
+        const model = st.plsNipals(X, y, ncomp);
+        const yhat = X.map(row => predict(model, row));
+        // 一つ抜き交差検証（自分を除いて学習した予測）＝汎化性能の代理
+        const yloo = X.map((row, i) => {
+          const Xt = X.filter((_, k) => k !== i), yt = y.filter((_, k) => k !== i);
+          return predict(st.plsNipals(Xt, yt, ncomp), row);
         });
         const yv = y.map(r => r[0]);
         const ybar = st.mean(yv);
-        let ssr = 0, sst = 0;
-        for (let i = 0; i < n; i++) { ssr += (yv[i] - yhat[i]) ** 2; sst += (yv[i] - ybar) ** 2; }
-        const r2 = 1 - ssr / sst;
-        const lo = Math.min.apply(null, yv.concat(yhat)) - 1, hi = Math.max.apply(null, yv.concat(yhat)) + 1;
+        let ssr = 0, press = 0, sst = 0;
+        for (let i = 0; i < n; i++) {
+          ssr += (yv[i] - yhat[i]) ** 2;
+          press += (yv[i] - yloo[i]) ** 2;
+          sst += (yv[i] - ybar) ** 2;
+        }
+        const r2 = 1 - ssr / sst;      // 校正の決定係数：成分を増やすほど必ず上がる
+        const q2 = 1 - press / sst;    // 予測的決定係数：過学習すると下がる
+        const all = yv.concat(yhat, yloo);
+        const lo = Math.min.apply(null, all) - 1, hi = Math.max.apply(null, all) + 1;
         const data = [
           { type: 'scatter', mode: 'lines', x: [lo, hi], y: [lo, hi], line: { color: '#c7cdd8', dash: 'dash', width: 1.5 }, hoverinfo: 'skip', showlegend: false },
-          { type: 'scatter', mode: 'markers', x: yv, y: yhat, marker: { size: 8, color: '#4f6df5', opacity: 0.75 }, showlegend: false, hovertemplate: '実測 %{x:.1f}<br>予測 %{y:.1f}<extra></extra>' },
+          { type: 'scatter', mode: 'markers', name: '交差検証 (Q²)', x: yv, y: yloo, marker: { size: 8, color: '#e4572e', opacity: 0.75 }, hovertemplate: '実測 %{x:.1f}<br>CV予測 %{y:.1f}<extra></extra>' },
+          { type: 'scatter', mode: 'markers', name: '校正 (R²)', x: yv, y: yhat, marker: { size: 8, color: '#4f6df5', opacity: 0.8 }, hovertemplate: '実測 %{x:.1f}<br>予測 %{y:.1f}<extra></extra>' },
         ];
         const layout = TH().layout({
           xaxis: { title: '実測値 y', range: [lo, hi] },
           yaxis: { title: '予測値 ŷ', range: [lo, hi], scaleanchor: 'x' },
           margin: { l: 52, r: 12, t: 28, b: 42 },
-          title: { text: ncomp + ' 成分　R² = ' + r2.toFixed(3), font: { size: 13 }, x: 0.5 },
+          showlegend: true,
+          legend: { x: 0.02, y: 0.98, bgcolor: 'rgba(0,0,0,0)', font: { size: 11 } },
+          title: { text: ncomp + ' 成分　R² = ' + r2.toFixed(3) + ' / Q² = ' + q2.toFixed(3), font: { size: 13 }, x: 0.5 },
         });
         Plotly.react(div, data, layout, TH().config);
       },
@@ -141,10 +157,10 @@
 <p>そこで有意性は<strong>並べ替え検定（permutation test）</strong>で測ります。クラスラベルを何百回もシャッフルして毎回モデルを組み直し、<strong>交差検証</strong>で得た $Q^2$（または CV 正解率）の分布＝帰無分布を作り、実データの $Q^2$ がその上位何%に入るかで $p$ 値を出します。先の「でたらめラベル」でも、一つ抜き交差検証（LOO-CV）の正解率は<strong>約0.5（偶然と同じ）</strong>に落ちます——標本内の100%とCVの50%のギャップが、そのまま過学習の大きさです。</p>
 <p>報告では「分離した」ではなく、<strong>$Q^2$・CV混同行列・並べ替え $p$ 値・効果量（群間距離やマーカーのVIP）</strong>をそろえます。統計的に有意でも、実務では「その差で真贋・産地を判定できる誤分類率か」まで見て初めて意味を持ちます。</p>
 
-<div class="note">下は2群（青・オレンジ）の高次元スペクトルデータのスコアプロット。クラスの分離度を上げると2群が左右に離れ、ノイズや交絡（ロット差など）を増やすと重なって誤分類が増えます。次の<a href="#/chemo/opls-da">OPLS-DA</a>では、この「分離軸」と「無関係なばらつき軸」を分けて見やすくします。</div>`,
+<div class="note">下は2群（青・オレンジ）の高次元スペクトルデータのスコアプロット。クラスの分離度を上げると2群が左右に離れ、<strong>ノイズ</strong>を増やすと重なって誤分類が増えます。一方<strong>交絡（ロット差など）</strong>を増やしたときは様子が違います——第1成分は上で導いたとおり2群の平均差の方向なので分離自体はおおむね保たれ、代わりにクラスと無関係な変動が $t_2$（一部は $t_1$）に乗って、群のかたまりが伸び分離軸が斜めに傾きます。つまり「分離できない」のではなく<strong>「どの軸がクラスの違いなのか読み取りにくくなる」</strong>のが問題です。だから次の<a href="#/chemo/opls-da">OPLS-DA</a>で、この「分離軸」と「無関係なばらつき軸」を分けて整理します。</div>`,
     demo: {
       heading: '🎯 PLS-DA スコアプロット（t₁ vs t₂）',
-      note: 'クラス分離度を上げると2群が離れます。交絡（ロット差）を増やすと、分離に無関係なばらつきが t₁・t₂ に混じって群が重なりがちに。分離軸が斜めになることもあります。',
+      note: 'クラス分離度を上げると2群が離れ、ノイズを上げると重なって誤分類が増えます。交絡（ロット差）は違い、分離自体は保たれたまま群が伸びて分離軸が斜めに傾く＝どの軸がクラス差か読みにくくなります。',
       controls: [
         { type: 'range', id: 'sep', label: 'クラスの分離度', min: 0, max: 3, step: 0.2, value: 1.5 },
         { type: 'range', id: 'orth', label: '交絡（ロット差など）', min: 0, max: 3, step: 0.2, value: 1 },

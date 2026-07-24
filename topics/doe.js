@@ -507,16 +507,24 @@
 <h3>① デルタ法（解析）</h3>
 <p><a href="#/prep1/delta-method">デルタ法</a>を多変数に拡張すると、予測 $\\hat{y}(\\boldsymbol{x})=\\boldsymbol{f}(\\boldsymbol{x})^\\top\\hat{\\boldsymbol\\beta}$ の分散は</p>
 <p>$$ \\mathrm{Var}(\\hat y)=\\boldsymbol{f}^\\top\\,\\mathrm{Var}(\\hat{\\boldsymbol\\beta})\\,\\boldsymbol{f}=\\sigma^2\\,\\boldsymbol{f}^\\top(X^\\top X)^{-1}\\boldsymbol{f} $$</p>
+<p><strong>信頼区間と予測区間を混同しないこと</strong>——ここが実務で最も事故が多い点です。上の分散が表すのは「その条件での<strong>平均</strong>応答」のばらつきであって、確認実験で<strong>1回測る値</strong>のばらつきではありません。</p>
+<p>$$ \\text{平均応答の信頼区間：}\\ \\hat y\\pm t\\,\\sigma\\sqrt{\\boldsymbol f^\\top(X^\\top X)^{-1}\\boldsymbol f},\\qquad
+\\text{次の1点の予測区間：}\\ \\hat y\\pm t\\,\\sigma\\sqrt{1+\\boldsymbol f^\\top(X^\\top X)^{-1}\\boldsymbol f} $$</p>
+<p>違いは根号の中の <strong>$+1$</strong>——測定そのもののばらつきです。実験回数を増やすと信頼区間はいくらでも狭くできますが、予測区間は $\\pm t\\sigma$ より狭くなりません。<strong>最適条件を確認実験で検証するときに突き合わせるのは予測区間のほう</strong>で、信頼区間を使うと「範囲を外れた＝再現しなかった」と誤判定します。</p>
 <h3>② モンテカルロ（数値）</h3>
 <p>係数を<a href="#/prep1/multivariate-normal">多変量正規分布</a> $\\hat{\\boldsymbol\\beta}\\sim\\mathcal N(\\hat{\\boldsymbol\\beta},\\ \\mathrm{Var}(\\hat{\\boldsymbol\\beta}))$ から何千回もサンプリングし、そのつど応答（Rs など）を計算して分布を作ります。非線形な応答（保持時間 $t_R$ から計算する Rs など）でも、そのまま扱えるのが強みです。分布の 2.5%〜97.5% 点が 95% 信頼区間です。</p>
 <h3>2つの方法の使い分け（前提と注意）</h3>
 <p>デルタ法とモンテカルロは同じ問いに答えますが、前提が違います。<strong>デルタ法は速いが1次近似</strong>——応答が係数に対して<strong>強く非線形</strong>だと（Rs のように比や差の関数）、接線近似が外れて分散を誤り、対称な区間が実際の非対称な分布と合いません（<a href="#/prep1/delta-method">デルタ法の限界</a>そのもの）。<strong>モンテカルロは重いが柔軟</strong>で、非線形でも分布の形（歪み）ごと得られるので、応答が複雑な RSM では基本こちらが安全です。共通の前提として、<strong>(1) 係数の共分散 $\\sigma^2(X^\\top X)^{-1}$ の $\\sigma^2$ 推定が正しいこと</strong>（実験の誤差分散を過小評価すると区間が狭すぎる）、<strong>(2) この区間は「モデルが正しいと仮定した上での」係数由来の不確かさだけ</strong>——モデル自体の誤り（2次で足りない等）や外挿の危険は含みません。区間はあくまで「同じモデル内のばらつき」で、モデル選択の不確かさは別に考えます。</p>
-<div class="note">下は、係数の不確かさをモンテカルロで伝搬させた「最適点での応答」の分布。測定ノイズ（誤差分散）を上げると分布が広がり、信頼区間が広くなります。応答が非線形だと分布が左右非対称になる（デルタ法の対称区間では捉えきれない）ことも確かめてください。「最適条件はここ、ただし応答は 82±3」のように幅つきで報告するのが誠実な姿勢です。</div>`,
+<div class="note">下は、係数 $\\hat{\\boldsymbol\\beta}$ を多変量正規から3000回サンプリングし、そのつど目的量を計算した分布です。測定ノイズ（誤差分散）を上げると分布が広がり、実験回数を増やすと狭まります。<strong>「伝搬させる量」を切り替えてみてください</strong>——応答 $\\hat y$ は $\\boldsymbol\\beta$ の<strong>線形</strong>結合なので分布は左右対称のまま（デルタ法の対称区間で十分）ですが、停留点の位置 $x^*=-\\tfrac12B^{-1}\\boldsymbol b$ は<strong>比の形＝非線形</strong>なので分布が歪みます。ノイズを上げるほど分母（$B$ の行列式）が0に近づく確率が増え、裾が長く伸びて「中央値−点推定」のズレが大きくなる——これがデルタ法の1次近似では捉えきれない領域です。「最適条件はここ、ただし応答は 82±3」のように幅つきで報告するのが誠実な姿勢です。</div>`,
     demo: {
-      note: '応答の点推定（縦線）は同じでも、測定ノイズが増えると分布が広がり信頼区間が広くなります。実験回数を増やすと逆に狭まります。点推定だけでなく幅で語るための計算です。',
+      note: '測定ノイズが増えると分布が広がり、実験回数を増やすと狭まります。「停留点の位置」に切り替えると分布が非対称になり、中央値と点推定がずれます＝非線形な量にデルタ法の対称区間を当てる危うさ。',
       controls: [
         { type: 'range', id: 'noise', label: '測定ノイズ σ', min: 0.5, max: 6, step: 0.5, value: 2 },
         { type: 'range', id: 'runs', label: '実験回数', min: 8, max: 40, step: 2, value: 16 },
+        { type: 'select', id: 'target', label: '伝搬させる量', value: 'yhat', options: [
+          { value: 'yhat', label: '最適点での応答 ŷ（βに線形）' },
+          { value: 'xs', label: '停留点の位置 x₁*（βに非線形）' },
+        ]},
         { type: 'button', id: 'reseed', label: '再サンプル' },
       ],
       draw(canvas, p) {
@@ -543,28 +551,58 @@
         // 残差分散
         let rss = 0; for (let i = 0; i < n; i++) rss += (y[i] - st.dot(X[i], beta)) ** 2;
         const sigma2 = rss / Math.max(1, n - 6);
-        // 最適点（真の最適に近い固定点）での予測をモンテカルロ
+        // 係数の共分散 Var(beta) = sigma2 (XtX)^-1 をコレスキー分解し、
+        // beta を多変量正規からサンプリングして「そのつど目的量を計算」する（本文の②）。
+        const Sig = XtXinv.map(row => row.map(v => v * sigma2));
+        const m = Sig.length;
+        const L = st.zeros(m, m);
+        for (let i = 0; i < m; i++) {
+          for (let j = 0; j <= i; j++) {
+            let s = Sig[i][j];
+            for (let k = 0; k < j; k++) s -= L[i][k] * L[j][k];
+            if (i === j) L[i][j] = Math.sqrt(Math.max(1e-12, s));
+            else L[i][j] = s / (L[j][j] || 1e-12);
+          }
+        }
+        // 目的量：応答は beta の線形結合、停留点 x* = -B^{-1}b/2 は非線形（比の形）
         const xstar = basis(0.9, 0.3);
-        // Var(yhat) = sigma2 * f' (XtX)^-1 f
-        const tmp = st.matvec(XtXinv, xstar);
-        const predVar = sigma2 * st.dot(xstar, tmp);
-        const predMean = st.dot(xstar, beta);
+        const targetOf = (b) => {
+          if (p.target === 'xs') {
+            const det = 4 * b[3] * b[4] - b[5] * b[5]; // 2B の行列式
+            if (Math.abs(det) < 1e-9) return NaN;
+            return -(2 * b[4] * b[1] - b[5] * b[2]) / det; // 停留点の x1 座標
+          }
+          return st.dot(xstar, b);
+        };
         const sims = [];
-        for (let s = 0; s < 3000; s++) sims.push(predMean + Math.sqrt(Math.max(1e-9, predVar)) * st.randn(rand));
+        for (let s = 0; s < 3000; s++) {
+          const z = []; for (let i = 0; i < m; i++) z.push(st.randn(rand));
+          const bs = beta.map((bi, i) => bi + st.dot(L[i].slice(0, i + 1), z.slice(0, i + 1)));
+          const v = targetOf(bs);
+          if (isFinite(v)) sims.push(v);
+        }
         sims.sort((a, b) => a - b);
-        const lo = sims[Math.floor(3000 * 0.025)], hi = sims[Math.floor(3000 * 0.975)];
-        const bmin = sims[30], bmax = sims[2970];
+        const S2 = sims.length;
+        const predMean = targetOf(beta);
+        const q = f => sims[Math.min(S2 - 1, Math.max(0, Math.floor(S2 * f)))];
+        const lo = q(0.025), hi = q(0.975);
+        const bmin = q(0.01), bmax = q(0.99);
         const bins = st.histogram(sims, 40, bmin, bmax);
         const ymax = Math.max.apply(null, bins.map(b => b.count)) * 1.15 || 1;
         const pl = Pl.make(canvas, { xmin: bmin, xmax: bmax, ymin: 0, ymax });
-        pl.clear(); pl.axes({ xLabel: '最適点での予測応答', yLabel: '回数' });
+        pl.clear();
+        pl.axes({ xLabel: p.target === 'xs' ? '停留点の位置 x₁*' : '最適点での予測応答', yLabel: '回数' });
         const ctx = pl.ctx;
         ctx.fillStyle = 'rgba(228,87,46,0.10)';
         ctx.fillRect(pl.X(lo), pl.pad.top, pl.X(hi) - pl.X(lo), pl.H - pl.pad.top - pl.pad.bottom);
         pl.bars(bins.map(b => ({ x0: b.x0, x1: b.x1, y: b.count })), { color: Pl.colors[0], alpha: 0.6 });
-        pl.vline(predMean, { color: Pl.ink, dash: [], label: '点推定 ' + predMean.toFixed(1) });
-        pl.text(bmax, ymax, '95%CI = [' + lo.toFixed(1) + ', ' + hi.toFixed(1) + ']', { align: 'right', baseline: 'top', dx: -8, dy: 6, color: Pl.colors[1], size: 12.5 });
-        pl.text(bmax, ymax, '幅 = ' + (hi - lo).toFixed(1), { align: 'right', baseline: 'top', dx: -8, dy: 26, color: '#475467', size: 12 });
+        const dec = p.target === 'xs' ? 2 : 1;
+        pl.vline(predMean, { color: Pl.ink, dash: [], label: '点推定 ' + predMean.toFixed(dec) });
+        pl.text(bmax, ymax, '95%CI = [' + lo.toFixed(dec) + ', ' + hi.toFixed(dec) + ']', { align: 'right', baseline: 'top', dx: -8, dy: 6, color: Pl.colors[1], size: 12.5 });
+        // 中央値と点推定のズレ＝分布の歪み。非線形な量ほど大きくなる。
+        const skewGap = q(0.5) - predMean;
+        pl.text(bmax, ymax, '幅 = ' + (hi - lo).toFixed(dec) + '　中央値−点推定 = ' + skewGap.toFixed(dec),
+          { align: 'right', baseline: 'top', dx: -8, dy: 26, color: '#475467', size: 12 });
       },
     },
   });
