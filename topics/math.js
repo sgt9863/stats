@@ -70,6 +70,20 @@
 <p>2本の連立方程式</p>
 <p>$$ \\begin{cases} a x + b y = e \\\\ c x + d y = f \\end{cases} \\quad\\Longleftrightarrow\\quad \\underbrace{\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}}_{A}\\underbrace{\\begin{pmatrix}x\\\\y\\end{pmatrix}}_{\\boldsymbol{x}}=\\underbrace{\\begin{pmatrix}e\\\\f\\end{pmatrix}}_{\\boldsymbol{b}} $$</p>
 <p>は、行列を使うと $A\\boldsymbol{x}=\\boldsymbol{b}$ と1本で書けます。各方程式は平面上の1本の直線で、<strong>解は2直線の交点</strong>です。</p>
+<h3>行列どうしの積</h3>
+<p>まず積の定義から。$(AB)_{ij}$ は<strong>$A$ の第 $i$ 行と $B$ の第 $j$ 列の内積</strong>です。</p>
+<p>$$ (AB)_{ij}=\\sum_k a_{ik}b_{kj},\\qquad
+\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix}\\begin{pmatrix}5&6\\\\7&8\\end{pmatrix}
+=\\begin{pmatrix}1\\cdot5+2\\cdot7 & 1\\cdot6+2\\cdot8\\\\ 3\\cdot5+4\\cdot7 & 3\\cdot6+4\\cdot8\\end{pmatrix}
+=\\begin{pmatrix}19&22\\\\43&50\\end{pmatrix} $$</p>
+<p>「行×列」なので、$A$ が $m\\times n$、$B$ が $n\\times p$ のときだけ計算でき、結果は $m\\times p$。<strong>内側の寸法が一致</strong>していることが条件です。ここから、統計でよく出る形の寸法が読めます——データ行列 $X$ が $n\\times p$（$n$ 個体 × $p$ 変数）なら、$X^\\top X$ は $(p\\times n)(n\\times p)=p\\times p$ の正方行列になり、しかも対称です。回帰の $(X^\\top X)^{-1}X^\\top\\boldsymbol y$ という式が「計算できる形」だと、寸法だけで確認できます。</p>
+<p>押さえるべき規則は4つです。</p>
+<ul>
+<li><strong>交換できない</strong>：一般に $AB\\ne BA$（上の例で順を入れ替えると $\\begin{pmatrix}23&34\\\\31&46\\end{pmatrix}$ になり別物）。行列の式では順序を勝手に入れ替えないこと。</li>
+<li><strong>単位行列</strong> $I$（対角が1、他が0）は「1」の役割：$AI=IA=A$。</li>
+<li><strong>転置は順序が逆転</strong>：$(AB)^\\top=B^\\top A^\\top$。だから $(X\\boldsymbol\\beta)^\\top=\\boldsymbol\\beta^\\top X^\\top$。</li>
+<li><strong>逆行列も順序が逆転</strong>：$(AB)^{-1}=B^{-1}A^{-1}$。</li>
+</ul>
 <h3>逆行列 ＝ 割り算のかわり</h3>
 <p>普通の方程式 $ax=b$ は $x=b/a$。行列版では「割り算」の代わりに<strong>逆行列</strong> $A^{-1}$ を使います。</p>
 <p>$$ A\\boldsymbol{x}=\\boldsymbol{b} \\;\\Longrightarrow\\; \\boldsymbol{x}=A^{-1}\\boldsymbol{b},\\qquad A^{-1}=\\frac{1}{ad-bc}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix} $$</p>
@@ -77,7 +91,7 @@
 <h3>行列式と「壊れやすさ」を測る条件数</h3>
 <p>行列式 $\\det A=ad-bc$ には<strong>面積の拡大率</strong>という意味があります：$A$ は単位正方形（面積1）を平行四辺形（面積 $|\\det A|$）へ移す変換で、$\\det A=0$ は「面積が潰れて次元が落ちる＝情報が失われて元に戻せない（逆行列なし）」状態です。ただし実務で効くのは $\\det$ そのものより<strong>条件数 $\\kappa(A)=\\lambda_{\\max}/\\lambda_{\\min}$</strong>（最大・最小<a href="#/math/eigen">固有値</a>の比）。これは「入力の小さな誤差が解でどれだけ増幅されるか」の上限で、$\\kappa$ が大きいほど右辺やデータのわずかな変化に解が過敏になります。相関 $\\rho$ の2変数では $\\kappa=(1+\\rho)/(1-\\rho)$ で、$\\rho{=}0.9$ で19、$\\rho{=}0.99$ で199（数値確認済み）——似た変数ほど条件数が跳ね上がります。</p>
 <h3>前提と、崩れたときの注意</h3>
-<p>逆行列は「解を<em>書く</em>」には便利ですが、<strong>実際に計算する道具としては危険</strong>です。$\\det\\approx0$（悪条件）だと桁落ちで精度が失われ、$p{>}n$ では $X^\\top X$ が特異で逆行列が存在しません。数値計算では逆行列を陽に作らず、<strong>LU分解・QR分解・コレスキー分解で $A\\boldsymbol x=\\boldsymbol b$ を直接解く</strong>のが定石（速く安定）。悪条件・特異なときは、<strong>擬似逆行列（<a href="#/prep1/pca">SVD</a>ベース）</strong>や<a href="#/prep1/regularization">正則化</a>（$X^\\top X+\\lambda I$ で条件数を下げる＝リッジ回帰）で対処します。「逆行列の式が書けること」と「安定に計算できること」は別問題だと意識してください。</p>
+<p>逆行列は「解を<em>書く</em>」には便利ですが、<strong>実際に計算する道具としては危険</strong>です。$\\det\\approx0$（悪条件）だと桁落ちで精度が失われ、$p{>}n$ では $X^\\top X$ が特異で逆行列が存在しません。ここで<strong>ランク（階数）＝線形独立な列の本数</strong>を使うと見通しが良くなります。$\\det A\\ne0$、フルランク、逆行列が存在する、の3つは同値です。$\\mathrm{rank}(X^\\top X)=\\mathrm{rank}(X)\\le\\min(n,p)$ なので、$p>n$ なら $p\\times p$ 行列のランクが $p$ に届かず<strong>必ず特異</strong>——「変数の数がデータ数より多いと係数が一意に決まらない」の正体がこれです。数値計算では逆行列を陽に作らず、<strong>LU分解・QR分解・コレスキー分解で $A\\boldsymbol x=\\boldsymbol b$ を直接解く</strong>のが定石（速く安定）。悪条件・特異なときは、<strong>擬似逆行列（<a href="#/prep1/pca">SVD</a>ベース）</strong>や<a href="#/prep1/regularization">正則化</a>（$X^\\top X+\\lambda I$ で条件数を下げる＝リッジ回帰）で対処します。「逆行列の式が書けること」と「安定に計算できること」は別問題だと意識してください。</p>
 <div class="note">これは統計で最重要です。重回帰の係数は $\\hat{\\boldsymbol\\beta}=(X^\\top X)^{-1}X^\\top \\boldsymbol{y}$ と、まさに逆行列で求まります。行列式が0に近い＝説明変数が似すぎている状態が「<a href="#/prep1/multicollinearity">多重共線性</a>」で、条件数が跳ね上がり係数が不安定になります。下で2直線を動かし、平行に近づく（$\\det\\to0$・条件数→∞）と交点（解）が不安定に飛ぶ様子を見てください。</div>`,
     demo: {
       note: '2直線の傾きを近づける（平行に近づける）と、交点＝連立方程式の解が遠くへ大きく動きます。行列式が0に近いと解が不安定、というのが多重共線性の正体です。',

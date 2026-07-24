@@ -257,6 +257,16 @@
     body: `
 <p>線形モデル $\\boldsymbol y=X\\boldsymbol\\beta+\\boldsymbol\\varepsilon$ で、誤差が次を満たすとします。</p>
 <p>$$ E[\\boldsymbol\\varepsilon]=\\boldsymbol0,\\quad V[\\boldsymbol\\varepsilon]=\\sigma^2 I\\ (\\text{等分散・無相関}) $$</p>
+<h3>前提は4つ。しかも壊れ方の深刻さが違う</h3>
+<p>上の2式だけが前提のように見えますが、実際には4つあり、<strong>崩れたときに壊れるものが違います</strong>。ここを混同すると「前提が崩れても不偏性は無事」と誤解しかねません。</p>
+<table class="simple">
+<tr><th>前提</th><th>崩れると壊れるもの</th><th>深刻度</th></tr>
+<tr><td>① $E[\\boldsymbol\\varepsilon\\mid X]=\\boldsymbol0$（モデルが正しく特定され、説明変数が誤差と無相関）</td><td><strong>不偏性・一致性が壊れる</strong>。推定値そのものが的を外す</td><td>致命的</td></tr>
+<tr><td>② $V[\\boldsymbol\\varepsilon]=\\sigma^2I$（等分散・無相関）</td><td>点推定は不偏・一致のまま。壊れるのは<strong>効率と標準誤差</strong></td><td>対処可能</td></tr>
+<tr><td>③ $X$ がフルランク</td><td>$(X^\\top X)^{-1}$ が存在せず解が一意に定まらない（<a href="#/prep1/multicollinearity">多重共線性</a>の極限）</td><td>計算不能</td></tr>
+<tr><td>④ $X$ が固定、または誤差と独立</td><td>①と同じく内生性の問題に帰着</td><td>致命的</td></tr>
+</table>
+<p>実務で最も怖いのは①です。効いている変数を落とす（欠落変数バイアス）、説明変数が結果の影響を受けている（同時性）といった<strong>内生性</strong>があると、$n$ をいくら増やしても真値に近づきません。②の不等分散や系列相関は「有効性が落ちて標準誤差の式が間違う」だけで、推定値の中心は正しいまま——この差は決定的です。</p>
 <p><strong>ガウス・マルコフの定理</strong>：このとき最小二乗推定量 $\\hat{\\boldsymbol\\beta}=(X^\\top X)^{-1}X^\\top\\boldsymbol y$ は、すべての<strong>線形</strong>な<strong>不偏</strong>推定量のなかで<strong>分散が最小</strong>になります。頭文字をとって <strong>BLUE</strong>（Best Linear Unbiased Estimator）。</p>
 <h3>なぜ最小分散になるか（証明の骨子）</h3>
 <p>「線形」とは推定量が $\\tilde{\\boldsymbol\\beta}=C\\boldsymbol y$（$C$ は定数行列）と書けること。「不偏」は $E[\\tilde{\\boldsymbol\\beta}]=\\boldsymbol\\beta$ が任意の $\\boldsymbol\\beta$ で成り立つこと——$E[C\\boldsymbol y]=CX\\boldsymbol\\beta$ なので、条件は $CX=I$ です。OLS の $C_0=(X^\\top X)^{-1}X^\\top$ もこれを満たします。任意の線形不偏推定量を $C=C_0+D$ と置くと、$CX=I$ と $C_0X=I$ から $DX=O$。分散を計算すると</p>
@@ -269,6 +279,18 @@
 </ul></div>
 <h3>「最良」は前提とセット（実質的な意味）</h3>
 <p>ガウス・マルコフが保証するのは<strong>「線形かつ不偏」という枠の中での</strong>最良さにすぎません。枠を外せば、OLSより<strong>平均二乗誤差の小さい推定量</strong>は存在します——わざと少し偏らせる代わりに分散を大きく下げる<a href="#/prep1/regularization">リッジ回帰</a>がその典型で、多重共線性の下ではOLS（不偏）より予測が安定します。「不偏＝正義」ではなく、<strong>バイアスと分散の合計（MSE）で測る</strong>のが実務の視点です。また定理は<strong>分散が最小と言うだけで、その分散が実用に足るほど小さいとは言っていません</strong>——$\\mathrm{Var}(\\hat{\\boldsymbol\\beta})=\\sigma^2(X^\\top X)^{-1}$ が大きければ、BLUEでも係数は当てにならず、標準誤差と信頼区間で不確かさごと報告する必要があります。</p>
+<p>その $\\sigma^2$ 自体も未知なので、残差から推定します。</p>
+<p>$$ s^2=\\frac{\\|\\boldsymbol y-X\\hat{\\boldsymbol\\beta}\\|^2}{n-p},\\qquad
+\\mathrm{SE}(\\hat\\beta_j)=s\\sqrt{\\big[(X^\\top X)^{-1}\\big]_{jj}},\\qquad
+t_j=\\frac{\\hat\\beta_j}{\\mathrm{SE}(\\hat\\beta_j)}\\sim t_{\\,n-p} $$</p>
+<p>$n$ でも $n-1$ でもなく <strong>$n-p$</strong> で割るのは（$p$ は推定した係数の数）、残差が「$X$ の列空間に直交する」という $p$ 本の制約を受けているためです。自由に動ける方向が $n-p$ 次元しか残っておらず、そこで割ると $s^2$ が $\\sigma^2$ の不偏推定量になります。$t$ 検定の自由度が $n-p$ なのも同じ理由です。</p>
+<h3>不等分散への対処は2段構え</h3>
+<p>②が崩れた（不等分散・系列相関がある）ときの実務対応は、<strong>誤差構造 $\\Omega$ の形が分かるかどうか</strong>で分かれます。</p>
+<ul>
+<li><strong>形が分かる</strong>（例：分散が $x$ に比例すると分かっている）→ <strong>WLS／GLS</strong>。$\\Omega^{-1}$ で重みづけて解けば、効率まで回復して再びBLUEになります。</li>
+<li><strong>形が分からない</strong>（ふつうはこちら）→ 係数は OLS のまま置き、<strong>頑健標準誤差（サンドイッチ推定量・White の標準誤差）</strong>に差し替える。効率は諦める代わりに、$t$ 検定と信頼区間の妥当性だけを回復させます。</li>
+</ul>
+<p>点推定は壊れていないのだから触らず、壊れた標準誤差だけを直す——これが後者の発想です。</p>
 <div class="note">下は単回帰の傾きを、2つの<strong>線形不偏</strong>推定量——OLS と「前半・後半の平均差」——で何度も推定し、標本分布を重ねたもの。<strong>不等分散を0にする（等分散）とOLSの山が必ず細く</strong>なります（＝分散最小＝BLUE）。ところが不等分散を上げると前提が崩れ、OLSがもう最小分散ではなくなる（別の推定量に負ける）ことが見えます。両者の標準偏差を数値で表示します。</div>`,
     demo: {
       note: '2つの線形不偏推定量の傾きの散らばり比較。不等分散=0（等分散）ではOLS（青）が必ず狭い＝BLUE。不等分散を上げるとOLSが最良でなくなり、単純な平均差推定量（オレンジ）に分散で負けることがあります——「最良」は等分散の前提つき。',
