@@ -15,7 +15,22 @@
 <p>マージンの縁に接する少数の点を<strong>サポートベクター</strong>と呼び、境界はこれらだけで決まります（他の点は動かしても境界は不変）。線形分離できないときは<strong>ソフトマージン</strong>（誤分類を許すスラック）や<strong>カーネル法</strong>（高次元へ写して非線形分離）を使います。<a href="#/prep1/lda">判別分析</a>が分布の仮定に基づくのに対し、SVMは境界そのものを最適化する点が対照的です。</p>
 <h3>なぜマージンが $2/\\|\\boldsymbol w\\|$ か</h3>
 <p>境界を $\\boldsymbol w^\\top\\boldsymbol x+b=0$、両側のマージン縁を $\\boldsymbol w^\\top\\boldsymbol x+b=\\pm1$ と置くと、点の超平面への距離は $\\frac{|\\boldsymbol w^\\top\\boldsymbol x+b|}{\\|\\boldsymbol w\\|}$ なので、2本の縁の間隔（マージン幅）は $\\frac{2}{\\|\\boldsymbol w\\|}$。<strong>マージン最大化 ＝ $\\|\\boldsymbol w\\|$ 最小化</strong>で、制約 $y_i(\\boldsymbol w^\\top\\boldsymbol x_i+b)\\ge1$ の下で $\\frac12\\|\\boldsymbol w\\|^2$ を最小化する凸2次計画になります。ラグランジュ双対を解くと最適 $\\boldsymbol w=\\sum_i\\alpha_i y_i\\boldsymbol x_i$ で、<strong>縁に乗る点だけ $\\alpha_i>0$（サポートベクター）、残りは $\\alpha_i=0$</strong>——だから境界が少数の点で決まります。双対形が内積 $\\boldsymbol x_i^\\top\\boldsymbol x_j$ だけで書けることが、それをカーネル $K(\\boldsymbol x_i,\\boldsymbol x_j)$ に置き換える<strong>カーネルトリック</strong>（明示的に高次元へ写像せず非線形分離）を可能にします。</p>
+<h3>ソフトマージン：完全に分けられないとき</h3>
+<p>ここまでは「直線1本で完全に分離できる」前提でしたが、実データではまず無理です。そこで各点に<strong>スラック変数</strong> $\\xi_i\\ge0$（マージンをどれだけ侵犯したか）を許し、侵犯の総量に価格をつけます。</p>
+<p>$$ \\min_{\\boldsymbol w,b,\\boldsymbol\\xi}\\ \\tfrac12\\|\\boldsymbol w\\|^2+C\\sum_i \\xi_i
+\\quad\\text{s.t.}\\quad y_i(\\boldsymbol w^\\top\\boldsymbol x_i+b)\\ge 1-\\xi_i,\\ \\ \\xi_i\\ge0 $$</p>
+<p>$\\xi_i=0$ ならマージンの外側で正しく分類、$0<\\xi_i<1$ ならマージン内側だが正解、$\\xi_i>1$ なら誤分類です。<strong>$C$ は「マージンの広さ」と「違反の許容」の交換レート</strong>——大きくすると違反1つの代償が高くつくので境界が個々の点に食いつき（$C\\to\\infty$ でハードマージン）、小さくすると多少の違反を飲んで広く滑らかなマージンを取ります。</p>
+<p>制約を消すと $\\xi_i=\\max(0,\\,1-y_if(\\boldsymbol x_i))$ となるので、この最適化は</p>
+<p>$$ \\min_{\\boldsymbol w,b}\\ \\sum_i \\underbrace{\\max\\big(0,\\ 1-y_if(\\boldsymbol x_i)\\big)}_{\\text{ヒンジ損失}}+\\frac{1}{2C}\\|\\boldsymbol w\\|^2 $$</p>
+<p>と書き直せます。つまり<strong>SVM ＝ ヒンジ損失 ＋ L2<a href="#/prep1/regularization">正則化</a></strong>。<a href="#/prep1/logistic">ロジスティック回帰</a>が「対数損失＋正則化」であるのと同じ枠組みで、違いは損失関数の形だけ——ヒンジ損失は正しく余裕を持って分類できた点の損失をきっかり0にするので、境界を決めるのが少数のサポートベクターだけになります。</p>
 <h3>前提条件と手法選択のトレードオフ</h3>
+<p>カーネルの代表例は次の3つで、$\\gamma$ は RBF の「影響半径」を決めます。</p>
+<table class="simple">
+<tr><th>カーネル</th><th>$K(\\boldsymbol x,\\boldsymbol x')$</th><th>性格</th></tr>
+<tr><td>線形</td><td>$\\boldsymbol x^\\top\\boldsymbol x'$</td><td>境界は直線。変数が多く $n$ が少ないときに強い</td></tr>
+<tr><td>多項式</td><td>$(\\boldsymbol x^\\top\\boldsymbol x'+c)^d$</td><td>次数 $d$ で曲がり具合を制御</td></tr>
+<tr><td>RBF（ガウス）</td><td>$\\exp(-\\gamma\\|\\boldsymbol x-\\boldsymbol x'\\|^2)$</td><td>$\\gamma$ 大＝影響半径が狭く境界がぐにゃぐにゃ（過学習）、小＝ほぼ線形</td></tr>
+</table>
 <table class="simple">
 <tr><th>要素</th><th>崩れると／効かせすぎると</th><th>調整</th></tr>
 <tr><td>正則化パラメータ $C$</td><td>大：誤分類を嫌い過学習（ハードマージン寄り）／小：緩すぎて過少適合</td><td>交差検証で選ぶ</td></tr>
@@ -88,7 +103,17 @@
 <tr><th>予測:陽性</th><td>TP</td><td>FP</td></tr>
 <tr><th>予測:陰性</th><td>FN</td><td>TN</td></tr>
 </table>
-<p>ここから、<strong>感度（真陽性率, TPR）</strong>$=\\dfrac{TP}{TP+FN}$、<strong>偽陽性率（FPR）</strong>$=\\dfrac{FP}{FP+TN}$、精度・適合率などが計算できます。</p>
+<p>ここから各指標が計算できます。<strong>どれも分母が何かを見るのが読み方のコツ</strong>です。</p>
+<table class="simple">
+<tr><th>指標</th><th>式</th><th>分母は何か</th></tr>
+<tr><td>感度＝再現率（真陽性率, TPR）</td><td>$\\dfrac{TP}{TP+FN}$</td><td><strong>実際の陽性</strong>のうち何を拾えたか</td></tr>
+<tr><td>特異度</td><td>$\\dfrac{TN}{FP+TN}=1-\\mathrm{FPR}$</td><td><strong>実際の陰性</strong>のうち何を正しく除けたか</td></tr>
+<tr><td>偽陽性率（FPR）</td><td>$\\dfrac{FP}{FP+TN}$</td><td>同上（特異度の裏）</td></tr>
+<tr><td>適合率（精度, precision）</td><td>$\\dfrac{TP}{TP+FP}$</td><td><strong>陽性と判定したもの</strong>のうち何が当たりか</td></tr>
+<tr><td>$F_1$ スコア</td><td>$\\dfrac{2\\cdot\\text{適合率}\\cdot\\text{再現率}}{\\text{適合率}+\\text{再現率}}$</td><td>適合率と再現率の調和平均</td></tr>
+<tr><td>正解率（accuracy）</td><td>$\\dfrac{TP+TN}{\\text{全体}}$</td><td>全体。<strong>不均衡だと当てにならない</strong></td></tr>
+</table>
+<p>ここで決定的なのは、<strong>感度・特異度・FPR の分母には「実際の陽性／陰性の総数」が入るのに対し、適合率の分母には陰性の総数が入らない</strong>ことです。この違いが、後で述べる不均衡データでの ROC と PR 曲線の性格の差を生みます。</p>
 <p>しきい値を上げると陽性判定が減り、TPRもFPRも下がる——このトレードオフを全しきい値で描いたのが<strong>ROC曲線</strong>（横FPR・縦TPR）。曲線下面積が<strong>AUC</strong>で、1に近いほど良い分類器、0.5はランダム（対角線）です。</p>
 <h3>AUCの意味と、しきい値を分けて考える理由</h3>
 <p>AUCには明快な確率的意味があります：<strong>「無作為に選んだ陽性1個と陰性1個で、陽性の方が高いスコアを持つ確率 $P(\\text{スコア}_+>\\text{スコア}_-)$」</strong>。数値でも2群が距離 $d{=}1.5$ 離れているとき、ペア比較のAUC 0.855 が理論値 $\\Phi(d/\\sqrt2)=0.856$ と一致します（これは<a href="#/prep1/nonparametric">マン・ホイットニー統計量</a>と同じもの）。重要なのは、AUCが<strong>「順位づけ（判別）の良さ」だけを測り、どこで切るか（しきい値）とは独立</strong>な点。分類器の設計は「①どれだけ判別できるか（AUC）」と「②どこで切るか（運用のしきい値）」を<strong>分けて</strong>考えるのが定石で、しきい値は誤りのコスト（見逃し vs 誤検出）と事前確率で決めます。</p>
@@ -623,6 +648,15 @@
 <p>$$ SS_\\text{total}=SS_\\text{処理}+SS_\\text{ブロック}+SS_\\text{誤差} $$</p>
 <h3>一部実施要因計画（fractional factorial）</h3>
 <p>要因が $k$ 個・各2水準だと全実施は $2^k$ 回。要因が増えると爆発するので、<strong>一部（$2^{k-p}$）だけ</strong>を賢く選んで実施します。代償は<strong>交絡（別名, alias）</strong>——ある要因の主効果が、別の高次交互作用と区別できなくなること。高次交互作用は無視できるという仮定（疎性）のもとで成立します。</p>
+<h3>「賢く選ぶ」の中身：生成子と定義関係</h3>
+<p>どの半分を選ぶかは勘ではなく、<strong>生成子（generator）</strong>で決めます。$2^{3-1}$（3因子を4回で）を例に追ってみます。</p>
+<ol>
+<li><strong>生成子を決める</strong>：まず $A,B$ で $2^2=4$ 通りを作り、3つ目の因子を $C=AB$ と割り付ける（$\\pm1$ コードで各行の $A$ と $B$ を掛けた値を $C$ の水準にする）。</li>
+<li><strong>定義関係を出す</strong>：$C=AB$ の両辺に $C$ を掛けると、$C^2=I$（どの列も自乗すると全部 $+1$＝単位列 $I$）なので <strong>$I=ABC$</strong>。これがこの計画の<strong>定義関係</strong>です。</li>
+<li><strong>別名を読む</strong>：知りたい効果に定義関係を掛ければ相方が分かります。$A\\cdot ABC=A^2BC=BC$、同様に $B=AC$、$C=AB$。</li>
+</ol>
+<p>つまりこの計画では、$A$ の主効果と $B\\times C$ の交互作用が<strong>原理的に区別できません</strong>（同じ列だから）。定義関係の語 $ABC$ の<strong>長さ3</strong>がこの計画の<strong>分解能 III</strong> です。分解能は「主効果が何次の交互作用と交絡するか」を表し、Res III は主効果 vs 2因子交互作用、Res IV は主効果は安全だが2因子交互作用どうしが交絡、Res V なら2因子交互作用まで分離できます。</p>
+<p><strong>折り返し実験（foldover）</strong>もここから理解できます。全列の符号を反転した4回を追加実施すると、定義関係のうち<strong>語の長さが奇数のもの</strong>が打ち消し合って消えます。上の例なら $I=ABC$（長さ3＝奇数）が消え、主効果が2因子交互作用との交絡から解放される——「最初の半分では区別できなかった $A$ と $BC$ が、追加実験で分離できる」というのが折り返しの効き目です。</p>
 <h3>直交配列（直交表）</h3>
 <p><a href="#/prep1/orthogonal">直交表</a>は一部実施要因計画を表にしたもの。どの2列も水準組合せが均等に現れる「直交性」により、少ない実験で主効果を偏りなく推定できます。分解能（resolution）が別名構造の良し悪しを表します。</p>
 <h3>なぜ乱塊法で誤差が縮むか、分解能とは何か</h3>
