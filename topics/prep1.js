@@ -358,7 +358,11 @@
     summary: '事前分布にデータの尤度を掛けて事後分布を得る——ベイズ更新の流れを、ベータ分布の変形として見ます。',
     body: `
 <p>ベイズ統計では、パラメータ $\\theta$ を確率変数とみなし、データ $D$ を観測した後の<strong>事後分布</strong>を次で求めます。</p>
-<p>$$ \\underbrace{p(\\theta \\mid D)}_{\\text{事後}} \\;\\propto\\; \\underbrace{p(D \\mid \\theta)}_{\\text{尤度}}\\;\\underbrace{p(\\theta)}_{\\text{事前}} $$</p>
+<p>$$ \\underbrace{p(\\theta \\mid D)}_{\\text{事後}}=\\frac{\\overbrace{p(D\\mid\\theta)}^{\\text{尤度}}\\ \\overbrace{p(\\theta)}^{\\text{事前}}}{\\underbrace{p(D)}_{\\text{周辺尤度}}},
+\\qquad p(D)=\\int p(D\\mid\\theta)\\,p(\\theta)\\,d\\theta $$</p>
+<p>分母の<strong>周辺尤度</strong> $p(D)$ は $\\theta$ を含まない、全体を積分1に整えるためだけの定数です。だから形を追うだけなら無視でき、ふつうは比例の形で書きます。</p>
+<p>$$ p(\\theta\\mid D)\\ \\propto\\ p(D\\mid\\theta)\\,p(\\theta) $$</p>
+<p>この「定数を無視してよい」という性質が実務では効きます——右辺を計算して $\\theta$ の関数の<strong>形</strong>を見れば、そこから分布名を読み取れるからです（後述の共役性はまさにこれ）。<a href="#/prep1/mcmc">MCMC</a> が正規化定数を知らずに動けるのも同じ理由です。</p>
 <p>コインの表確率 $\\theta$ を推定する例では、事前分布に $\\mathrm{Beta}(a,b)$ を使うと、$k$ 回表・$n-k$ 回裏を観測した後の事後分布は $\\mathrm{Beta}(a+k,\\; b+n-k)$ という同じ形（共役性）になります。データが増えるほど事後分布は尖り、事前分布の影響は薄れていきます。</p>
 <p><strong>なぜ同じ形になるか</strong>：尤度は $\\theta^{k}(1-\\theta)^{n-k}$、事前は $\\theta^{a-1}(1-\\theta)^{b-1}$ に比例するので、掛けると $\\theta^{a+k-1}(1-\\theta)^{b+n-k-1}$——ベータ分布の形がそのまま残ります。さらに事後平均は</p>
 <p>$$ \\frac{a+k}{a+b+n} \\;=\\; \\frac{a+b}{a+b+n}\\cdot\\underbrace{\\frac{a}{a+b}}_{\\text{事前平均}} \\;+\\; \\frac{n}{a+b+n}\\cdot\\underbrace{\\frac{k}{n}}_{\\text{標本比率}} $$</p>
