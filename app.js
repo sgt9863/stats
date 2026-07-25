@@ -1119,7 +1119,7 @@ function topicHtml(t) {
   if (content) {
     if (content.example) html += exampleHtml(content.example);
     if (content.keypoints && content.keypoints.length) html += keypointsHtml(content.keypoints);
-    if (content.quiz && content.quiz.length) html += quizHtml(content.quiz);
+    if (content.quiz && content.quiz.length) html += quizHtml(content.quiz, t.section + '/' + t.id);
   }
   html += relatedHtml(t);
   const done = isDone(t.section, t.id);
@@ -1164,18 +1164,44 @@ function keypointsHtml(points) {
     points.map(p => '<li>' + p + '</li>').join('') + '</ul></section>';
 }
 
-function quizHtml(quiz) {
+/* 選択肢の並べ替え。
+ * コンテンツ側は「正答を先頭に書く」という規約で書かれているため、そのまま出すと
+ * 全問「一番上が正解」になってクイズが成立しない。表示時に並べ替えて解消する。
+ * 乱数ではなく trueKey から作る決定的なハッシュを種にする理由:
+ *   - 再描画（テーマ切替・やり直し・戻る操作）で並びが変わると混乱するため
+ *   - 同じ端末・別の日でも同じ並びになり、解説の「上から2番目」といった参照が壊れないため */
+function shuffleSeed(str) {
+  let s = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    s ^= str.charCodeAt(i);
+    s = Math.imul(s, 16777619);
+  }
+  return s >>> 0;
+}
+
+function shuffledChoices(choices, answer, key) {
+  const rand = Stats.rng(shuffleSeed(key) || 1);
+  const idx = choices.map((_, i) => i);
+  for (let i = idx.length - 1; i > 0; i--) {           // Fisher-Yates
+    const j = Math.floor(rand() * (i + 1));
+    const t = idx[i]; idx[i] = idx[j]; idx[j] = t;
+  }
+  return { order: idx, answer: idx.indexOf(answer) };
+}
+
+function quizHtml(quiz, key) {
   let h = '<section class="quiz"><div class="quiz-head"><h2>✅ 確認問題</h2>' +
     '<button type="button" class="quiz-reset" id="quiz-reset" hidden>↻ やり直す</button></div>' +
     '<p class="quiz-intro">選択肢を押すと正誤と解説が表示されます。まず自分で考えてから選びましょう。</p>' +
     '<div id="quiz-root">';
   quiz.forEach((item, qi) => {
-    h += '<div class="quiz-q" data-answer="' + item.answer + '">' +
+    const sh = shuffledChoices(item.choices, item.answer, (key || '') + '#' + qi);
+    h += '<div class="quiz-q" data-answer="' + sh.answer + '">' +
       '<p class="quiz-prompt"><span class="quiz-num">Q' + (qi + 1) + '</span> ' + item.q + '</p>' +
       '<div class="quiz-choices">';
-    item.choices.forEach((c, ci) => {
+    sh.order.forEach((orig, ci) => {
       h += '<button type="button" class="quiz-choice" data-ci="' + ci + '">' +
-        '<span class="quiz-mark"></span><span class="quiz-choice-text">' + c + '</span></button>';
+        '<span class="quiz-mark"></span><span class="quiz-choice-text">' + item.choices[orig] + '</span></button>';
     });
     h += '</div>' +
       '<div class="quiz-explain" hidden><strong>解説：</strong>' + item.explain + '</div>' +
