@@ -21,6 +21,15 @@
 <p>行列にはもう1つの顔があります。ベクトルに行列を掛けると、そのベクトルは<strong>回転・拡大・せん断</strong>され、別のベクトルに移ります。$2\\times2$ 行列 $A$ をかける操作は、平面全体をゆがめる「変換」です。主成分分析やPLSは、結局この「空間の変形」を読み解く話に行き着きます。</p>
 <h3>「掛け算」は内積＝重み付き和</h3>
 <p>行列とベクトルの積 $A\\boldsymbol x$ の各成分は、$A$ の行とベクトルの<strong>内積</strong>です。統計で最も使うのがこれ——係数ベクトル $\\boldsymbol\\beta$ とデータ行 $\\boldsymbol x_i$ の内積 $\\boldsymbol x_i^\\top\\boldsymbol\\beta=\\beta_1 x_{i1}+\\cdots+\\beta_p x_{ip}$ が<a href="#/prep1/multiple-regression">重回帰</a>の予測値、$X\\boldsymbol\\beta$ で全員分の予測が一気に出ます。長さ $\\|\\boldsymbol x\\|=\\sqrt{\\boldsymbol x^\\top\\boldsymbol x}$、2ベクトルのなす角の余弦 $\\cos\\theta=\\frac{\\boldsymbol x^\\top\\boldsymbol y}{\\|\\boldsymbol x\\|\\,\\|\\boldsymbol y\\|}$——これは中心化すれば<strong>そのまま<a href="#/prep1/correlation">相関係数</a></strong>です。「行列＝データ表」「積＝重み付き和」「内積＝相関・射影」の3点を押さえると、後の統計がすべて線形代数の言葉で読めます。</p>
+<h3>射影：最小二乗法の正体</h3>
+<p>ベクトル $\\boldsymbol v$ を別のベクトル $\\boldsymbol u$ の向きに「影を落とす」操作が<strong>正射影</strong>です。$\\boldsymbol u$ 方向の成分だけを取り出す、と言い換えてもよい。</p>
+<p>$$ \\mathrm{proj}_{\\boldsymbol u}(\\boldsymbol v)=\\frac{\\boldsymbol v^\\top\\boldsymbol u}{\\boldsymbol u^\\top\\boldsymbol u}\\,\\boldsymbol u $$</p>
+<p>係数 $\\boldsymbol v^\\top\\boldsymbol u/\\boldsymbol u^\\top\\boldsymbol u$ が「$\\boldsymbol u$ 何本ぶんか」。分母の $\\boldsymbol u^\\top\\boldsymbol u=\\|\\boldsymbol u\\|^2$ は $\\boldsymbol u$ の長さの違いを打ち消す規格化で、$\\boldsymbol u$ が単位ベクトルなら単に内積 $\\boldsymbol v^\\top\\boldsymbol u$ 倍です。</p>
+<p>決定的な性質は<strong>「残り物が影の方向と直交する」</strong>こと。$\\boldsymbol r=\\boldsymbol v-\\mathrm{proj}_{\\boldsymbol u}(\\boldsymbol v)$ とおくと</p>
+<p>$$ \\boldsymbol r^\\top\\boldsymbol u=\\boldsymbol v^\\top\\boldsymbol u-\\frac{\\boldsymbol v^\\top\\boldsymbol u}{\\boldsymbol u^\\top\\boldsymbol u}\\,\\boldsymbol u^\\top\\boldsymbol u=0 $$</p>
+<p>と、きれいに0になります。これが<strong>最小二乗法の幾何そのもの</strong>です。回帰では $\\boldsymbol y$ を、説明変数の列が張る空間（$X$ の<strong>列空間</strong>）へ射影します。$\\hat{\\boldsymbol y}=X\\hat{\\boldsymbol\\beta}$ が影、残差 $\\boldsymbol e=\\boldsymbol y-\\hat{\\boldsymbol y}$ が残り物で、同じ理由で $X^\\top\\boldsymbol e=\\boldsymbol0$（<strong>残差はすべての説明変数と直交</strong>）。これを書き下すと</p>
+<p>$$ X^\\top(\\boldsymbol y-X\\hat{\\boldsymbol\\beta})=\\boldsymbol0\\ \\Longrightarrow\\ \\hat{\\boldsymbol\\beta}=(X^\\top X)^{-1}X^\\top\\boldsymbol y $$</p>
+<p>——最小二乗解の式は、二乗和を微分しなくても<strong>直交条件だけ</strong>から出てきます。1本の $\\boldsymbol u$ への射影を $p$ 本の列に増やしたものが<a href="#/prep1/multiple-regression">重回帰</a>のハット行列 $H=X(X^\\top X)^{-1}X^\\top$ で、「2回射影しても同じ（$H^2=H$）」という性質も、影の影は影のまま、と読めば当たり前です。</p>
 <h3>前提と、崩れたときの注意</h3>
 <p>この表現は<strong>数値データ</strong>にしか使えません。カテゴリ変数（血液型・地域）はそのまま行列に入れられず、<strong>ダミー変数（ワンホット符号化）</strong>で0/1に開く必要があります。また、行列は「線形」な操作しか表せません——変数どうしの積や2乗のような<strong>非線形</strong>な効果を入れたいなら、あらかじめ交互作用項・多項式項を列として<em>作って</em>おく必要があります（作ってしまえば、モデル自体は係数について線形なまま扱えます）。さらに、内積は各変数のスケールに引きずられるので、単位のばらばらな変数を混ぜるときは<strong>標準化</strong>してから行列演算に載せるのが安全です（距離・PCAで特に重要）。</p>
 <div class="note">下で行列 $A=\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}$ の4つの数を動かすと、青い単位の正方形（と円）が $A$ によってどう変形するかが見えます。行列＝図形を動かす規則、という感覚をつかんでください。</div>`,
@@ -139,6 +148,17 @@
 <p>データの<a href="#/math/covariance-matrix">分散共分散行列</a>の固有ベクトルは「データが最もばらつく方向」を、固有値は「その方向の分散の大きさ」を表します。これがそのまま<a href="#/prep1/pca">主成分分析（PCA）</a>です。対称行列（共分散行列はいつも対称）の固有ベクトルは互いに直交する、という性質も効いてきます。</p>
 <h3>どう求めるか（特性方程式）</h3>
 <p>$A\\boldsymbol v=\\lambda\\boldsymbol v$ を移項すると $(A-\\lambda I)\\boldsymbol v=\\boldsymbol 0$。$\\boldsymbol v\\ne\\boldsymbol 0$ の解を持つには $A-\\lambda I$ が潰れている（<a href="#/math/matrix-ops">逆行列を持たない</a>）必要があり、条件は<strong>特性方程式</strong> $\\det(A-\\lambda I)=0$。$2\\times2$ なら $\\lambda^2-(\\mathrm{tr}A)\\lambda+\\det A=0$ の2次方程式で、<strong>固有値の和＝トレース、積＝行列式</strong>という便利な関係が出ます。各 $\\lambda$ を戻して $(A-\\lambda I)\\boldsymbol v=\\boldsymbol 0$ を解けば固有ベクトルです。</p>
+<h3>数値例：手で解き切る</h3>
+<p>$A=\\begin{pmatrix}4&1\\\\1&4\\end{pmatrix}$ で最後まで追ってみます。</p>
+<p>$$ \\det(A-\\lambda I)=(4-\\lambda)^2-1=0\\ \\Longrightarrow\\ 4-\\lambda=\\pm1\\ \\Longrightarrow\\ \\lambda_1=5,\\ \\lambda_2=3 $$</p>
+<p>固有ベクトルは、各 $\\lambda$ を戻して連立方程式を解くだけです。$\\lambda_1=5$ なら $(A-5I)\\boldsymbol v=\\begin{pmatrix}-1&1\\\\1&-1\\end{pmatrix}\\boldsymbol v=\\boldsymbol0$ から $v_1=v_2$、つまり $\\boldsymbol v_1\\propto(1,1)$。$\\lambda_2=3$ なら $\\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}\\boldsymbol v=\\boldsymbol0$ から $v_1=-v_2$、$\\boldsymbol v_2\\propto(1,-1)$。内積は $1\\cdot1+1\\cdot(-1)=0$ で、確かに直交しています。</p>
+<p><strong>検算に使える恒等式が2つ</strong>あります——固有値の和はトレース（対角成分の和）、積は行列式に等しい。</p>
+<p>$$ \\lambda_1+\\lambda_2=5+3=8=\\mathrm{tr}\\,A,\\qquad \\lambda_1\\lambda_2=15=\\det A=4\\cdot4-1\\cdot1 $$</p>
+<p>手計算のミスはこの2本でほぼ捕まります。共分散行列に使えば「固有値の合計＝全分散」——<a href="#/prep1/pca">主成分分析</a>の寄与率の分母がトレースなのは、この恒等式そのものです。</p>
+<h3>固有ベクトルは「向き」であって「矢印」ではない</h3>
+<p>$A\\boldsymbol v=\\lambda\\boldsymbol v$ なら $A(c\\boldsymbol v)=\\lambda(c\\boldsymbol v)$ も成り立つので、固有ベクトルには<strong>定数倍の自由度</strong>があります。長さ1に規格化しても、まだ $\\pm$ の2通りが残ります。</p>
+<p>これは実務で必ず出会います——同じデータを別のソフトやバージョンで主成分分析すると、<strong>負荷量とスコアの符号がまとめて反転する</strong>ことがある。バグではなく、どちらも同じ固有空間の正当な表現です。解釈が変わらないのは、意味を持つのが符号そのものではなく<strong>変数どうしの符号の相対関係</strong>だから。「PC1は変数A・Bが正、C・Dが負」という読みは、全体が反転しても保たれます。報告するときは解釈しやすい向き（主要な変数が正になる向きなど）に揃えるのが慣例です。</p>
+<p>固有値が<strong>重複する</strong>とき（$\\lambda_1=\\lambda_2$）は不定性がさらに増え、その固有空間の中ならどの向きを選んでもよくなります。PCAで第2・第3固有値がほぼ等しいときに軸の向きが不安定になるのはこのためで、そういう成分に細かい解釈を与えすぎないこと。</p>
 <h3>前提と、崩れたときの注意</h3>
 <p>一般の（非対称な）行列では固有値が<strong>複素数</strong>になったり（回転を含む変換）、固有ベクトルが直交しなかったり、そもそも対角化できない（固有ベクトルが足りない）ことがあります。ところが統計で主に扱う<strong>分散共分散行列・相関行列・$X^\\top X$ はすべて対称</strong>で、対称行列には<strong>スペクトル定理</strong>が効きます——固有値は必ず実数、固有ベクトルは互いに直交、必ず $A=V\\Lambda V^\\top$ と直交行列で対角化できる。PCAで「主成分どうしが直交する」「分散（固有値）が実数で解釈できる」のはこの定理のおかげです。さらに共分散行列は<a href="#/math/covariance-matrix">半正定値</a>なので固有値は0以上（＝分散だから当然）。固有値に0が出たら、その方向にデータが広がっていない＝<a href="#/prep1/multicollinearity">共線性</a>のサインです。</p>
 <div class="note">下で対称行列 $A=\\begin{pmatrix}a&b\\\\b&c\\end{pmatrix}$ を動かすと、青い単位円が楕円に変形します。灰色の任意ベクトルは向きが変わりますが、<strong>赤・緑の固有ベクトルだけは変換後も同じ直線上</strong>にとどまり、長さが固有値倍になります。対称行列なので赤・緑は常に直交します（スペクトル定理）。これが「変換の主軸」です。</div>`,
@@ -305,6 +325,14 @@
 <p>同じ発想で多くの非線形式が直線化できます。べき則 $y=Ax^b$ は両対数（$\\ln y$ vs $\\ln x$）で傾き $b$、ミカエリス・メンテン $1/v=1/V_{\\max}+(K_m/V_{\\max})(1/[S])$ は逆数プロット、といった具合です。実際べき則の合成データで両対数の傾きは $1.500$（真値 $b$）、切片の指数は $2.00$（真値 $A$）と正しく戻りました。</p>
 <p>ただし線形化には<strong>見落としやすい落とし穴</strong>があります。対数をとると<strong>誤差の構造も一緒に変換される</strong>のです。もとの誤差が<strong>乗法的</strong>（$y=Ae^{kx}\\cdot\\varepsilon$、$\\varepsilon$ が対数正規）なら、$\\ln y=\\ln A+kx+\\ln\\varepsilon$ は等分散の加法誤差になり、$\\ln y$ への最小二乗が<strong>正しく最適</strong>です（数値実験で $\\hat k=0.4996$、真値 0.5）。ところが誤差が<strong>加法的</strong>（$y=Ae^{kx}+\\varepsilon$）だと、対数をとった途端に不等分散になり、小さい $y$ を過度に重視して<strong>推定が偏ります</strong>（同じ条件で $\\ln y$ 回帰の $\\hat k=0.95$ と真値 0.5 から大きくずれ、生データへの<a href="#/prep1/mle">非線形最小二乗</a>なら $0.50$ と正しい）。線形化は「軸を変えれば直線」という便利さと引き換えに、誤差の重みづけを勝手に変えてしまうわけです。</p>
 
+<h3>変換を一般化する：Box-Cox とロジット</h3>
+<p>ここまでは「この関数ならこの変換」でしたが、<strong>どの変換がよいかをデータに決めさせる</strong>枠組みもあります。正の応答 $y>0$ に対する <strong>Box-Cox変換</strong>です。</p>
+<p>$$ y^{(\\lambda)}=\\begin{cases}\\dfrac{y^{\\lambda}-1}{\\lambda}&(\\lambda\\ne0)\\\\[6pt]\\ln y&(\\lambda=0)\\end{cases} $$</p>
+<p>$\\lambda=1$ で（平行移動を除き）無変換、$0.5$ で平方根、$0$ で対数、$-1$ で逆数と、<strong>よく使う変換が1本のつまみで連続につながります</strong>。$\\lambda\\to0$ でちょうど $\\ln y$ になるのは $\\lim_{\\lambda\\to0}(y^{\\lambda}-1)/\\lambda=\\ln y$ だからで、分子の $-1$ と分母の $\\lambda$ はこの接続のために置かれています。実際の $\\lambda$ は「変換後の残差が最も正規・等分散に見える値」を最尤法で選びます。ただし $\\lambda$ が中途半端な値（例 $0.37$）になると解釈がしにくいので、近い切りのよい値（$0.5$ や $0$）に丸めて使うのが実務的です。</p>
+<p>もう一方の主役が、$0<p<1$ の割合に対する<strong>ロジット変換</strong>です。</p>
+<p>$$ \\mathrm{logit}(p)=\\ln\\frac{p}{1-p}\\ \\in(-\\infty,\\ \\infty) $$</p>
+<p>割合は0と1で頭打ちになるため、そのまま直線を当てると<strong>予測が0未満や1超に飛び出します</strong>。ロジットは $(0,1)$ を実数直線全体に引き伸ばすので、この破綻が起きません。逆変換 $p=1/(1+e^{-z})$ がシグモイドで、これが<a href="#/prep1/logistic">ロジスティック回帰</a>の中身です。0や1ちょうどの値は $\\pm\\infty$ に飛ぶので、$\\ln\\dfrac{y+0.5}{n-y+0.5}$ のように微小量を足した<strong>経験ロジット</strong>で手当てします。</p>
+<p>2つに共通する発想は<strong>「値の取りうる範囲を、直線が住める範囲（実数全体）に写す」</strong>こと——対数は正の数を、ロジットは割合を、それぞれ実数直線へ移しています。<a href="#/prep1/glm">一般化線形モデル</a>のリンク関数は、この考え方を「変換してから当てはめる」のではなく「モデルの中に組み込む」形へ発展させたものです。</p>
 <h3>前提条件と、崩れたときの影響</h3>
 <table class="simple">
 <tr><th>前提</th><th>崩れると起きること</th><th>対処・代替</th></tr>
