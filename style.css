@@ -443,6 +443,8 @@ a { color: var(--accent); }
 .body li::marker { color: var(--muted-2); }
 
 .body .katex-display {
+  /* table.simple と同じ理由で position:relative が要る（KaTeX の絶対配置要素の封じ込め） */
+  position: relative;
   overflow-x: auto;
   overflow-y: hidden;
   padding: 6px 0;
@@ -467,6 +469,11 @@ table.simple {
   font-size: 13.5px;
   background: var(--panel);
   display: block;
+  /* position:relative は必須。KaTeX は内部で position:absolute の要素を使うため、
+     この表が「位置指定された祖先」でないと、それらが下の overflow-x:auto の
+     クリップを飛び越えてページ全体に横スクロールを作る
+     （実測: 375px幅のセルに数式入りの表があると 463px まで膨らんでいた）。 */
+  position: relative;
   overflow-x: auto;
   max-width: 100%;
   border-radius: 10px;
@@ -643,7 +650,7 @@ table.simple th {
 }
 .example-body { font-size: 14.5px; }
 .example-body ol, .example-body ul { padding-left: 1.4em; }
-.example-body .katex-display { overflow-x: auto; overflow-y: hidden; }
+.example-body .katex-display { position: relative; overflow-x: auto; overflow-y: hidden; }
 .example-body .step {
   border-left: 3px solid var(--warn-bar);
   padding: 3px 0 3px 14px;
@@ -733,7 +740,7 @@ table.simple th {
   font-size: 13.5px;
   line-height: 1.8;
 }
-.quiz-explain .katex-display { overflow-x: auto; overflow-y: hidden; }
+.quiz-explain .katex-display { position: relative; overflow-x: auto; overflow-y: hidden; }
 
 /* ---------- ページャ ---------- */
 .pager {
@@ -1134,6 +1141,14 @@ table.simple th {
   .demo-canvas { height: 320px; }
   .demo { padding: 18px 15px 20px; }
   .topic h1 { font-size: 22px; }
-  .ctl input[type="range"] { width: 180px; }
+
+  /* スライダーは指で操作するので大きくしたいが、
+     「ラベル + スライダー + 値」が1行に収まらないと .ctl が親をはみ出し、
+     ページ全体に横スクロールが出る（実測: 375px幅で417pxまで膨らんでいた）。
+     .ctl を折り返し可能にし、スライダーは残り幅いっぱいまでに制限する。 */
+  .ctl { flex-wrap: wrap; max-width: 100%; }
+  .ctl label { white-space: normal; }
+  .ctl input[type="range"] { width: 180px; max-width: 100%; flex: 1 1 140px; }
   .ctl input[type="range"]::-webkit-slider-thumb { width: 20px; height: 20px; margin-top: -8px; }
+  .ctl select { max-width: 100%; }
 }
