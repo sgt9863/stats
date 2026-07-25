@@ -41,6 +41,17 @@ $$ X\\boldsymbol{w}=\\begin{pmatrix}80\\cdot0.6+60\\cdot0.4\\\\50\\cdot0.6+90\\c
   };
 
   Q['math/matrix-ops'] = {
+    example: {
+      title: '逆行列で連立方程式を解く',
+      body: `
+<p>連立方程式 $\\begin{cases}2x+y=5\\\\ x+3y=10\\end{cases}$ を、行列の言葉で解きます。</p>
+<div class="step">$A\\boldsymbol x=\\boldsymbol b$ の形に書きます：$A=\\begin{pmatrix}2&1\\\\1&3\\end{pmatrix}$、$\\boldsymbol b=\\begin{pmatrix}5\\\\10\\end{pmatrix}$。</div>
+<div class="step">行列式は $\\det A=2\\cdot3-1\\cdot1=5\\ne0$。逆行列が存在し、解は一意です。$2\\times2$ の逆行列は「対角を入れ替え、非対角の符号を変え、$\\det$ で割る」：
+$$ A^{-1}=\\frac{1}{5}\\begin{pmatrix}3&-1\\\\-1&2\\end{pmatrix} $$</div>
+<div class="step">$$ \\boldsymbol x=A^{-1}\\boldsymbol b=\\frac15\\begin{pmatrix}3\\cdot5-1\\cdot10\\\\-1\\cdot5+2\\cdot10\\end{pmatrix}=\\frac15\\begin{pmatrix}5\\\\15\\end{pmatrix}=\\begin{pmatrix}1\\\\3\\end{pmatrix} $$</div>
+<div class="step">検算：$2(1)+3=5$ ✓、$1+3(3)=10$ ✓。</div>
+<p>もし係数が $\\begin{pmatrix}2&1\\\\4&2\\end{pmatrix}$（2行目が1行目の2倍）なら $\\det=0$ で逆行列がなく、解は「なし」か「無数」になります。回帰の $(X^\\top X)^{-1}$ でこれが起きるのが<a href="#/prep1/multicollinearity">多重共線性</a>で、$\\det$ が0ちょうどでなく<strong>0に近い</strong>と、解は求まるものの少しのデータの揺れで大きく動きます。`,
+    },
     keypoints: [
       '連立一次方程式は $A\\boldsymbol{x}=\\boldsymbol{b}$ と1本にまとめられ、解は $\\boldsymbol{x}=A^{-1}\\boldsymbol{b}$。',
       '$2\\times2$ の逆行列は $A^{-1}=\\dfrac{1}{ad-bc}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$。分母の $ad-bc$ が行列式。',
@@ -110,6 +121,16 @@ $$ X\\boldsymbol{w}=\\begin{pmatrix}80\\cdot0.6+60\\cdot0.4\\\\50\\cdot0.6+90\\c
   };
 
   Q['math/covariance-matrix'] = {
+    example: {
+      title: '共分散行列から相関・主成分まで一気に読む',
+      body: `
+<p>2変数の分散共分散行列が $\\Sigma=\\begin{pmatrix}4&2\\\\2&4\\end{pmatrix}$ でした。ここから何が読めるかを全部出します。</p>
+<div class="step"><strong>分散と相関</strong>：対角が各変数の分散（どちらも4、$\\mathrm{SD}=2$）。相関は $r=\\dfrac{2}{\\sqrt{4}\\sqrt{4}}=0.5$。</div>
+<div class="step"><strong>固有値</strong>：$\\mathrm{tr}=8$、$\\det=16-4=12$ から $\\lambda^2-8\\lambda+12=0$、よって $\\lambda=6,\\ 2$。（和8＝トレース、積12＝行列式で検算できます）</div>
+<div class="step"><strong>固有ベクトル</strong>：$\\lambda=6$ で $(1,1)/\\sqrt2$、$\\lambda=2$ で $(1,-1)/\\sqrt2$。<a href="#/prep1/pca">第1主成分</a>は「2変数が一緒に増減する方向」、第2は「一方が増えると他方が減る方向」です。</div>
+<div class="step"><strong>寄与率</strong>：$6/(6+2)=75\\%$。2変数を1つの合成変数にまとめても、変動の75%を保てるということ。</div>
+<p>相関 $r=0.5$ という1つの数字が、「楕円がどれだけ傾いて細長いか」＝固有値の比 $6:2$ として現れています。$r$ を0に近づけると固有値が等しくなって等方的（円）に、$\\pm1$ に近づけると片方の固有値が0に潰れます——後者が<a href="#/prep1/multicollinearity">多重共線性</a>の極限です。`,
+    },
     keypoints: [
       '分散共分散行列 $\\Sigma$ は、対角に各変数の分散、非対角に共分散を並べた<strong>対称行列</strong>。',
       '相関 $\\rho=\\sigma_{XY}/(\\sigma_X\\sigma_Y)$ は共分散を $-1\\sim1$ に標準化したもの。',
@@ -143,6 +164,15 @@ $$ X\\boldsymbol{w}=\\begin{pmatrix}80\\cdot0.6+60\\cdot0.4\\\\50\\cdot0.6+90\\c
   };
 
   Q['math/gradient'] = {
+    example: {
+      title: '学習率で結果が変わることを数値で見る',
+      body: `
+<p>$f(x)=x^2-4x+5$（最小は $x=2$）を勾配降下法で最小化します。$f'(x)=2x-4$、出発点は $x_0=0$。更新式は $x_{t+1}=x_t-\\eta f'(x_t)$。</p>
+<div class="step"><strong>$\\eta=0.3$（適切）</strong>：$0\\to1.20\\to1.68\\to1.87\\to1.95\\to\\cdots$ と、$x=2$ へなめらかに近づきます。</div>
+<div class="step"><strong>$\\eta=0.5$（この問題では最適）</strong>：$0\\to2$ と<strong>1回で到達</strong>。2次関数では $\\eta=1/f''=1/2$ がちょうど一発で最小に届く歩幅です。</div>
+<div class="step"><strong>$\\eta=1.1$（大きすぎ）</strong>：$0\\to4.4\\to-0.88\\to5.46\\to-2.15\\to\\cdots$ と、谷を飛び越えて<strong>振幅が増えながら発散</strong>します。</div>
+<p>境目は $\\eta<2/f''=1$ で、これを超えると発散します。実際の機械学習では $f''$（ヘッセ行列）が分からないので、小さめから試して損失が下がるかを見る、というのが実務です。$\\eta$ が小さすぎると収束が遅いだけで済みますが、大きすぎると<strong>学習そのものが壊れる</strong>——この非対称性が「まず小さく」と言われる理由です。`,
+    },
     keypoints: [
       '勾配 $\\nabla f$ は各変数の偏微分を並べたベクトルで、「最も急に増える向き」を指す。',
       '勾配の<strong>逆向き</strong>に少しずつ進むのが勾配降下法。誤差の谷（最小）を目指す。',

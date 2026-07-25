@@ -135,6 +135,41 @@ for (const t of topics) {
   }
 }
 
+/* 想定外の文字体系の混入検査。
+ * 執筆中にキリル文字の単語（"месяц"）が紛れ込んでいた事例があったため、
+ * 日本語・英数・記号・数式以外の文字体系が現れたら知らせる。 */
+{
+  const RANGES = [
+    [0x0400, 0x04FF, 'キリル文字'],
+    // ギリシャ文字（α, σ, ρ 等）は本文でも意図的に使うため対象外にしている。
+    [0xAC00, 0xD7AF, 'ハングル'],
+    [0x0600, 0x06FF, 'アラビア文字'],
+    [0x0E00, 0x0E7F, 'タイ文字'],
+  ];
+  const scan = (label, s) => {
+    if (!s) return;
+    const body = String(s).replace(/\$\$[\s\S]*?\$\$/g, '').replace(/\$[^$]*\$/g, '');
+    for (const ch of body) {
+      const o = ch.codePointAt(0);
+      for (const [lo, hi, name] of RANGES) {
+        if (o >= lo && o <= hi) { warn('想定外の文字体系（' + name + '）', label + ' "' + ch + '"'); return; }
+      }
+    }
+  };
+  for (const t of topics) {
+    const key = t.section + '/' + t.id;
+    scan(key + ' 本文', t.body);
+    const c = QUIZ[key] || {};
+    scan(key + ' 例題', c.example && c.example.body);
+    (c.keypoints || []).forEach((p, i) => scan(key + ' まとめ' + i, p));
+    (c.quiz || []).forEach((it, qi) => {
+      scan(key + '#' + qi + ' 問題文', it.q);
+      scan(key + '#' + qi + ' 解説', it.explain);
+      (it.choices || []).forEach((c2, i) => scan(key + '#' + qi + ' 選択肢' + i, c2));
+    });
+  }
+}
+
 /* 正答位置の偏り: 一様なら各位置 nQ/maxChoices 程度。カイ二乗で粗く見る */
 const expected = nQ / maxChoices;
 let chi2 = 0;
