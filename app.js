@@ -950,6 +950,18 @@ function wireHome() {
 function wireTopicChrome() {
   const btn = document.getElementById('done-toggle');
   if (btn) btn.addEventListener('click', () => toggleDone(state.route.section, state.route.topic));
+
+  // デモ課題の「答え合わせ」。開いたら閉じられる（読み返せるように）。
+  const tg = document.getElementById('demo-task-toggle');
+  const ans = document.getElementById('demo-task-answer');
+  if (tg && ans) {
+    tg.addEventListener('click', () => {
+      const open = ans.hidden;
+      ans.hidden = !open;
+      tg.setAttribute('aria-expanded', String(open));
+      tg.textContent = open ? '答えを隠す' : '答え合わせ';
+    });
+  }
 }
 
 function groupsOf(sectionId) {
@@ -1114,6 +1126,7 @@ function topicHtml(t) {
       view +
       (t.demo.note ? '<p class="demo-note">' + t.demo.note + '</p>' : '') +
       '</section>';
+    if (t.demo.task) html += demoTaskHtml(t.demo.task);
   }
   const content = (window.STATS_QUIZ || {})[t.section + '/' + t.id];
   if (content) {
@@ -1162,6 +1175,19 @@ function exampleHtml(ex) {
 function keypointsHtml(points) {
   return '<section class="keypoints"><h2>📌 この項目のまとめ</h2><ul>' +
     points.map(p => '<li>' + p + '</li>').join('') + '</ul></section>';
+}
+
+/* デモの「操作する課題」。
+ * サイトの中心思想は「パラメータを動かして挙動を見る」ことなので、
+ * 挙動を文章で説明してしまうと、読者はスライダーを動かさずに済んでしまう。
+ * そこで「操作しないと答えられない問い」を1つ置き、答えは畳んでおく。 */
+function demoTaskHtml(task) {
+  return '<section class="demo-task">' +
+    '<h2>🎯 グラフを動かして答える</h2>' +
+    '<p class="dt-q">' + task.q + '</p>' +
+    '<button type="button" class="dt-toggle" id="demo-task-toggle" aria-expanded="false">答え合わせ</button>' +
+    '<div class="dt-a" id="demo-task-answer" hidden>' + task.a + '</div>' +
+    '</section>';
 }
 
 /* 選択肢の並べ替え。

@@ -657,6 +657,50 @@ table.simple th {
   margin: 1em 0;
 }
 
+/* ---------- グラフを動かして答える課題 ----------
+   コールアウトの色分け: 注記/まとめ=スレート、例題=琥珀、課題=緑(--ok)。
+   「読む」ものと「手を動かす」ものを色で区別する。 */
+.demo-task {
+  background: var(--ok-soft);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ok);
+  border-radius: var(--radius);
+  padding: 18px 24px 20px;
+  margin: 1.6em 0 0;
+}
+.demo-task h2 {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  color: var(--ink);
+  border: 0;
+  padding: 0;
+}
+.dt-q { margin: 0 0 14px; font-size: 14.5px; }
+.dt-toggle {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--ok);
+  border: 1px solid var(--ok);
+  border-radius: 8px;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: opacity 0.12s ease;
+}
+.dt-toggle:hover { opacity: 0.85; }
+.dt-a {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+.dt-a > :first-child { margin-top: 0; }
+.dt-a > :last-child { margin-bottom: 0; }
+/* table.simple と同じ理由（KaTeX の絶対配置要素の封じ込め） */
+.dt-a .katex-display, .dt-q .katex-display { position: relative; overflow-x: auto; overflow-y: hidden; }
+
 /* ---------- まとめ（キーポイント） ---------- */
 .keypoints {
   background: var(--surface);
