@@ -135,6 +135,35 @@ for (const t of topics) {
   }
 }
 
+/* デモ課題（demo.task）の検査。
+ * 「グラフを動かして答える」課題はサイトの中心思想の核なので、
+ * デモがあるのに課題がない／答えがない状態を検出する。 */
+{
+  let nTask = 0;
+  const noTask = [];
+  for (const t of topics) {
+    if (!t.demo) continue;
+    const key = t.section + '/' + t.id;
+    const task = t.demo.task;
+    if (!task) { noTask.push(key); continue; }
+    nTask++;
+    if (!task.q || !String(task.q).trim()) warn('課題の問いが空', key);
+    if (!task.a || !String(task.a).trim()) warn('課題の答えが空', key);
+    // 問いの中で答えを言ってしまっていないか（ざっくり: 問いが答えより長いのは不自然）
+    const ql = String(task.q || '').replace(/<[^>]*>/g, '').length;
+    const al = String(task.a || '').replace(/<[^>]*>/g, '').length;
+    if (ql > al) warn('課題の問いが答えより長い（答えを問いに書いていないか）', key + ' q=' + ql + ' a=' + al);
+    if (ql < 20) warn('課題の問いが短すぎる', key + ' (' + ql + '字)');
+    // 数式の $ が閉じているか
+    for (const [label, str] of [['問い', task.q], ['答え', task.a]]) {
+      const body = String(str).replace(/\$\$[\s\S]*?\$\$/g, '');
+      if ((body.match(/\$/g) || []).length % 2 !== 0) warn('$ の数が奇数（数式が閉じていない）', key + ' 課題の' + label);
+    }
+  }
+  if (noTask.length) warn('デモに課題がない', noTask.join(', '));
+  console.log('デモ課題: ' + nTask + ' / ' + topics.filter(t => t.demo).length);
+}
+
 /* 想定外の文字体系の混入検査。
  * 執筆中にキリル文字の単語（"месяц"）が紛れ込んでいた事例があったため、
  * 日本語・英数・記号・数式以外の文字体系が現れたら知らせる。 */

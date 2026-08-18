@@ -690,6 +690,12 @@ table.simple th {
   transition: opacity 0.12s ease;
 }
 .dt-toggle:hover { opacity: 0.85; }
+/* ダークでは --ok が明るいティール(#3fbfa8)になるため、白文字だとコントラスト比が
+   2.3 しか出ず WCAG AA(4.5) を満たさない。文字を地の色に反転して確保する。 */
+:root[data-theme="dark"] .dt-toggle { color: var(--bg); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dt-toggle { color: var(--bg); }
+}
 .dt-a {
   margin-top: 14px;
   padding-top: 14px;
