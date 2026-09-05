@@ -1,38 +1,55 @@
-# HANDOVER — トピック深掘り作業の引き継ぎ（クラウドセッション用）
+# HANDOVER — Stats-Learning-Hub 引き継ぎ
 
-ローカルセッションで進めてきた「全86トピックの5層化」を、クラウドセッションで継続するための文書。
-**進捗の唯一の情報源は [DEEPENING_LOG.md](DEEPENING_LOG.md)**（冒頭のマトリクスと各イテレーションの記録）。本書は「やり方」を引き継ぐ。
+このリポジトリの作業を別セッションへ引き継ぐための文書。**深掘り（全トピックの5層化）は完了済み**なので、
+本書は「到達点」と「やり方（今後の追補・改修で踏襲する規約）」を引き継ぐ。
+到達点の一次情報は [DEEPENING_LOG.md](DEEPENING_LOG.md)（マトリクスと各イテレーションの記録）と
+[DESIGN_LOG.md](DESIGN_LOG.md)（デザイン改善の記録）。
 
-## 現状（2026-09-05 時点）
+## 現状（2026-09-05 時点）— 深掘りは完了済み
 
-- **32/86 トピックが5層完備**（Iter.1〜32）。進捗の唯一の情報源は [DEEPENING_LOG.md](DEEPENING_LOG.md) 冒頭のマトリクス
-- **トピック総数は 86**（準1級範囲に「因果推論」が追加されたため 85→86。`prep1/causal-inference`＝潜在結果・交絡・調整、topics/ml.js に定義。交絡デモ＋クイズ3問つきで**5層完備済み**）
-- `node tools/verify-topics.js` は **86/86 パス**（構造・内部リンク・`$$`偶数性・quiz対応）
+- **88/88 トピックが5層完備。当初の「全トピック5層化」タスクは完了している**（Iter.1〜86 ＋ 後から追加した
+  `prep1/lack-of-fit` / `prep1/variable-selection` の2件も新規時点で5層で作成）。
+  マトリクスは [DEEPENING_LOG.md](DEEPENING_LOG.md) 冒頭
+- **トピック総数は 88**。準1級範囲に追加された**因果推論**（`prep1/causal-inference`＝潜在結果・交絡・調整、
+  topics/ml.js）も5層＋交絡デモ＋クイズで完備
+- 自動検査は**すべてパス**（いずれも依存なし・ブラウザ不要）:
+  - `node tools/verify-topics.js` → 88/88（構造・内部リンク実在・`$$`偶数性・quiz対応）
+  - `node tools/audit-content.js` → 問題0（例題なし0件・課題カバレッジ・選択肢長バイアス）
+  - `node tools/audit-demos.js` → デモ境界値の総当たり
 - **デザイン改善 Iter.D1〜D7 完了**（[DESIGN_LOG.md](DESIGN_LOG.md) / [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)）:
   D1 カラートークン確立（UIアクセントをグラフ系列色と分離）/ D2 本文読み幅 `--measure:42em` /
   D3 コールアウト統一（角丸＋左バー）/ D4 本文リストのリズム / D5 サイドバー現在地 /
-  D6 ページャホバー / D7 リード下線の軽量化。**以降 CSS は必ず `:root` のトークンを参照すること**
-- 次の優先候補（gap 大・依存順）: `math/gradient`（**検算済み・本文未反映**／下記メモ）→ `prep1/odds-ratio` →
-  `prep1/clt` → `prep1/monte-carlo`。DEEPENING_LOG.md 末尾の「次に深掘りすべきトピック」が最新
-- サイトは GitHub Pages で公開中（`main` ブランチ**ルート**配信・`.nojekyll` あり）。**Pages の配信元設定を `/docs` に変えないこと**（過去にこれで全デプロイが失敗した）
+  D6 ページャホバー / D7 リード下線。**以降 CSS は必ず `:root` のトークンを参照すること**（ダークも同時に追従する）
+- サイトは GitHub Pages で公開中（`main` ブランチ**ルート**配信・`.nojekyll` あり）。
+  **Pages の配信元設定を `/docs` に変えないこと**（過去にこれで全デプロイが失敗した）
 
-### 申し送り: `math/gradient`（着手済み・本文未反映）
+### 次に何をやるか（深掘り以外）
 
-python3 で独立検算済みの材料。そのまま L2/L3/L4 に使える:
+深掘りは終わっているので、以降は**維持と磨き込み**が主になる:
 
-- **最急降下方向**: 方向微分 $D_u f = \nabla f \cdot u = |\nabla f|\cos\theta$ が最小になるのは $u = -\nabla f/|\nabla f|$ のとき（勾配 $(2,6)$ で数値探索し厳密一致を確認）
-- **学習率の収束条件**: 二次形式 $f = ax^2 + by^2$（ヘッセ行列の固有値は $2a, 2b$）で $0 < \eta < 2/\lambda_{\max}$。
-  デモの $a=1$ なら $\eta < 1/b$。実測: $b=8$ のとき $\eta=0.1125$ は収束（$f \to 2.5\times10^{-7}$）、$\eta \geq 0.125$ で発散
-- **条件数** $\kappa = \lambda_{\max}/\lambda_{\min} = b/a$ がデモの「谷の細長さ」そのもの。大きいほどジグザグして収束が遅い（L4 のグラフ接続に使える）
+1. **デザイン Iter.D8 以降** — DESIGN_LOG.md 末尾の「次の改善候補」（h3 直後の余白リズム、
+   カードのホバー影の強さ）。1イテレーション=1テーマ、実機スクショで before/after を確認して記録する
+2. **不変条件の維持** — 新しいデモを足したら **`task`（グラフを動かして答える課題）も必ず書く**。
+   `audit-content.js` が未記載を検出する。課題は「操作しないと答えられない問い」にすること
+3. **内容の追補** — 出題範囲の改訂があれば新規トピックを足す（因果推論が前例）。
+   新規でも**最初から5層＋デモ＋クイズ＋例題＋課題**で作る
+
+### 引き継ぎ時の注意（このブランチの経緯）
+
+`claude/stats-learning-hub-deepening-tjaxy7` は一時 main から分岐して古い状態のまま進んでいたが、
+2026-09-05 に `origin/main` をマージして**追いつき済み**（競合なし）。
+**必ず `git fetch origin main` してから作業を始めること。** main が唯一の正。
 
 ### この環境（クラウドセッション）の注意
 
-- **Chromium は外部ネットに出られない**（egress proxy が CONNECT を拒否）。スクショ検証は
-  `python3 -m http.server` でローカル配信 → `file://`/`127.0.0.1` を開く形にする（NO_PROXY 対象）
-- KaTeX の CDN も同様に届かないので、スクショ時は `npm install katex --no-save` でベンダーして
-  `index.html` の CDN URL をローカルパスに `sed` で差し替えた **一時ファイル**（`index.shot.html`）を使う。
+- **Chromium は外部ネットに出られない**（egress proxy が CONNECT を拒否する）。表示確認は
+  `python3 -m http.server` でローカル配信し `127.0.0.1` を開く（NO_PROXY 対象なので通る）
+- KaTeX の CDN も届かないので、スクショ時は `npm install katex --no-save` でベンダーして
+  `index.html` の CDN URL をローカルパスへ `sed` で差し替えた**一時ファイル**（`index.shot.html`）を使う。
   一時ファイルは `.git/info/exclude` に入れて**コミットしない**
 - Playwright の chromium 実体は `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`（`playwright install` は不要）
+- 数値検算は python3（numpy/scipy）か、**サイト自身の `Stats` ライブラリを Node で読む**方法が使える。
+  後者はデモが実際に出す値との一致も同時に確認できる
 
 ## 5層の定義（完成条件）
 
@@ -53,7 +70,7 @@ python3 で独立検算済みの材料。そのまま L2/L3/L4 に使える:
 4. **編集**: 該当 topics/*.js の body（テンプレートリテラル）に追記
 5. **検証**（すべて必須）:
    - `node --check topics/対象.js` — 構文
-   - `node tools/verify-topics.js` — 全86トピックの構造・内部リンク実在・`$$`フェンス偶数性・quiz対応（依存なし・ブラウザ不要）
+   - `node tools/verify-topics.js` — 全88トピックの構造・内部リンク実在・`$$`フェンス偶数性・quiz対応（依存なし・ブラウザ不要）
    - デモを追加・変更した場合: draw() をスタブ canvas で直接呼んで例外がないか（境界値含む）を確認するか、少なくとも全 controls の min/max で式が破綻しないことを机上確認
 6. **記録**: DEEPENING_LOG.md の該当マトリクス行を `| **section/id** | o | o | o | o | o | 0 | ✅Iter.N |` に更新し、末尾にイテレーション記録（対象／選定理由／埋めた層／検算結果／次の候補）を追記
 7. **コミット&プッシュ**: `深掘り Iter.N: <トピック名>を5層化` の形式で、本文とログを同一コミットに。`git push origin main` で Pages に自動デプロイされる
