@@ -1,13 +1,38 @@
 # HANDOVER — トピック深掘り作業の引き継ぎ（クラウドセッション用）
 
-ローカルセッションで進めてきた「全85トピックの5層化」を、クラウドセッションで継続するための文書。
+ローカルセッションで進めてきた「全86トピックの5層化」を、クラウドセッションで継続するための文書。
 **進捗の唯一の情報源は [DEEPENING_LOG.md](DEEPENING_LOG.md)**（冒頭のマトリクスと各イテレーションの記録）。本書は「やり方」を引き継ぐ。
 
-## 現状（2026-07-06 時点）
+## 現状（2026-09-05 時点）
 
-- **19/85 トピックが5層完備**（マトリクスの ✅ 行）。Iter.1〜19 の内容・検算・申し送りは DEEPENING_LOG.md 参照
-- 次の優先候補（gap 大・依存順）: `chemo/pls-da`(3.5) → `prep1/regularization`(3) → `prep1/stochastic-process`(3) → `prep1/log-linear`(3) → `prep1/fisher-cramer-rao`(3) → `prep1/acf-pacf`(3) → `prep1/crossval`(3) → `prep1/mcmc`(3) → `math/linearization`(3.5)
+- **32/86 トピックが5層完備**（Iter.1〜32）。進捗の唯一の情報源は [DEEPENING_LOG.md](DEEPENING_LOG.md) 冒頭のマトリクス
+- **トピック総数は 86**（準1級範囲に「因果推論」が追加されたため 85→86。`prep1/causal-inference`＝潜在結果・交絡・調整、topics/ml.js に定義。交絡デモ＋クイズ3問つきで**5層完備済み**）
+- `node tools/verify-topics.js` は **86/86 パス**（構造・内部リンク・`$$`偶数性・quiz対応）
+- **デザイン改善 Iter.D1〜D7 完了**（[DESIGN_LOG.md](DESIGN_LOG.md) / [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md)）:
+  D1 カラートークン確立（UIアクセントをグラフ系列色と分離）/ D2 本文読み幅 `--measure:42em` /
+  D3 コールアウト統一（角丸＋左バー）/ D4 本文リストのリズム / D5 サイドバー現在地 /
+  D6 ページャホバー / D7 リード下線の軽量化。**以降 CSS は必ず `:root` のトークンを参照すること**
+- 次の優先候補（gap 大・依存順）: `math/gradient`（**検算済み・本文未反映**／下記メモ）→ `prep1/odds-ratio` →
+  `prep1/clt` → `prep1/monte-carlo`。DEEPENING_LOG.md 末尾の「次に深掘りすべきトピック」が最新
 - サイトは GitHub Pages で公開中（`main` ブランチ**ルート**配信・`.nojekyll` あり）。**Pages の配信元設定を `/docs` に変えないこと**（過去にこれで全デプロイが失敗した）
+
+### 申し送り: `math/gradient`（着手済み・本文未反映）
+
+python3 で独立検算済みの材料。そのまま L2/L3/L4 に使える:
+
+- **最急降下方向**: 方向微分 $D_u f = \nabla f \cdot u = |\nabla f|\cos\theta$ が最小になるのは $u = -\nabla f/|\nabla f|$ のとき（勾配 $(2,6)$ で数値探索し厳密一致を確認）
+- **学習率の収束条件**: 二次形式 $f = ax^2 + by^2$（ヘッセ行列の固有値は $2a, 2b$）で $0 < \eta < 2/\lambda_{\max}$。
+  デモの $a=1$ なら $\eta < 1/b$。実測: $b=8$ のとき $\eta=0.1125$ は収束（$f \to 2.5\times10^{-7}$）、$\eta \geq 0.125$ で発散
+- **条件数** $\kappa = \lambda_{\max}/\lambda_{\min} = b/a$ がデモの「谷の細長さ」そのもの。大きいほどジグザグして収束が遅い（L4 のグラフ接続に使える）
+
+### この環境（クラウドセッション）の注意
+
+- **Chromium は外部ネットに出られない**（egress proxy が CONNECT を拒否）。スクショ検証は
+  `python3 -m http.server` でローカル配信 → `file://`/`127.0.0.1` を開く形にする（NO_PROXY 対象）
+- KaTeX の CDN も同様に届かないので、スクショ時は `npm install katex --no-save` でベンダーして
+  `index.html` の CDN URL をローカルパスに `sed` で差し替えた **一時ファイル**（`index.shot.html`）を使う。
+  一時ファイルは `.git/info/exclude` に入れて**コミットしない**
+- Playwright の chromium 実体は `/opt/pw-browsers/chromium-1194/chrome-linux/chrome`（`playwright install` は不要）
 
 ## 5層の定義（完成条件）
 
@@ -28,7 +53,7 @@
 4. **編集**: 該当 topics/*.js の body（テンプレートリテラル）に追記
 5. **検証**（すべて必須）:
    - `node --check topics/対象.js` — 構文
-   - `node tools/verify-topics.js` — 全85トピックの構造・内部リンク実在・`$$`フェンス偶数性・quiz対応（依存なし・ブラウザ不要）
+   - `node tools/verify-topics.js` — 全86トピックの構造・内部リンク実在・`$$`フェンス偶数性・quiz対応（依存なし・ブラウザ不要）
    - デモを追加・変更した場合: draw() をスタブ canvas で直接呼んで例外がないか（境界値含む）を確認するか、少なくとも全 controls の min/max で式が破綻しないことを机上確認
 6. **記録**: DEEPENING_LOG.md の該当マトリクス行を `| **section/id** | o | o | o | o | o | 0 | ✅Iter.N |` に更新し、末尾にイテレーション記録（対象／選定理由／埋めた層／検算結果／次の候補）を追記
 7. **コミット&プッシュ**: `深掘り Iter.N: <トピック名>を5層化` の形式で、本文とログを同一コミットに。`git push origin main` で Pages に自動デプロイされる
