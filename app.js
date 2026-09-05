@@ -371,6 +371,30 @@ const Plot = window.Plot = {
   colors: ['#4f6df5', '#e4572e', '#2a9d8f', '#f4a261', '#9b5de5', '#577590'],
   gray: '#98a2b3',
   ink: '#1d2433',
+  mode: 'light',
+  themes: {
+    light: {
+      grid: '#edf0f5', gridStrong: '#c7cdd8', tick: '#66708a', axisLabel: '#475467',
+      ink: '#1d2433', gray: '#98a2b3',
+      legendBg: 'rgba(255,255,255,0.93)', legendStroke: '#dfe3ea', legendText: '#344054',
+    },
+    dark: {
+      grid: '#25262f', gridStrong: '#3a3d47', tick: '#9aa0b0', axisLabel: '#aab1c0',
+      ink: '#e6e7ec', gray: '#7f8698',
+      legendBg: 'rgba(23,24,29,0.92)', legendStroke: '#3a3d47', legendText: '#c3c8d4',
+    },
+  },
+  // ダーク時、本文デモが渡す「中立の濃い文字色」だけを明色へ変換する。
+  // 系列色（青・橙・緑…）は表に無いので素通りし、意味のある色は保たれる。
+  darkText: {
+    '#475467': '#aab1c0', '#1d2433': '#e6e7ec', '#344054': '#c3c8d4', '#66708a': '#9aa0b0',
+    '#4a4e5e': '#aab1c0', '#333333': '#d8dae2', '#333': '#d8dae2', '#000000': '#e6e7ec',
+    '#000': '#e6e7ec', '#111': '#e6e7ec', '#101014': '#e6e7ec', '#1c1c22': '#e6e7ec',
+  },
+  mapColor(c) {
+    if (this.mode !== 'dark' || !c) return c;
+    return this.darkText[String(c).toLowerCase()] || c;
+  },
   niceTicks(min, max, n) {
     n = n || 6;
     const span = max - min;
@@ -428,25 +452,26 @@ const Plot = window.Plot = {
         o = o || {};
         const xt = o.xTicks || Plot.niceTicks(xmin, xmax);
         const yt = o.yTicks || Plot.niceTicks(ymin, ymax);
+        const TH = Plot.theme || Plot.themes.light;
         ctx.font = FONT;
-        ctx.strokeStyle = '#edf0f5';
+        ctx.strokeStyle = TH.grid;
         ctx.lineWidth = 1;
         for (const t of xt) { ctx.beginPath(); ctx.moveTo(X(t), pad.top); ctx.lineTo(X(t), pad.top + ih); ctx.stroke(); }
         for (const t of yt) { ctx.beginPath(); ctx.moveTo(pad.left, Y(t)); ctx.lineTo(pad.left + iw, Y(t)); ctx.stroke(); }
-        ctx.strokeStyle = '#c7cdd8';
+        ctx.strokeStyle = TH.gridStrong;
         ctx.beginPath();
         ctx.moveTo(pad.left, pad.top);
         ctx.lineTo(pad.left, pad.top + ih);
         ctx.lineTo(pad.left + iw, pad.top + ih);
         ctx.stroke();
-        ctx.fillStyle = '#66708a';
+        ctx.fillStyle = TH.tick;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
         for (const t of xt) ctx.fillText((o.xFmt || Plot.fmtTick)(t), X(t), pad.top + ih + 6);
         ctx.textAlign = 'right';
         ctx.textBaseline = 'middle';
         for (const t of yt) ctx.fillText((o.yFmt || Plot.fmtTick)(t), pad.left - 7, Y(t));
-        ctx.fillStyle = '#475467';
+        ctx.fillStyle = TH.axisLabel;
         if (o.xLabel) {
           ctx.textAlign = 'right';
           ctx.textBaseline = 'bottom';
@@ -461,7 +486,7 @@ const Plot = window.Plot = {
       line(pts, o) {
         o = o || {};
         clipData(() => {
-          ctx.strokeStyle = o.color || Plot.colors[0];
+          ctx.strokeStyle = Plot.mapColor(o.color) || Plot.colors[0];
           ctx.lineWidth = o.width || 2;
           ctx.setLineDash(o.dash || []);
           ctx.globalAlpha = (o.alpha != null) ? o.alpha : 1;
@@ -481,7 +506,7 @@ const Plot = window.Plot = {
         o = o || {};
         clipData(() => {
           const base = Y((o.baseline != null) ? o.baseline : 0);
-          ctx.fillStyle = o.color || Plot.colors[0];
+          ctx.fillStyle = Plot.mapColor(o.color) || Plot.colors[0];
           ctx.globalAlpha = (o.alpha != null) ? o.alpha : 0.15;
           ctx.beginPath();
           ctx.moveTo(X(pts[0][0]), base);
@@ -495,7 +520,7 @@ const Plot = window.Plot = {
       scatter(pts, o) {
         o = o || {};
         clipData(() => {
-          ctx.fillStyle = o.color || Plot.colors[0];
+          ctx.fillStyle = Plot.mapColor(o.color) || Plot.colors[0];
           ctx.globalAlpha = (o.alpha != null) ? o.alpha : 0.85;
           const r = o.r || 3.5;
           for (const q of pts) {
@@ -509,7 +534,7 @@ const Plot = window.Plot = {
       bars(items, o) {
         o = o || {};
         clipData(() => {
-          ctx.fillStyle = o.color || Plot.colors[0];
+          ctx.fillStyle = Plot.mapColor(o.color) || Plot.colors[0];
           ctx.globalAlpha = (o.alpha != null) ? o.alpha : 0.75;
           for (const b of items) {
             const x0 = X(b.x0), x1 = X(b.x1), y = Y(b.y), y0 = Y(0);
@@ -521,7 +546,7 @@ const Plot = window.Plot = {
       vline(x, o) {
         o = o || {};
         clipData(() => {
-          ctx.strokeStyle = o.color || Plot.gray;
+          ctx.strokeStyle = Plot.mapColor(o.color) || Plot.gray;
           ctx.lineWidth = o.width || 1.5;
           ctx.setLineDash(o.dash || [5, 4]);
           ctx.beginPath();
@@ -531,7 +556,7 @@ const Plot = window.Plot = {
           ctx.setLineDash([]);
         });
         if (o.label) {
-          ctx.fillStyle = o.color || Plot.gray;
+          ctx.fillStyle = Plot.mapColor(o.color) || Plot.gray;
           ctx.font = FONT;
           ctx.textAlign = 'left';
           ctx.textBaseline = 'top';
@@ -541,7 +566,7 @@ const Plot = window.Plot = {
       hline(y, o) {
         o = o || {};
         clipData(() => {
-          ctx.strokeStyle = o.color || Plot.gray;
+          ctx.strokeStyle = Plot.mapColor(o.color) || Plot.gray;
           ctx.lineWidth = o.width || 1.5;
           ctx.setLineDash(o.dash || [5, 4]);
           ctx.beginPath();
@@ -551,7 +576,7 @@ const Plot = window.Plot = {
           ctx.setLineDash([]);
         });
         if (o.label) {
-          ctx.fillStyle = o.color || Plot.gray;
+          ctx.fillStyle = Plot.mapColor(o.color) || Plot.gray;
           ctx.font = FONT;
           ctx.textAlign = 'right';
           ctx.textBaseline = 'bottom';
@@ -569,12 +594,12 @@ const Plot = window.Plot = {
           ctx.closePath();
           if (o.fill) {
             ctx.globalAlpha = (o.alpha != null) ? o.alpha : 0.2;
-            ctx.fillStyle = o.fill;
+            ctx.fillStyle = Plot.mapColor(o.fill);
             ctx.fill();
             ctx.globalAlpha = 1;
           }
           if (o.stroke) {
-            ctx.strokeStyle = o.stroke;
+            ctx.strokeStyle = Plot.mapColor(o.stroke);
             ctx.lineWidth = o.width || 1.5;
             ctx.stroke();
           }
@@ -582,7 +607,7 @@ const Plot = window.Plot = {
       },
       arrow(x1, y1, x2, y2, o) {
         o = o || {};
-        const c = o.color || Plot.colors[1];
+        const c = Plot.mapColor(o.color) || Plot.colors[1];
         const ax = X(x1), ay = Y(y1), bx = X(x2), by = Y(y2);
         const ang = Math.atan2(by - ay, bx - ax);
         ctx.strokeStyle = c;
@@ -602,7 +627,7 @@ const Plot = window.Plot = {
       },
       text(x, y, str, o) {
         o = o || {};
-        ctx.fillStyle = o.color || Plot.ink;
+        ctx.fillStyle = Plot.mapColor(o.color) || Plot.ink;
         ctx.font = (o.size || 12) + 'px "Hiragino Sans", "Yu Gothic UI", sans-serif';
         ctx.textAlign = o.align || 'left';
         ctx.textBaseline = o.baseline || 'alphabetic';
@@ -614,8 +639,9 @@ const Plot = window.Plot = {
         for (const it of items) w = Math.max(w, ctx.measureText(it.label).width);
         const bw = w + 36, lh = 19, bh = items.length * lh + 10;
         const bx = pad.left + iw - bw - 8, by = pad.top + 8;
-        ctx.fillStyle = 'rgba(255,255,255,0.93)';
-        ctx.strokeStyle = '#dfe3ea';
+        const TH = Plot.theme || Plot.themes.light;
+        ctx.fillStyle = TH.legendBg;
+        ctx.strokeStyle = TH.legendStroke;
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.rect(bx, by, bw, bh);
@@ -623,13 +649,13 @@ const Plot = window.Plot = {
         ctx.stroke();
         items.forEach((it, i) => {
           const cy = by + 5 + i * lh + lh / 2 - 2;
-          ctx.strokeStyle = it.color;
+          ctx.strokeStyle = Plot.mapColor(it.color);
           ctx.lineWidth = 3;
           ctx.beginPath();
           ctx.moveTo(bx + 8, cy);
           ctx.lineTo(bx + 24, cy);
           ctx.stroke();
-          ctx.fillStyle = '#344054';
+          ctx.fillStyle = TH.legendText;
           ctx.textAlign = 'left';
           ctx.textBaseline = 'middle';
           ctx.fillText(it.label, bx + 30, cy);
@@ -675,6 +701,191 @@ window.STATS_QUIZ = window.STATS_QUIZ || {};
 const state = { route: { page: 'home' } };
 const demoState = { topic: null, params: {} };
 
+/* ---------- 学習進捗（localStorage 永続化） ----------
+ * done は "section/id" の集合。トグルは button 操作なので render() を呼び直してよい
+ * （入力欄のフォーカス例外には当たらない）。 */
+const PROGRESS_KEY = 'slh-progress-v1';
+const progress = { done: new Set() };
+function topicKey(sec, id) { return sec + '/' + id; }
+function isDone(sec, id) { return progress.done.has(topicKey(sec, id)); }
+function loadProgress() {
+  try {
+    const a = JSON.parse(localStorage.getItem(PROGRESS_KEY));
+    if (Array.isArray(a)) progress.done = new Set(a);
+  } catch (e) { /* 壊れた JSON は握りつぶして空で始める */ }
+  // 削除済みトピックの残骸を除去（トピックは app.js より前に読み込まれている）
+  const valid = new Set(window.STATS_TOPICS.map(t => topicKey(t.section, t.id)));
+  for (const k of [...progress.done]) if (!valid.has(k)) progress.done.delete(k);
+}
+function saveProgress() {
+  try { localStorage.setItem(PROGRESS_KEY, JSON.stringify([...progress.done])); } catch (e) { /* 容量超過等は無視 */ }
+}
+function toggleDone(sec, id) {
+  const k = topicKey(sec, id);
+  if (progress.done.has(k)) progress.done.delete(k); else progress.done.add(k);
+  saveProgress();
+  render();
+}
+function sectionProgress(sec) {
+  const list = topicsBySection(sec);
+  const done = list.reduce((n, t) => n + (isDone(sec, t.id) ? 1 : 0), 0);
+  return { done, total: list.length };
+}
+// カリキュラム順で最初の未完了トピック（なければ null＝全完了）
+function firstIncomplete() {
+  return allTopicsOrdered().find(t => !isDone(t.section, t.id)) || null;
+}
+
+/* ---------- トピック相互リンク（関連トピック用） ----------
+ * 本文中の内部リンク（href="#/sec/id"）から発リンク・被リンクを集計し、
+ * 各トピックの「関連トピック」を導出する。派生・読み取りのみで安全。 */
+const relatedMap = {};
+function buildCrossRefs() {
+  const valid = new Set(window.STATS_TOPICS.map(t => topicKey(t.section, t.id)));
+  const out = {}, back = {};
+  for (const t of window.STATS_TOPICS) {
+    const k = topicKey(t.section, t.id);
+    out[k] = out[k] || new Set();
+    const re = /href="#\/([a-z0-9_-]+)\/([a-z0-9_-]+)"/gi;
+    let m;
+    while ((m = re.exec(t.body || ''))) {
+      const target = m[1] + '/' + m[2];
+      if (target !== k && valid.has(target)) {
+        out[k].add(target);
+        (back[target] = back[target] || new Set()).add(k);
+      }
+    }
+  }
+  for (const t of window.STATS_TOPICS) {
+    const k = topicKey(t.section, t.id);
+    const outArr = [...(out[k] || [])];
+    const backArr = [...(back[k] || [])].filter(x => !out[k].has(x));
+    relatedMap[k] = outArr.concat(backArr).slice(0, 8); // 発リンク優先、最大8件
+  }
+}
+
+/* ---------- 全文検索 ----------
+ * タイトル・要約・本文（タグ除去）・まとめを対象に前方一致/部分一致で検索する。
+ * 索引は起動時に一度だけ構築する。検索 UI は topbar 内で、render() の外側で配線する。 */
+const searchIndex = [];
+/* 用語エイリアス（同義語・英日対応）。1グループ内の語は相互に置換して検索する。
+ * 例: 「ANOVA」で「分散分析」トピックが、「PCA」で「主成分分析」がヒットする。
+ * すべて小文字で記述すること（検索語も小文字化して照合する）。 */
+const SEARCH_ALIASES = [
+  ['分散分析', 'anova', '一元配置', '二元配置'],
+  ['回帰分析', '回帰', 'regression', '線形回帰'],
+  ['主成分分析', '主成分', 'pca'],
+  ['因子分析', 'factor analysis', 'ファクター'],
+  ['ベイズ', 'bayes', 'bayesian', '事後分布', '事前分布'],
+  ['最尤推定', '最尤', 'mle', '尤度'],
+  ['正規分布', 'ガウス', 'gaussian', 'normal'],
+  ['信頼区間', 'confidence interval', '区間推定'],
+  ['仮説検定', '検定', 'test'],
+  ['相関', 'correlation', 'ピアソン', 'pearson'],
+  ['pls', '部分最小二乗', 'plsr'],
+  ['判別分析', '判別', 'lda', '線形判別'],
+  ['クラスタリング', 'クラスター', 'kmeans', 'k-means', 'k平均', 'クラスタ'],
+  ['時系列', 'arima', 'arma', '自己回帰', 'time series'],
+  ['ロジスティック回帰', 'ロジスティック', 'logistic', 'ロジット'],
+  ['分割表', 'カイ二乗', 'カイ2乗', 'chi2', 'chi-square', '独立性の検定'],
+  ['多重比較', 'ボンフェローニ', 'bonferroni', 'tukey', 'テューキー'],
+  ['固有値', '固有ベクトル', 'eigen', 'eigenvalue'],
+  ['実験計画法', 'doe', '応答曲面', 'rsm', '中心複合計画', 'ccd'],
+  ['過学習', 'overfitting', '過剰適合', '汎化'],
+  ['交差検証', 'クロスバリデーション', 'cross validation', 'q2', 'q²'],
+  ['分散', 'variance', 'ばらつき'],
+  ['サンプルサイズ', '検出力', 'power', '標本サイズ', 'サンプル数'],
+  ['ポアソン', 'poisson'],
+  ['二項分布', 'binomial', 'ベルヌーイ', 'bernoulli'],
+  ['一般化線形モデル', 'glm', 'リンク関数'],
+  ['ブートストラップ', 'bootstrap', 'リサンプリング'],
+  ['マルコフ連鎖', 'markov', 'mcmc', 'メトロポリス'],
+  ['欠測', '欠損', 'missing', '多重代入'],
+  ['生存時間', 'survival', 'カプランマイヤー', 'kaplan'],
+  ['t検定', 't分布', 'スチューデント', 'student'],
+];
+// 検索語 t を同義語グループに展開する（t 自身も含む）。1文字語の暴発を避け、
+// 別名への拡張は 2 文字以上のときだけ行う。
+function expandTerm(t) {
+  const set = new Set([t]);
+  if (t.length >= 2) {
+    for (const grp of SEARCH_ALIASES) {
+      if (grp.some(a => a === t || a.startsWith(t) || t.startsWith(a))) {
+        for (const a of grp) set.add(a);
+      }
+    }
+  }
+  return [...set];
+}
+function stripHtml(html) {
+  const d = document.createElement('div');
+  d.innerHTML = html || '';
+  return (d.textContent || '').replace(/\s+/g, ' ').trim();
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+}
+function escapeReg(s) { return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+function buildSearchIndex() {
+  searchIndex.length = 0;
+  for (const s of SECTIONS) {
+    for (const t of topicsBySection(s.id)) {
+      const content = (window.STATS_QUIZ || {})[topicKey(t.section, t.id)];
+      const extra = content && content.keypoints ? ' ' + content.keypoints.map(stripHtml).join(' ') : '';
+      const plain = t.title + '。' + t.summary + ' ' + stripHtml(t.body) + extra;
+      searchIndex.push({
+        sec: s.id, secTitle: s.title, id: t.id, title: t.title,
+        titleLower: t.title.toLowerCase(), plain, text: plain.toLowerCase(),
+      });
+    }
+  }
+}
+function runSearch(query) {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const terms = q.split(/\s+/).filter(Boolean).map(t => ({ raw: t, variants: expandTerm(t) }));
+  const res = [];
+  for (const item of searchIndex) {
+    let score = 0, ok = true;
+    for (const term of terms) {
+      let inTitle = false, inText = false, direct = false;
+      for (const v of term.variants) {
+        const t = item.titleLower.includes(v), x = item.text.includes(v);
+        if (t) inTitle = true;
+        if (x) inText = true;
+        if ((t || x) && v === term.raw) direct = true; // 別名一致はスコアを控えめに
+      }
+      if (!inTitle && !inText) { ok = false; break; }
+      if (inTitle) score += direct ? 10 : 6;
+      if (item.titleLower.startsWith(term.raw)) score += 5;
+      if (inText) score += 1;
+    }
+    if (ok) res.push({ item, score });
+  }
+  res.sort((a, b) => b.score - a.score);
+  return res.slice(0, 20);
+}
+function searchVariants(query) {
+  const out = [];
+  for (const t of query.trim().toLowerCase().split(/\s+/).filter(Boolean)) {
+    for (const v of expandTerm(t)) if (v && !out.includes(v)) out.push(v);
+  }
+  out.sort((a, b) => b.length - a.length); // 長い語を優先してハイライト
+  return out;
+}
+function searchSnippet(plain, query) {
+  const variants = searchVariants(query);
+  const lower = plain.toLowerCase();
+  let pos = -1;
+  for (const v of variants) { const p = lower.indexOf(v); if (p >= 0 && (pos < 0 || p < pos)) pos = p; }
+  if (pos < 0) return escapeHtml(plain.slice(0, 96)) + '…';
+  const start = Math.max(0, pos - 28);
+  // 一括の正規表現で 1 パス置換（挿入した <mark> タグを再マッチしないため安全）
+  const rx = new RegExp('(' + variants.map(v => escapeReg(escapeHtml(v))).join('|') + ')', 'ig');
+  const snip = escapeHtml(plain.slice(start, pos + 68)).replace(rx, '<mark>$1</mark>');
+  return (start > 0 ? '…' : '') + snip + '…';
+}
+
 function topicsBySection(id) { return window.STATS_TOPICS.filter(t => t.section === id); }
 function findTopic(sec, id) { return window.STATS_TOPICS.find(t => t.section === sec && t.id === id) || null; }
 function allTopicsOrdered() {
@@ -705,11 +916,13 @@ function render() {
   const main = document.getElementById('main');
   if (state.route.page === 'home') {
     main.innerHTML = homeHtml();
+    wireHome();
   } else {
     const t = findTopic(state.route.section, state.route.topic);
     main.innerHTML = topicHtml(t);
     buildDemo(t); // デモ入力部品の生成（render の一部として、トピック表示時に一度だけ）
     buildQuiz();  // 確認問題のクリック処理を配線
+    wireTopicChrome(); // 完了ボタンの配線
   }
   if (window.renderMathInElement) {
     window.renderMathInElement(main, {
@@ -721,6 +934,34 @@ function render() {
     });
   }
   window.scrollTo(0, 0);
+}
+
+function wireHome() {
+  const reset = document.getElementById('progress-reset');
+  if (reset) reset.addEventListener('click', () => {
+    if (confirm('学習の進捗（完了マーク）をすべて消去します。よろしいですか？')) {
+      progress.done.clear();
+      saveProgress();
+      render();
+    }
+  });
+}
+
+function wireTopicChrome() {
+  const btn = document.getElementById('done-toggle');
+  if (btn) btn.addEventListener('click', () => toggleDone(state.route.section, state.route.topic));
+
+  // デモ課題の「答え合わせ」。開いたら閉じられる（読み返せるように）。
+  const tg = document.getElementById('demo-task-toggle');
+  const ans = document.getElementById('demo-task-answer');
+  if (tg && ans) {
+    tg.addEventListener('click', () => {
+      const open = ans.hidden;
+      ans.hidden = !open;
+      tg.setAttribute('aria-expanded', String(open));
+      tg.textContent = open ? '答えを隠す' : '答え合わせ';
+    });
+  }
 }
 
 function groupsOf(sectionId) {
@@ -748,13 +989,17 @@ function renderNav() {
   for (const s of SECTIONS) {
     const list = topicsBySection(s.id);
     const open = state.route.section === s.id;
-    html += '<details' + (open ? ' open' : '') + '><summary>' + s.icon + ' ' + s.title +
-      ' <span class="count">(' + list.length + ')</span></summary>';
+    const pr = sectionProgress(s.id);
+    const frac = pr.done > 0 ? ' <span class="count done">' + pr.done + '/' + pr.total + '</span>'
+      : ' <span class="count">(' + list.length + ')</span>';
+    html += '<details' + (open ? ' open' : '') + '><summary>' + s.icon + ' ' + s.title + frac + '</summary>';
     for (const grp of groupsOf(s.id)) {
       if (grp.label) html += '<div class="nav-group">' + grp.label + '</div>';
       for (const t of grp.topics) {
         const active = state.route.page === 'topic' && state.route.section === s.id && state.route.topic === t.id;
-        html += '<a class="nav-link' + (active ? ' active' : '') + '" href="#/' + s.id + '/' + t.id + '">' + t.title + '</a>';
+        const done = isDone(s.id, t.id);
+        html += '<a class="nav-link' + (active ? ' active' : '') + (done ? ' done' : '') + '" href="#/' + s.id + '/' + t.id + '">' +
+          '<span class="nav-check" aria-hidden="true">' + (done ? '✓' : '') + '</span>' + t.title + '</a>';
       }
     }
     html += '</details>';
@@ -782,6 +1027,7 @@ function homeHtml() {
     '<li>🧭 統計検定準1級の範囲を体系的にカバー</li>' +
     '<li>🌐 3D応答曲面・PLSスコアなど Plotly で可視化</li>' +
     '</ul></section>' +
+    progressSummaryHtml() +
     '<section class="cards">' + cards + '</section>' +
     roadmapHtml() +
     '<section class="howto"><h2>📖 学び方のヒント</h2><ol>' +
@@ -791,6 +1037,42 @@ function homeHtml() {
     '</ol>' +
     '<p class="howto-note">セクションの分け方：<strong>準1級</strong>は統計検定準1級の出題範囲。<strong>実験計画法（応用）</strong>と<strong>ケモメトリクス</strong>は、範囲が重なる項目は準1級側に置き、ここには準1級範囲外の発展内容だけを収めています。</p>' +
     '</section></div>';
+}
+
+function firstHref(sec) {
+  const l = topicsBySection(sec);
+  return l.length ? '#/' + sec + '/' + l[0].id : '#/';
+}
+function progressSummaryHtml() {
+  const total = window.STATS_TOPICS.length;
+  const done = progress.done.size;
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  const cards = SECTIONS.map(s => {
+    const pr = sectionProgress(s.id);
+    const p = pr.total ? Math.round((pr.done / pr.total) * 100) : 0;
+    const full = pr.total > 0 && pr.done === pr.total;
+    return '<a class="ps-card' + (full ? ' full' : '') + '" href="' + firstHref(s.id) + '">' +
+      '<span class="ps-card-icon">' + s.icon + '</span>' +
+      '<span class="ps-card-body">' +
+      '<span class="ps-card-title">' + s.title + (full ? ' <span class="ps-card-check">✓</span>' : '') + '</span>' +
+      '<span class="ps-card-mini"><span class="ps-card-mini-fill" style="width:' + p + '%"></span></span>' +
+      '</span>' +
+      '<span class="ps-card-frac">' + pr.done + '/' + pr.total + '</span></a>';
+  }).join('');
+  const first = firstIncomplete();
+  const cta = !first
+    ? '<div class="ps-done-all">🎉 全 ' + total + ' トピック完了！おつかれさまでした。</div>'
+    : '<a class="ps-resume" href="#/' + first.section + '/' + first.id + '">▶ ' +
+      (done > 0 ? '続きから' : 'ここから始める') + '：' + first.title + '</a>';
+  return '<section class="progress-summary">' +
+    '<div class="ps-head"><span class="ps-title">📈 学習の進捗</span>' +
+    '<span class="ps-frac">' + done + ' / ' + total + ' トピック完了・' + pct + '%</span></div>' +
+    '<div class="ps-bar"><div class="ps-fill" style="width:' + pct + '%"></div></div>' +
+    '<div class="ps-cards">' + cards + '</div>' +
+    cta +
+    '<p class="ps-note">各トピック下部の「完了にする」ボタンで記録できます。進捗はこのブラウザに保存されます。' +
+    (done > 0 ? ' <button type="button" class="ps-reset" id="progress-reset">進捗をリセット</button>' : '') +
+    '</p></section>';
 }
 
 function roadmapHtml() {
@@ -844,18 +1126,43 @@ function topicHtml(t) {
       view +
       (t.demo.note ? '<p class="demo-note">' + t.demo.note + '</p>' : '') +
       '</section>';
+    if (t.demo.task) html += demoTaskHtml(t.demo.task);
   }
   const content = (window.STATS_QUIZ || {})[t.section + '/' + t.id];
   if (content) {
     if (content.example) html += exampleHtml(content.example);
     if (content.keypoints && content.keypoints.length) html += keypointsHtml(content.keypoints);
-    if (content.quiz && content.quiz.length) html += quizHtml(content.quiz);
+    if (content.quiz && content.quiz.length) html += quizHtml(content.quiz, t.section + '/' + t.id);
   }
+  html += relatedHtml(t);
+  const done = isDone(t.section, t.id);
+  html += '<div class="done-bar' + (done ? ' is-done' : '') + '">' +
+    '<button type="button" class="done-toggle" id="done-toggle">' +
+    (done ? '✓ 完了済み（取り消す）' : '完了にする') + '</button>' +
+    (done && next ? '<a class="done-next" href="#/' + next.section + '/' + next.id + '">次へ進む：' + next.title + ' →</a>' : '') +
+    '</div>';
   html += '<nav class="pager">' +
     (prev ? '<a class="pg prev" href="#/' + prev.section + '/' + prev.id + '">← ' + prev.title + '</a>' : '<span></span>') +
     (next ? '<a class="pg next" href="#/' + next.section + '/' + next.id + '">' + next.title + ' →</a>' : '<span></span>') +
-    '</nav></article>';
+    '</nav>' +
+    '<p class="pager-hint">キーボードの <kbd>←</kbd> <kbd>→</kbd> でも前後のトピックに移動できます</p>' +
+    '</article>';
   return html;
+}
+
+function relatedHtml(t) {
+  const rel = relatedMap[topicKey(t.section, t.id)] || [];
+  if (!rel.length) return '';
+  const chips = rel.map(rk => {
+    const [sec, id] = rk.split('/');
+    const rt = findTopic(sec, id);
+    if (!rt) return '';
+    const s = SECTIONS.find(x => x.id === sec);
+    return '<a class="rel-chip" href="#/' + sec + '/' + id + '">' +
+      '<span class="rel-sec" aria-hidden="true">' + (s ? s.icon : '') + '</span>' + rt.title +
+      (isDone(sec, id) ? '<span class="rel-check" aria-hidden="true">✓</span>' : '') + '</a>';
+  }).join('');
+  return '<section class="related"><h2>🔗 関連トピック</h2><div class="rel-chips">' + chips + '</div></section>';
 }
 
 /* ---------- 学習コンテンツ（例題・まとめ・確認問題）の描画 ---------- */
@@ -870,17 +1177,57 @@ function keypointsHtml(points) {
     points.map(p => '<li>' + p + '</li>').join('') + '</ul></section>';
 }
 
-function quizHtml(quiz) {
-  let h = '<section class="quiz"><h2>✅ 確認問題</h2>' +
+/* デモの「操作する課題」。
+ * サイトの中心思想は「パラメータを動かして挙動を見る」ことなので、
+ * 挙動を文章で説明してしまうと、読者はスライダーを動かさずに済んでしまう。
+ * そこで「操作しないと答えられない問い」を1つ置き、答えは畳んでおく。 */
+function demoTaskHtml(task) {
+  return '<section class="demo-task">' +
+    '<h2>🎯 グラフを動かして答える</h2>' +
+    '<p class="dt-q">' + task.q + '</p>' +
+    '<button type="button" class="dt-toggle" id="demo-task-toggle" aria-expanded="false">答え合わせ</button>' +
+    '<div class="dt-a" id="demo-task-answer" hidden>' + task.a + '</div>' +
+    '</section>';
+}
+
+/* 選択肢の並べ替え。
+ * コンテンツ側は「正答を先頭に書く」という規約で書かれているため、そのまま出すと
+ * 全問「一番上が正解」になってクイズが成立しない。表示時に並べ替えて解消する。
+ * 乱数ではなく trueKey から作る決定的なハッシュを種にする理由:
+ *   - 再描画（テーマ切替・やり直し・戻る操作）で並びが変わると混乱するため
+ *   - 同じ端末・別の日でも同じ並びになり、解説の「上から2番目」といった参照が壊れないため */
+function shuffleSeed(str) {
+  let s = 2166136261;
+  for (let i = 0; i < str.length; i++) {
+    s ^= str.charCodeAt(i);
+    s = Math.imul(s, 16777619);
+  }
+  return s >>> 0;
+}
+
+function shuffledChoices(choices, answer, key) {
+  const rand = Stats.rng(shuffleSeed(key) || 1);
+  const idx = choices.map((_, i) => i);
+  for (let i = idx.length - 1; i > 0; i--) {           // Fisher-Yates
+    const j = Math.floor(rand() * (i + 1));
+    const t = idx[i]; idx[i] = idx[j]; idx[j] = t;
+  }
+  return { order: idx, answer: idx.indexOf(answer) };
+}
+
+function quizHtml(quiz, key) {
+  let h = '<section class="quiz"><div class="quiz-head"><h2>✅ 確認問題</h2>' +
+    '<button type="button" class="quiz-reset" id="quiz-reset" hidden>↻ やり直す</button></div>' +
     '<p class="quiz-intro">選択肢を押すと正誤と解説が表示されます。まず自分で考えてから選びましょう。</p>' +
     '<div id="quiz-root">';
   quiz.forEach((item, qi) => {
-    h += '<div class="quiz-q" data-answer="' + item.answer + '">' +
+    const sh = shuffledChoices(item.choices, item.answer, (key || '') + '#' + qi);
+    h += '<div class="quiz-q" data-answer="' + sh.answer + '">' +
       '<p class="quiz-prompt"><span class="quiz-num">Q' + (qi + 1) + '</span> ' + item.q + '</p>' +
       '<div class="quiz-choices">';
-    item.choices.forEach((c, ci) => {
+    sh.order.forEach((orig, ci) => {
       h += '<button type="button" class="quiz-choice" data-ci="' + ci + '">' +
-        '<span class="quiz-mark"></span><span class="quiz-choice-text">' + c + '</span></button>';
+        '<span class="quiz-mark"></span><span class="quiz-choice-text">' + item.choices[orig] + '</span></button>';
     });
     h += '</div>' +
       '<div class="quiz-explain" hidden><strong>解説：</strong>' + item.explain + '</div>' +
@@ -893,7 +1240,12 @@ function quizHtml(quiz) {
 function buildQuiz() {
   const root = document.getElementById('quiz-root');
   if (!root) return;
-  root.querySelectorAll('.quiz-q').forEach(qEl => {
+  const resetBtn = document.getElementById('quiz-reset');
+  const questions = root.querySelectorAll('.quiz-q');
+  const maybeShowReset = () => {
+    if (resetBtn && root.querySelector('.quiz-q.answered')) resetBtn.hidden = false;
+  };
+  questions.forEach(qEl => {
     const answer = parseInt(qEl.getAttribute('data-answer'), 10);
     const choices = qEl.querySelectorAll('.quiz-choice');
     const explain = qEl.querySelector('.quiz-explain');
@@ -910,8 +1262,24 @@ function buildQuiz() {
         });
         btn.querySelector('.quiz-mark').textContent = (ci === answer) ? '○ ' : '× ';
         explain.hidden = false;
+        maybeShowReset();
       });
     });
+  });
+  if (resetBtn) resetBtn.addEventListener('click', () => {
+    questions.forEach(qEl => {
+      qEl.classList.remove('answered');
+      qEl.querySelectorAll('.quiz-choice').forEach(b => {
+        b.disabled = false;
+        b.classList.remove('correct', 'wrong');
+        const mk = b.querySelector('.quiz-mark');
+        if (mk) mk.textContent = '';
+      });
+      const ex = qEl.querySelector('.quiz-explain');
+      if (ex) ex.hidden = true;
+    });
+    resetBtn.hidden = true;
+    root.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
   });
 }
 
@@ -1024,29 +1392,150 @@ function drawDemo() {
 window.PlotlyTheme = {
   colors: ['#4f6df5', '#e4572e', '#2a9d8f', '#f4a261', '#9b5de5', '#577590'],
   config: { displayModeBar: false, responsive: true, doubleClick: 'reset' },
+  mode: 'light',
+  themes: {
+    light: { font: '#344054', grid: '#edf0f5', line: '#c7cdd8', sceneBg: '#f6f7fb', sceneGrid: '#dfe3ea', sceneZero: '#c7cdd8' },
+    dark: { font: '#c3c8d4', grid: '#25262f', line: '#3a3d47', sceneBg: '#16171d', sceneGrid: '#2f313b', sceneZero: '#3a3d47' },
+  },
+  th() { return this.themes[this.mode] || this.themes.light; },
   layout(extra) {
+    const t = window.PlotlyTheme.th();
     const base = {
       margin: { l: 52, r: 16, t: 18, b: 44 },
-      font: { family: '"Hiragino Sans","Yu Gothic UI",sans-serif', size: 12, color: '#344054' },
+      font: { family: '"Hiragino Sans","Yu Gothic UI",sans-serif', size: 12, color: t.font },
       paper_bgcolor: 'rgba(0,0,0,0)',
       plot_bgcolor: 'rgba(0,0,0,0)',
       colorway: window.PlotlyTheme.colors,
       hovermode: 'closest',
       showlegend: false,
-      xaxis: { zeroline: false, gridcolor: '#edf0f5', linecolor: '#c7cdd8' },
-      yaxis: { zeroline: false, gridcolor: '#edf0f5', linecolor: '#c7cdd8' },
+      xaxis: { zeroline: false, gridcolor: t.grid, linecolor: t.line },
+      yaxis: { zeroline: false, gridcolor: t.grid, linecolor: t.line },
     };
     return Object.assign(base, extra || {});
   },
   // 3D シーンの共通見た目
   scene(extra) {
-    const ax = name => ({ title: name, backgroundcolor: '#f6f7fb', gridcolor: '#dfe3ea', showbackground: true, zerolinecolor: '#c7cdd8' });
+    const t = window.PlotlyTheme.th();
+    const ax = name => ({ title: name, backgroundcolor: t.sceneBg, gridcolor: t.sceneGrid, showbackground: true, zerolinecolor: t.sceneZero });
     return Object.assign({
       xaxis: ax('x'), yaxis: ax('y'), zaxis: ax('z'),
       camera: { eye: { x: 1.5, y: 1.5, z: 1.1 } },
     }, extra || {});
   },
 };
+
+/* ---------- 検索 UI の配線（topbar 内・render() の外側で一度だけ） ---------- */
+function initSearch() {
+  const input = document.getElementById('search-input');
+  const box = document.getElementById('search-results');
+  if (!input || !box) return;
+  const close = () => { box.hidden = true; box.innerHTML = ''; input.setAttribute('aria-expanded', 'false'); };
+  const show = () => {
+    const q = input.value;
+    if (!q.trim()) { close(); return; }
+    const results = runSearch(q);
+    if (!results.length) {
+      box.innerHTML = '<div class="search-empty">「' + escapeHtml(q.trim()) + '」に一致するトピックはありません</div>';
+    } else {
+      box.innerHTML = results.map((r, i) => {
+        const it = r.item;
+        return '<a class="search-hit' + (i === 0 ? ' sel' : '') + '" role="option" href="#/' + it.sec + '/' + it.id + '">' +
+          '<span class="sh-top"><span class="sh-title">' + escapeHtml(it.title) + '</span>' +
+          '<span class="sh-sec">' + escapeHtml(it.secTitle) + (isDone(it.sec, it.id) ? ' ✓' : '') + '</span></span>' +
+          '<span class="sh-snip">' + searchSnippet(it.plain, q) + '</span></a>';
+      }).join('');
+    }
+    box.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+  };
+  const go = (a) => { if (a) { location.hash = a.getAttribute('href').slice(1); input.value = ''; input.blur(); close(); } };
+  input.addEventListener('input', show);
+  input.addEventListener('focus', show);
+  input.addEventListener('keydown', e => {
+    const hits = [...box.querySelectorAll('.search-hit')];
+    const sel = box.querySelector('.search-hit.sel');
+    if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (!hits.length) return;
+      let i = hits.indexOf(sel);
+      i += e.key === 'ArrowDown' ? 1 : -1;
+      if (i < 0) i = hits.length - 1;
+      if (i >= hits.length) i = 0;
+      if (sel) sel.classList.remove('sel');
+      hits[i].classList.add('sel');
+      hits[i].scrollIntoView({ block: 'nearest' });
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      go(sel || hits[0]);
+    } else if (e.key === 'Escape') {
+      input.value = '';
+      input.blur();
+      close();
+    }
+  });
+  box.addEventListener('click', e => { const a = e.target.closest('.search-hit'); if (a) { e.preventDefault(); go(a); } });
+  document.addEventListener('click', e => { if (!e.target.closest('.search')) close(); });
+  document.addEventListener('keydown', e => {
+    const ae = document.activeElement;
+    const typing = ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName);
+    if (e.key === '/' && !typing) { e.preventDefault(); input.focus(); }
+  });
+  window.addEventListener('hashchange', close);
+}
+
+/* ---------- テーマ（ライト/ダーク） ----------
+ * 早期 inline script が data-theme を確定済み。ここではグラフエンジンへ同期し、
+ * トグルボタンを配線する。切替時は現在のデモを再描画する。 */
+const THEME_KEY = 'slh-theme';
+function currentTheme() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+}
+function syncGraphTheme(mode) {
+  Plot.mode = mode;
+  Plot.theme = Plot.themes[mode] || Plot.themes.light;
+  Plot.ink = Plot.theme.ink;
+  Plot.gray = Plot.theme.gray;
+  if (window.PlotlyTheme) window.PlotlyTheme.mode = mode;
+}
+function updateThemeToggle(mode) {
+  const btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+  btn.textContent = mode === 'dark' ? '☀️' : '🌙';
+  const label = mode === 'dark' ? 'ライトモードに切り替え' : 'ダークモードに切り替え';
+  btn.setAttribute('aria-label', label);
+  btn.title = label;
+}
+function applyTheme(mode) {
+  document.documentElement.setAttribute('data-theme', mode);
+  try { localStorage.setItem(THEME_KEY, mode); } catch (e) { /* 無視 */ }
+  syncGraphTheme(mode);
+  updateThemeToggle(mode);
+  drawDemo(); // 表示中のデモを新テーマで再描画（Plotly は plot() 再実行で反映）
+}
+function initTheme() {
+  const mode = currentTheme();
+  syncGraphTheme(mode);
+  updateThemeToggle(mode);
+  const btn = document.getElementById('theme-toggle');
+  if (btn) btn.addEventListener('click', () => applyTheme(currentTheme() === 'dark' ? 'light' : 'dark'));
+}
+
+/* ---------- キーボード操作（← → で前後トピック） ---------- */
+function initKeyboardNav() {
+  document.addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+    if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+    if (state.route.page !== 'topic') return;
+    const ae = document.activeElement;
+    if (ae && /^(INPUT|TEXTAREA|SELECT)$/.test(ae.tagName)) return;
+    const all = allTopicsOrdered();
+    const cur = findTopic(state.route.section, state.route.topic);
+    const i = all.indexOf(cur);
+    if (i < 0) return;
+    const to = e.key === 'ArrowRight' ? all[i + 1] : all[i - 1];
+    if (to) { e.preventDefault(); location.hash = '#/' + to.section + '/' + to.id; }
+  });
+}
 
 /* ---------- 起動 ---------- */
 let resizeTimer = null;
@@ -1059,6 +1548,12 @@ window.addEventListener('hashchange', () => {
   render();
 });
 window.addEventListener('DOMContentLoaded', () => {
+  loadProgress();
+  buildSearchIndex();
+  buildCrossRefs();
+  initTheme();
+  initSearch();
+  initKeyboardNav();
   state.route = parseHash();
   render();
 });

@@ -18,9 +18,18 @@
 <li><strong>相対効率</strong>：2つの不偏推定量の分散の比 $V[\\hat\\theta_1]/V[\\hat\\theta_2]$。</li>
 </ul>
 <p>推定量の良し悪しは平均二乗誤差でまとめられます。</p>
-<p>$$ \\mathrm{MSE}(\\hat\\theta)=\\underbrace{\\big(E[\\hat\\theta]-\\theta\\big)^2}_{\\text{バイアス}^2}+\\underbrace{V[\\hat\\theta]}_{\\text{分散}} $$</p>
-<div class="note">例1「平均 vs 中央値」：正規母集団ではどちらも不偏だが、平均のほうが分散が小さい（＝有効）。<br>例2「分散 ÷(n−1) vs ÷n」：$n$ で割る標本分散は<strong>下ぶれ（バイアス）</strong>する。$n-1$ で割ると不偏になる（ベッセル補正）。下で切り替え・$n$ を動かして確かめてください。</div>`,
+<p>$$ \\mathrm{MSE}(\\hat\\theta)=E[(\\hat\\theta-\\theta)^2]=\\underbrace{\\big(E[\\hat\\theta]-\\theta\\big)^2}_{\\text{バイアス}^2}+\\underbrace{V[\\hat\\theta]}_{\\text{分散}} $$</p>
+<p><strong>なぜこの分解になるか</strong>：$\\hat\\theta-\\theta$ に「$\\pm E[\\hat\\theta]$」を挟んで $\\big(\\hat\\theta-E[\\hat\\theta]\\big)+\\big(E[\\hat\\theta]-\\theta\\big)$ と分け、2乗して期待値をとると交差項が $E[\\hat\\theta-E[\\hat\\theta]]=0$ で消え、分散＋バイアス²だけが残ります。つまり<strong>推定の総合誤差は「ばらつき」と「かたより」の2成分</strong>——この分解が推定量の設計思想そのものです。不偏性はバイアス項を0にすること、有効性は不偏の範囲で分散項を最小にすること（達成できる下限が<a href="#/prep1/fisher-cramer-rao">クラーメル・ラオ</a>）に対応します。</p>
+<h3>前提と、崩れたときの注意</h3>
+<p>これらの性質は<strong>互いに独立で、両立するとは限りません</strong>。<strong>不偏だが一致でない</strong>（例：母平均の推定に「最初の1個 $x_1$」を使うと $E[x_1]=\\mu$ で不偏だが $n$ を増やしても縮まない＝不一致）、<strong>偏っているが一致</strong>（<a href="#/prep1/mle">最尤推定</a>は一般に有限標本で偏るが $n\\to\\infty$ で真値へ）、といった組み合わせがあります。また<strong>不偏推定量が存在しない・唯一でない</strong>問題もあり、「不偏」だけを絶対視すべきではありません。一致性も i.i.d. 等の前提の上に立ち、強い依存や分布の裾が重い場合（平均が存在しないコーシー等）は崩れます。</p>
+<h3>有意性と実質的な意味（不偏＝最良ではない）</h3>
+<p>直感に反しますが、<strong>MSEで測ると「わざと少し偏らせた」推定量のほうが優れることがしばしばあります</strong>。少しのバイアスと引き換えに分散を大きく減らせるからです。実際、正規分布の分散推定を $n{=}10$ で比べると、不偏の $\\div(n{-}1)$ は MSE $=0.222$ なのに、偏っている $\\div n$（最尤）は $0.191$、$\\div(n{+}1)$ に至っては $0.181$ と、<strong>不偏推定量が MSE で負けます</strong>（数値実験で確認）。<a href="#/prep1/regularization">リッジ回帰</a>やベイズ推定が「偏らせて安定させる」のもこの原理です。推定量を選ぶときは「不偏か」で止めず、<strong>MSE＝バイアスと分散の合計</strong>で、目的（不偏性が要る場面か、予測精度が欲しい場面か）に応じて判断します。</p>
+<div class="note">例1「平均 vs 中央値」：正規母集団ではどちらも不偏だが、平均のほうが分散が小さい（＝有効）。<br>例2「分散 ÷(n−1) vs ÷n」：$n$ で割る標本分散は<strong>下ぶれ（バイアス）</strong>する。$n-1$ で割ると不偏になる（ベッセル補正）。ただし上で見たとおり、MSEでは $\\div n$ の方が小さい——不偏と最小MSEは別物です。下で切り替え・$n$ を動かして確かめてください。</div>`,
     demo: {
+      task: {
+        q: '「平均 vs 中央値」を選び、$n$ を10から60に上げてください。どちらのばらつきが小さいですか。その比はいくつに近づきますか。',
+        a: '<p>正規分布のもとでは<strong>標本平均のほうが常にばらつきが小さい</strong>です。分散の比は $\\mathrm{Var}(\\text{中央値})/\\mathrm{Var}(\\text{平均})\\to\\pi/2\\approx1.571$ ——つまり中央値の<strong>相対効率は $2/\\pi\\approx0.64$</strong>。中央値は平均の64%の情報しか使えていない、という意味です。</p><p>言い換えると、<strong>中央値で平均と同じ精度を出すには約1.57倍のデータが要ります</strong>。$n=100$ の平均と同じ精度を中央値で得るには $n\\approx157$ 必要。</p><p>ではなぜ中央値を使うのか——<strong>正規分布のときだけ</strong>平均が有利だからです。外れ値が混じる、裾が重い分布では中央値のほうが安定します。<a href="#/prep1/nonparametric">ノンパラメトリック</a>のデモで外れ値を入れると立場が逆転するのが見られます。<strong>「効率」は前提とセットの概念</strong>で、前提が崩れれば順位も入れ替わります。',
+      },
       note: 'n を大きくするとどの推定量も真値へ集まる（一致性）。「÷n」を選ぶと分布の中心が真の分散より左にずれる＝バイアス。「平均vs中央値」では平均の山のほうが細い＝有効。',
       controls: [
         { type: 'select', id: 'case', label: '比べる推定量', value: 'meanmed', options: [
@@ -89,6 +98,10 @@
 <p>論文や報告書が生データの代わりに $(n,\\ \\bar x,\\ s^2)$ を載せるだけで済むのは、正規モデルなら $(\\bar x,s^2)$ が $(\\mu,\\sigma^2)$ の<strong>結合十分統計量</strong>だから——要約統計量から $t$ 検定も信頼区間もそっくり再構成できます。ただしそれはモデルの中での話で、外れ値・二峰性・打ち切りといった「モデル外の情報」は要約で消えます。<strong>推論は要約から、診断は生データから</strong>、が実務の使い分けです。</p>
 <div class="note">「十分」とは、生データを捨てて $T$ だけ手元に残しても、$\\theta$ については何も損しない、という意味です。最尤推定量は十分統計量の関数になります（<a href="#/prep1/mle">MLE</a> と地続き）。ラオ・ブラックウェルの定理は「推定量を十分統計量で条件付ければ分散が下がる（改善できる）」ことを保証します。</div>`,
     demo: {
+      task: {
+        q: '要約の仕方を「平均のみ」「半分だけ」「5数要約」と切り替え、$n$ を100にしてください。母数の推定にとって、どの要約なら情報を失いませんか。',
+        a: '<p>正規分布の $\\mu$ を推定するなら、<strong>「平均のみ」で情報は一切失われません</strong>。$\\bar X$ が $\\mu$ の十分統計量だからです——生データを全部捨てて $\\bar X$ だけ残しても、$\\mu$ の推定精度はまったく変わりません。</p><p>「半分だけ」は明らかに情報を捨てており、ばらつきが $\\sqrt2$ 倍に増えます。「5数要約」は情報を持っていますが、$\\bar X$ ほど効率的には使えません。</p><p>ここが十分性の驚くべき点です。$n=100$ 個の数字が、たった1つの数字に<strong>損失なく</strong>圧縮できる。分解定理 $f(\\boldsymbol x\\mid\\mu)=g(\\bar x,\\mu)\\,h(\\boldsymbol x)$ で、尤度が $\\bar x$ を通してしか $\\mu$ に依存しないことがその理由です。</p><p>ただし<strong>「何の母数にとって十分か」が肝心</strong>です。$\\bar X$ は $\\mu$ には十分ですが $\\sigma^2$ には不十分——分散も推定したいなら $(\\sum x_i,\\sum x_i^2)$ の組が必要になります。そして<strong>モデル診断（正規性の確認）には生データが要ります</strong>。十分性はあくまで「そのモデルが正しいという前提のもとで」の話です。',
+      },
       note: '青が全データ n 個の尤度曲線、オレンジが「要約だけ」から作った尤度曲線（どちらも最大値1に規格化）。要約に標本平均（十分統計量）を選ぶと2本は完全に一致＝情報の損失ゼロ。「最初の半分」「最初の5個」に落とすと曲線が平らに広がる＝μ の情報を失った証拠です。',
       controls: [
         { type: 'select', id: 'summary', label: '要約の仕方', value: 'mean', options: [
@@ -161,6 +174,10 @@
 <p>また漸近正規性 $\\hat\\theta\\approx N(\\theta,1/(nI))$ が、最尤推定に基づく<a href="#/prep1/confidence">ワルド型信頼区間</a> $\\hat\\theta\\pm z_{\\alpha/2}/\\sqrt{nI(\\hat\\theta)}$ や検定の土台です。実務では推定量の良し悪しを<strong>効率＝下限／実分散</strong>で測ります。効率50%の推定量は、同じ精度を得るのに<strong>2倍のデータ</strong>が要る——「どの推定量を使うか」が標本数・コストにそのまま跳ね返ります。</p>
 <div class="note">下はベルヌーイ（表確率 $p$）の対数尤度。$n$ を増やすと曲線が鋭く尖り、フィッシャー情報 $nI(p)=n/[p(1-p)]$ が増え、クラーメル・ラオ下限 $p(1-p)/n$ が小さくなる様子が同時に見えます。</div>`,
     demo: {
+      task: {
+        q: '真の $p$ を 0.5 に固定して $n$ を 5 → 200 に上げると、クラーメル・ラオ下限はどう変わりますか。次に $n=30$ のまま $p$ を 0.5 → 0.1 に動かすと、下限は上がりますか下がりますか。',
+        a: '<p>$\\mathrm{CRLB}=\\dfrac{p(1-p)}{n}$ です。$p=0.5$ で $n$ を5→200にすると下限は $0.05\\to0.00125$、標準誤差では $0.224\\to0.035$ と <strong>$1/\\sqrt n$ で縮みます</strong>。</p><p>$n=30$ のまま $p$ を 0.5→0.1 にすると、下限は $0.00833\\to0.00300$ と<strong>下がります</strong>（標準誤差 $0.091\\to0.055$）。つまり<strong>$p$ が端に寄るほど推定しやすい</strong>。$p(1-p)$ が $p=0.5$ で最大になるからです。</p><p>これは直感とも合います——「ほぼ全部が成功」なら成功率の見当はつけやすく、「半々」がいちばん見分けにくい。標本サイズを設計するとき $p=0.5$ を使うのが安全側なのは、<strong>そこが最も情報量が少ない（最悪の）ケース</strong>だからです。<br>フィッシャー情報量 $I(p)=n/\\{p(1-p)\\}$ はこの逆数で、情報が多いほど下限が小さい＝精度が上げられる、という関係になっています。',
+      },
       note: 'n を増やすと対数尤度が鋭くなる＝情報量が増える＝推定の分散下限が下がる。p=0.5付近が最も情報が少なく(分散大)、0や1に寄るほど情報が増えます。',
       controls: [
         { type: 'range', id: 'n', label: '標本サイズ n', min: 5, max: 200, step: 5, value: 30 },
@@ -210,6 +227,10 @@
 <p>モーメント法の点推定は<strong>小標本で偏り得ます</strong>。下のデモのガンマ分布では、$n=15$ で $\\hat k$ の平均は約 2.4（真値 2）と<strong>2割以上の上方バイアス</strong>が出ます（$n=200$ でほぼ解消——一致性はあるが不偏ではない、の実物）。点推定だけを報告せず、標準誤差（デルタ法や<a href="#/prep1/bootstrap">ブートストラップ</a>）を添えるのが作法です。</p>
 <div class="note"><strong>長所</strong>：計算が簡単で、尤度が複雑でも使える。最尤推定の初期値によく使う。<br><strong>短所</strong>：一般に最尤法より効率が悪い（分散が大きい）ことがあり、パラメータが定義域外（例：負の分散）になることもある。準1級では「最尤法・モーメント法・最小二乗法」の使い分けが問われます。</div>`,
     demo: {
+      task: {
+        q: '真の形状 $k=2$ に固定して $n$ を 10 → 200 に上げ、「再サンプル」を何度か押してください。$\\hat k$ の中心はどこにありますか。$n$ が小さいときに偏りが出るのはなぜですか。',
+        a: '<p>$n=200$ では $\\hat k$ が真値2のまわりに集まりますが、<strong>$n=10$ では中心が2より上（2.3〜2.5あたり）にずれます</strong>。再サンプルを何度も押して、平均的にどちら側に出るかを見てください。</p><p>原因は $\\hat k=\\bar x^2/s^2$ という<strong>比の形</strong>にあります。比の期待値は期待値の比と等しくない（$E[X/Y]\\ne E[X]/E[Y]$）ので、$\\bar x$ と $s^2$ がそれぞれ不偏でも、その比は不偏になりません。しかも $s^2$ が小さめに出た標本で $\\hat k$ が大きく跳ねるため、<strong>上方に偏ります</strong>。</p><p>これはモーメント法固有の欠点ではなく、<strong>非線形変換した推定量に共通の性質</strong>です（<a href="#/prep1/delta-method">デルタ法</a>の2次項が担う部分）。$n$ を増やせば一致性により消えますが、小標本では無視できません。<br>実務では<strong>モーメント法を初期値にして最尤法で仕上げる</strong>のが定石。最尤法も小標本では偏りますが、モーメント法より効率がよく、偏りの補正法も知られています。',
+      },
       note: 'ガンマ分布のデータからモーメント法で k̂=x̄²/s² を繰り返し推定した分布。n が小さいと山が真値（点線）より右にずれる＝上方バイアス。n を増やすと山が真値に寄って細くなる＝一致性。バイアスがあっても一致推定量、を1枚で確認できます。',
       controls: [
         { type: 'range', id: 'k', label: '真の形状 k', min: 1, max: 6, step: 1, value: 2 },
@@ -252,12 +273,90 @@
     body: `
 <p>線形モデル $\\boldsymbol y=X\\boldsymbol\\beta+\\boldsymbol\\varepsilon$ で、誤差が次を満たすとします。</p>
 <p>$$ E[\\boldsymbol\\varepsilon]=\\boldsymbol0,\\quad V[\\boldsymbol\\varepsilon]=\\sigma^2 I\\ (\\text{等分散・無相関}) $$</p>
+<h3>前提は4つ。しかも壊れ方の深刻さが違う</h3>
+<p>上の2式だけが前提のように見えますが、実際には4つあり、<strong>崩れたときに壊れるものが違います</strong>。ここを混同すると「前提が崩れても不偏性は無事」と誤解しかねません。</p>
+<table class="simple">
+<tr><th>前提</th><th>崩れると壊れるもの</th><th>深刻度</th></tr>
+<tr><td>① $E[\\boldsymbol\\varepsilon\\mid X]=\\boldsymbol0$（モデルが正しく特定され、説明変数が誤差と無相関）</td><td><strong>不偏性・一致性が壊れる</strong>。推定値そのものが的を外す</td><td>致命的</td></tr>
+<tr><td>② $V[\\boldsymbol\\varepsilon]=\\sigma^2I$（等分散・無相関）</td><td>点推定は不偏・一致のまま。壊れるのは<strong>効率と標準誤差</strong></td><td>対処可能</td></tr>
+<tr><td>③ $X$ がフルランク</td><td>$(X^\\top X)^{-1}$ が存在せず解が一意に定まらない（<a href="#/prep1/multicollinearity">多重共線性</a>の極限）</td><td>計算不能</td></tr>
+<tr><td>④ $X$ が固定、または誤差と独立</td><td>①と同じく内生性の問題に帰着</td><td>致命的</td></tr>
+</table>
+<p>実務で最も怖いのは①です。効いている変数を落とす（欠落変数バイアス）、説明変数が結果の影響を受けている（同時性）といった<strong>内生性</strong>があると、$n$ をいくら増やしても真値に近づきません。②の不等分散や系列相関は「有効性が落ちて標準誤差の式が間違う」だけで、推定値の中心は正しいまま——この差は決定的です。</p>
 <p><strong>ガウス・マルコフの定理</strong>：このとき最小二乗推定量 $\\hat{\\boldsymbol\\beta}=(X^\\top X)^{-1}X^\\top\\boldsymbol y$ は、すべての<strong>線形</strong>な<strong>不偏</strong>推定量のなかで<strong>分散が最小</strong>になります。頭文字をとって <strong>BLUE</strong>（Best Linear Unbiased Estimator）。</p>
+<h3>なぜ最小分散になるか（証明の骨子）</h3>
+<p>「線形」とは推定量が $\\tilde{\\boldsymbol\\beta}=C\\boldsymbol y$（$C$ は定数行列）と書けること。「不偏」は $E[\\tilde{\\boldsymbol\\beta}]=\\boldsymbol\\beta$ が任意の $\\boldsymbol\\beta$ で成り立つこと——$E[C\\boldsymbol y]=CX\\boldsymbol\\beta$ なので、条件は $CX=I$ です。OLS の $C_0=(X^\\top X)^{-1}X^\\top$ もこれを満たします。任意の線形不偏推定量を $C=C_0+D$ と置くと、$CX=I$ と $C_0X=I$ から $DX=O$。分散を計算すると</p>
+<p>$$ V[\\tilde{\\boldsymbol\\beta}]=\\sigma^2 CC^\\top=\\sigma^2\\big(C_0C_0^\\top+DD^\\top\\big)=V[\\hat{\\boldsymbol\\beta}]+\\sigma^2 DD^\\top $$</p>
+<p>と、交差項が $DX=O$ のおかげで消えます。$DD^\\top$ は半正定値なので、その対角（各係数の分散）は必ず0以上——<strong>どんな線形不偏推定量もOLSより分散が小さくなれない</strong>。「等分散・無相関」（$V[\\boldsymbol\\varepsilon]=\\sigma^2 I$）は、この交差項が消える計算の前提そのものです。ここが崩れると $DD^\\top$ 項が負にもなり得て、OLSは最良でなくなります。</p>
 <div class="note">重要なのは「正規分布は仮定していない」こと。誤差が正規でなくても、等分散・無相関でありさえすればOLSは最良の線形不偏推定量です。ただし前提が崩れると最良でなくなります：
 <ul>
-<li><strong>不等分散（heteroscedasticity）</strong>や<strong>系列相関</strong>があると $V[\\boldsymbol\\varepsilon]\\ne\\sigma^2 I$ になり、<a href="#/prep1/regression-diagnostics">一般化最小二乗（GLS）</a>のほうが有効。</li>
+<li><strong>不等分散（heteroscedasticity）</strong>や<strong>系列相関</strong>があると $V[\\boldsymbol\\varepsilon]\\ne\\sigma^2 I$ になり、<a href="#/prep1/regression-diagnostics">一般化最小二乗（GLS）</a>や加重最小二乗（WLS）のほうが有効。</li>
 <li>正規性を追加で仮定すると、OLSは線形に限らず全不偏推定量のなかで最良（最尤推定量と一致）になる。</li>
-</ul></div>`,
+</ul></div>
+<h3>「最良」は前提とセット（実質的な意味）</h3>
+<p>ガウス・マルコフが保証するのは<strong>「線形かつ不偏」という枠の中での</strong>最良さにすぎません。枠を外せば、OLSより<strong>平均二乗誤差の小さい推定量</strong>は存在します——わざと少し偏らせる代わりに分散を大きく下げる<a href="#/prep1/regularization">リッジ回帰</a>がその典型で、多重共線性の下ではOLS（不偏）より予測が安定します。「不偏＝正義」ではなく、<strong>バイアスと分散の合計（MSE）で測る</strong>のが実務の視点です。また定理は<strong>分散が最小と言うだけで、その分散が実用に足るほど小さいとは言っていません</strong>——$\\mathrm{Var}(\\hat{\\boldsymbol\\beta})=\\sigma^2(X^\\top X)^{-1}$ が大きければ、BLUEでも係数は当てにならず、標準誤差と信頼区間で不確かさごと報告する必要があります。</p>
+<p>その $\\sigma^2$ 自体も未知なので、残差から推定します。</p>
+<p>$$ s^2=\\frac{\\|\\boldsymbol y-X\\hat{\\boldsymbol\\beta}\\|^2}{n-p},\\qquad
+\\mathrm{SE}(\\hat\\beta_j)=s\\sqrt{\\big[(X^\\top X)^{-1}\\big]_{jj}},\\qquad
+t_j=\\frac{\\hat\\beta_j}{\\mathrm{SE}(\\hat\\beta_j)}\\sim t_{\\,n-p} $$</p>
+<p>$n$ でも $n-1$ でもなく <strong>$n-p$</strong> で割るのは（$p$ は推定した係数の数）、残差が「$X$ の列空間に直交する」という $p$ 本の制約を受けているためです。自由に動ける方向が $n-p$ 次元しか残っておらず、そこで割ると $s^2$ が $\\sigma^2$ の不偏推定量になります。<strong>記号の流儀に注意</strong>——ここでは $p$ を「切片を含む係数の総数」としましたが、$p$ を「説明変数の数」と置いて $n-p-1$ と書く教科書も多く（本サイトでは<a href="#/prep1/multiple-regression">重回帰</a>がその流儀）、指しているのはどちらも同じ「$n-(\\text{推定した係数の数})$」です。$t$ 検定の自由度が $n-p$ なのも同じ理由です。</p>
+<h3>不等分散への対処は2段構え</h3>
+<p>②が崩れた（不等分散・系列相関がある）ときの実務対応は、<strong>誤差構造 $\\Omega$ の形が分かるかどうか</strong>で分かれます。</p>
+<ul>
+<li><strong>形が分かる</strong>（例：分散が $x$ に比例すると分かっている）→ <strong>WLS／GLS</strong>。$\\Omega^{-1}$ で重みづけて解けば、効率まで回復して再びBLUEになります。</li>
+<li><strong>形が分からない</strong>（ふつうはこちら）→ 係数は OLS のまま置き、<strong>頑健標準誤差（サンドイッチ推定量・White の標準誤差）</strong>に差し替える。効率は諦める代わりに、$t$ 検定と信頼区間の妥当性だけを回復させます。</li>
+</ul>
+<p>点推定は壊れていないのだから触らず、壊れた標準誤差だけを直す——これが後者の発想です。</p>
+<div class="note">下は単回帰の傾きを、2つの<strong>線形不偏</strong>推定量——OLS と「前半・後半の平均差」——で何度も推定し、標本分布を重ねたもの。<strong>不等分散を0にする（等分散）とOLSの山が必ず細く</strong>なります（＝分散最小＝BLUE）。ところが不等分散を上げると前提が崩れ、OLSがもう最小分散ではなくなる（別の推定量に負ける）ことが見えます。両者の標準偏差を数値で表示します。</div>`,
+    demo: {
+      task: {
+        q: '不等分散の強さを0にして「再サンプル」を繰り返し、推定のばらつきを見てください。次に強さを1.5に上げると、推定の<strong>中心</strong>と<strong>ばらつき</strong>はそれぞれどうなりますか。',
+        a: '<p>不等分散0では、推定値が真値のまわりに<strong>均等にばらつきます</strong>（ガウス・マルコフの前提が完全に成立、OLSがBLUE）。</p><p>強さを1.5に上げると——<strong>中心は真値のまま動きません</strong>が、<strong>ばらつきが大きくなります</strong>。再サンプルを何度も押して、平均的にどこに落ちるかを確かめてください。</p><p>ここが定理の読みどころです。不偏性を支えるのは $E[\\varepsilon\\mid X]=\\boldsymbol0$ のほうで、<strong>等分散は「最良（最小分散）」の部分と標準誤差の式を支えている</strong>。だから不等分散で壊れるのは<strong>効率と標準誤差だけ</strong>です。</p><p>実害は「標準誤差の式が間違う」こと——$t$ 検定と信頼区間が妥当でなくなります。対処は2段構え：誤差構造が分かるなら<strong>WLS/GLS</strong>で効率まで回復、分からないなら係数はOLSのまま<strong>頑健標準誤差</strong>に差し替える。<strong>点推定は壊れていないのだから触らない</strong>のが発想です。</p><p>対照的に、内生性（$E[\\varepsilon\\mid X]\\ne0$）は<strong>中心そのものがずれる</strong>ので $n$ を増やしても救われません。この差は決定的です。',
+      },
+      note: '2つの線形不偏推定量の傾きの散らばり比較。不等分散=0（等分散）ではOLS（青）が必ず狭い＝BLUE。不等分散を上げるとOLSが最良でなくなり、単純な平均差推定量（オレンジ）に分散で負けることがあります——「最良」は等分散の前提つき。',
+      controls: [
+        { type: 'range', id: 'hetero', label: '不等分散の強さ', min: 0, max: 1.5, step: 0.1, value: 0 },
+        { type: 'range', id: 'n', label: '標本サイズ n', min: 8, max: 40, step: 2, value: 20 },
+        { type: 'button', id: 'reseed', label: '再サンプル' },
+      ],
+      draw(canvas, p) {
+        const st = S(), Pl = P();
+        const rand = st.rng(71 + (p.reseed | 0) * 41);
+        const n = Math.round(p.n), reps = 2500;
+        const xs = [];
+        for (let i = 0; i < n; i++) xs.push(-2 + 4 * i / (n - 1));
+        const xbar = st.mean(xs);
+        let sxx = 0; for (const x of xs) sxx += (x - xbar) ** 2;
+        const half = Math.floor(n / 2);
+        const loX = st.mean(xs.slice(0, half)), hiX = st.mean(xs.slice(half));
+        const bTrue = 1.5;
+        const olsE = [], splE = [];
+        for (let r = 0; r < reps; r++) {
+          const ys = xs.map(x => bTrue * x + 3 + (1 + p.hetero * Math.abs(x)) * st.randn(rand));
+          const ybar = st.mean(ys);
+          let sxy = 0; for (let i = 0; i < n; i++) sxy += (xs[i] - xbar) * (ys[i] - ybar);
+          olsE.push(sxy / sxx);
+          const loY = st.mean(ys.slice(0, half)), hiY = st.mean(ys.slice(half));
+          splE.push((hiY - loY) / (hiX - loX));
+        }
+        const sdO = st.sd(olsE), sdS = st.sd(splE);
+        const lo = bTrue - 1.6, hi = bTrue + 1.6;
+        const binsO = st.histogram(olsE.filter(v => v >= lo && v <= hi), 46, lo, hi);
+        const binsS = st.histogram(splE.filter(v => v >= lo && v <= hi), 46, lo, hi);
+        const ymax = Math.max(Math.max.apply(null, binsO.map(b => b.density)), Math.max.apply(null, binsS.map(b => b.density))) * 1.12 || 1;
+        const pl = Pl.make(canvas, { xmin: lo, xmax: hi, ymin: 0, ymax });
+        pl.clear(); pl.axes({ xLabel: '推定した傾き b̂', yLabel: '密度' });
+        pl.bars(binsS.map(b => ({ x0: b.x0, x1: b.x1, y: b.density })), { color: Pl.colors[1], alpha: 0.45 });
+        pl.bars(binsO.map(b => ({ x0: b.x0, x1: b.x1, y: b.density })), { color: Pl.colors[0], alpha: 0.5 });
+        pl.vline(bTrue, { color: Pl.ink, dash: [6, 3], label: '真の傾き ' + bTrue });
+        const olsWins = sdO <= sdS;
+        pl.legend([
+          { label: 'OLS (SD ' + sdO.toFixed(3) + ')' + (olsWins ? ' ← 最小' : ''), color: Pl.colors[0] },
+          { label: '平均差 (SD ' + sdS.toFixed(3) + ')' + (!olsWins ? ' ← 最小' : ''), color: Pl.colors[1] },
+        ]);
+        pl.text(lo, ymax, olsWins ? 'OLSが最小分散＝BLUE（等分散の前提が生きている）' : 'OLSはもう最小でない＝前提（等分散）が崩れている', { align: 'left', baseline: 'top', dx: 56, dy: 4, color: olsWins ? '#0f766e' : '#c2410c', size: 12 });
+      },
+    },
   });
 
   /* --- 順序統計量 --- */
@@ -271,8 +370,14 @@
 <p>（最大が $t$ 以下 ⟺ 全員が $t$ 以下、最小が $t$ 超 ⟺ 全員が $t$ 超、という単純な理屈です。）一般の $k$ 番目の密度は</p>
 <p>$$ f_{(k)}(t)=\\frac{n!}{(k-1)!(n-k)!}F(t)^{k-1}\\big(1-F(t)\\big)^{n-k}f(t) $$</p>
 <p>一様分布 $U(0,1)$ の $k$ 番目は $\\mathrm{Beta}(k,\\,n-k+1)$ に従います。</p>
-<div class="note">下は $U(0,1)$ からの最小・中央・最大値の分布。$n$ を増やすと最大値は1へ、最小値は0へ張り付き、中央値は0.5に集中していきます（極値の分布は極値統計・信頼性工学の基礎）。</div>`,
+<h3>前提と、崩れたときの注意</h3>
+<p>これらの式は<strong>独立同分布（i.i.d.）かつ連続分布</strong>を前提にします。連続を仮定するのは<strong>同順位（タイ）が確率0</strong>だから——離散データや測定を丸めたデータでは同じ値が並び、$k$ 番目が一意に決まらず理論分布からずれます（順位検定でタイ補正が要るのと同根）。独立でない（系列相関のある）標本では、極値が固まって出やすくなり分布が変わります。応用上の急所は<strong>極値（最小・最大）の外挿</strong>：「観測範囲内の最大」から「今後100年で起きる最大」を推定する<strong>極値統計</strong>（ブロック最大→一般化極値分布、閾値超過→一般化パレート分布）では、裾の形の仮定に結果が強く依存し、少数の極値データからの外挿は不確実性が大きい点に注意します（<a href="#/prep1/survival">信頼性・生存解析</a>や洪水・地震のハザード評価の土台）。中央値ベースの区間推定が外れ値に頑健なのも順序統計量の性質の応用です。</p>
+<div class="note">下は $U(0,1)$ からの最小・中央・最大値の分布。$n$ を増やすと最大値は1へ、最小値は0へ張り付き、中央値は0.5に集中していきます。最大値の分布が右に詰まって<strong>非対称</strong>になる点に注目——極値は平均まわりの正規近似が効かず、専用の極値分布が要る理由です（極値統計・信頼性工学の基礎）。</div>`,
     demo: {
+      task: {
+        q: '$n$ を 2 → 8 → 40 と上げてください。最大値の分布はどこへ寄っていきますか。期待値はいくつになりますか。最小値との対称性も確かめてください。',
+        a: '<p>$E[X_{(n)}]=\\dfrac{n}{n+1}$ なので、$n=2,8,40$ でそれぞれ <strong>0.667, 0.889, 0.976</strong>。分布は $n$ が大きいほど<strong>上端1に押しつけられ、同時に鋭くなります</strong>。</p><p>最小値は対称に $E[X_{(1)}]=\\dfrac{1}{n+1}$ で <strong>0.333, 0.111, 0.024</strong>。$U(0,1)$ は $x\\mapsto1-x$ で自分自身に写るので、最大と最小は鏡像の関係です。</p><p>注目してほしいのは<strong>収束の速さの違い</strong>です。標本平均は $1/\\sqrt n$ でしか集中しませんが、最大値は $1/n$ のオーダーで端に張り付く——<strong>極値のほうが速い</strong>。これが極値統計が独自の理論（極値分布・一般化パレート分布）を持つ理由で、中心極限定理はここでは使えません。</p><p>実務では、材料の破断（最も弱い箇所で決まる＝<strong>最弱リンク</strong>）、洪水の水位、装置の最大負荷など、<strong>「平均ではなく端が問題になる」場面</strong>でこの分布を使います。',
+      },
       note: 'n を増やすと最大値の分布が右端(1)へ、最小値が左端(0)へ押し寄せる。中央値は0.5に集中して尖る。これが「n個中の最大」がだんだん大きくなる直感の正体です。',
       controls: [
         { type: 'range', id: 'n', label: '標本サイズ n', min: 2, max: 40, step: 1, value: 8 },

@@ -11,92 +11,94 @@
 
 | section/id | L1 | L2 | L3 | L4 | L5 | gap | 状態 |
 |---|:-:|:-:|:-:|:-:|:-:|:-:|---|
-| prep1/transformations | o | d | d | o | - | 1 | |
+| **prep1/transformations** | o | o | o | o | - | 0 | ✅Iter.40 |
 | **prep1/timeseries** | o | o | o | o | o | 0 | ✅Iter.13 |
 | **prep1/three-tests** | o | o | o | o | o | 0 | ✅Iter.14 |
 | **prep1/testing** | o | o | o | o | o | 0 | ✅Iter.2で深掘り済 |
-| prep1/svm | o | d | d | o | x | 2 | |
-| prep1/survival | o | d | d | d | x | 2.5 | |
+| **prep1/svm** | o | o | o | o | o | 0 | ✅Iter.62 |
+| **prep1/survival** | o | o | o | o | o | 0 | ✅Iter.72 |
 | **prep1/sufficiency** | o | o | o | o | o | 0 | ✅Iter.16 |
 | **prep1/stochastic-process** | o | o | o | o | o | 0 | ✅Iter.22 |
-| prep1/sampling-survey | o | d | d | o | - | 1 | |
-| prep1/sample-size | o | d | x | o | o | 1.5 | |
-| prep1/roc-auc | o | x | x | o | - | 2 | |
+| **prep1/sampling-survey** | o | o | o | o | - | 0 | ✅Iter.78 |
+| **prep1/sample-size** | o | o | o | o | o | 0 | ✅Iter.54 |
+| **prep1/roc-auc** | o | o | o | o | - | 0 | ✅Iter.63 |
 | **prep1/regularization** | o | o | o | o | o | 0 | ✅Iter.21 |
-| prep1/regression-diagnostics | o | x | o | o | x | 2 | |
-| prep1/random-variables | o | x | x | o | - | 2 | |
-| prep1/principles | d | x | x | o | o | 2.5 | |
+| **prep1/regression-diagnostics** | o | o | o | o | o | 0 | ✅Iter.66 |
+| **prep1/random-variables** | o | o | o | o | - | 0 | ✅Iter.36 |
+| **prep1/principles** | o | o | o | o | o | 0 | ✅Iter.82 |
 | **prep1/pca** | o | o | o | o | - | 0 | ✅Iter.6 |
-| prep1/path-analysis | o | d | d | d | x | 2.5 | |
-| prep1/overfitting | o | d | x | o | x | 2.5 | |
+| **prep1/path-analysis** | o | o | o | o | o | 0 | ✅Iter.77 |
+| **prep1/overfitting** | o | o | o | o | o | 0 | ✅Iter.61 |
 | **prep1/orthogonal** | o | o | o | o | o | 0 | ✅Iter.19 |
-| prep1/order-statistics | o | o | x | d | - | 1.5 | |
-| prep1/odds-ratio | o | x | d | o | x | 2.5 | |
-| prep1/normal-tests | o | x | o | d | x | 2.5 | |
-| prep1/normal-approx | o | d | x | o | - | 1.5 | |
-| prep1/nonparametric | o | d | o | o | x | 1.5 | |
-| prep1/neyman-pearson | o | d | x | o | o | 1.5 | |
-| prep1/multivariate-normal | o | d | x | o | - | 1.5 | |
+| **prep1/order-statistics** | o | o | o | o | - | 0 | ✅Iter.60 |
+| **prep1/odds-ratio** | o | o | o | o | o | 0 | ✅Iter.73 |
+| **prep1/normal-tests** | o | o | o | o | o | 0 | ✅Iter.55 |
+| **prep1/normal-approx** | o | o | o | o | - | 0 | ✅Iter.42 |
+| **prep1/nonparametric** | o | o | o | o | o | 0 | ✅Iter.57 |
+| **prep1/neyman-pearson** | o | o | o | o | o | 0 | ✅Iter.52 |
+| **prep1/multivariate-normal** | o | o | o | o | - | 0 | ✅Iter.45 |
 | **prep1/multiple-regression** | o | o | o | o | o | 0 | ✅Iter.10 |
-| prep1/multiple-comparison | o | d | x | o | o | 1.5 | |
-| prep1/multicollinearity | o | d | d | d | x | 2.5 | |
-| prep1/monte-carlo | o | d | x | o | x | 2.5 | |
-| prep1/moments-shape | o | x | x | d | - | 2.5 | |
+| **prep1/multiple-comparison** | o | o | o | o | o | 0 | ✅Iter.53 |
+| **prep1/multicollinearity** | o | o | o | o | o | 0 | ✅Iter.67 |
+| **prep1/monte-carlo** | o | o | o | o | o | 0 | ✅Iter.75 |
+| **prep1/moments-shape** | o | o | o | o | - | 0 | ✅Iter.35 |
 | **prep1/moment-method** | o | o | o | o | o | 0 | ✅Iter.18 |
-| prep1/model-selection | o | d | x | o | x | 2.5 | |
+| **prep1/model-selection** | o | o | o | o | o | 0 | ✅Iter.64 |
 | **prep1/mle** | o | o | o | o | o | 0 | ✅Iter.5 |
-| prep1/missing-data | o | x | d | o | x | 2.5 | |
-| prep1/mgf | o | o | x | o | - | 1 | |
+| **prep1/missing-data** | o | o | o | o | o | 0 | ✅Iter.74 |
+| **prep1/mgf** | o | o | o | o | - | 0 | ✅Iter.39 |
 | **prep1/mds-ca** | o | o | o | o | o | 0 | ✅Iter.15 |
 | **prep1/mcmc** | o | o | o | o | - | 0 | ✅Iter.27 |
-| prep1/markov-chain | o | d | x | d | - | 2 | |
+| **prep1/markov-chain** | o | o | o | o | - | 0 | ✅Iter.70 |
 | **prep1/logistic** | o | o | o | o | o | 0 | ✅Iter.9 |
 | **prep1/log-linear** | o | o | o | o | o | 0 | ✅Iter.23 |
-| prep1/lln | o | d | x | d | - | 2 | |
+| **prep1/lln** | o | o | o | o | - | 0 | ✅Iter.41 |
 | **prep1/lda** | o | o | o | o | o | 0 | ✅Iter.7 |
-| prep1/kmeans | o | d | x | o | - | 1.5 | |
-| prep1/joint-distribution | o | x | x | d | - | 2.5 | |
-| prep1/interaction | o | d | x | o | - | 1.5 | |
-| prep1/goodness-of-fit | o | d | x | o | x | 2.5 | |
+| **prep1/kmeans** | o | o | o | o | - | 0 | ✅Iter.68 |
+| **prep1/joint-distribution** | o | o | o | o | - | 0 | ✅Iter.34 |
+| **prep1/interaction** | o | o | o | o | - | 0 | ✅Iter.83 |
+| **prep1/goodness-of-fit** | o | o | o | o | o | 0 | ✅Iter.56 |
 | **prep1/glm** | o | o | o | o | o | 0 | ✅Iter.12 |
-| prep1/gauss-markov | o | d | o | x | x | 2.5 | |
+| **prep1/gauss-markov** | o | o | o | o | o | 0 | ✅Iter.33 |
 | **prep1/fisher-cramer-rao** | o | o | o | o | o | 0 | ✅Iter.24 |
-| prep1/factor | o | d | d | d | x | 2.5 | |
-| prep1/events-probability | o | d | x | o | - | 1.5 | |
-| prep1/estimator-properties | o | d | x | o | x | 2.5 | |
+| **prep1/factor** | o | o | o | o | o | 0 | ✅Iter.76 |
+| **prep1/events-probability** | o | o | o | o | - | 0 | ✅Iter.37 |
+| **prep1/estimator-properties** | o | o | o | o | o | 0 | ✅Iter.51 |
 | **prep1/distributions** | o | o | o | o | o | 0 | ✅Iter.8 |
-| prep1/discrete-distributions | o | x | x | o | - | 2 | |
-| prep1/delta-method | o | d | x | o | x | 2.5 | |
+| **prep1/discrete-distributions** | o | o | o | o | - | 0 | ✅Iter.43 |
+| **prep1/delta-method** | o | o | o | o | o | 0 | ✅Iter.65 |
 | **prep1/crossval** | o | o | o | o | o | 0 | ✅Iter.26 |
-| prep1/correlation | o | d | d | o | - | 1 | |
-| prep1/continuous-distributions | o | x | d | o | - | 1.5 | |
+| **prep1/correlation** | o | o | o | o | - | 0 | ✅Iter.59 |
+| **prep1/continuous-distributions** | o | o | o | o | - | 0 | ✅Iter.44 |
 | **prep1/contingency** | o | o | o | o | o | 0 | ✅Iter.30 |
 | **prep1/confidence** | o | o | o | o | o | 0 | ✅Iter.3で深掘り済 |
-| prep1/conditional-bayes | o | d | x | o | - | 1.5 | |
-| prep1/clustering | o | x | x | d | - | 2.5 | |
-| prep1/clt | o | d | x | o | x | 2.5 | |
+| **prep1/conditional-bayes** | o | o | o | o | - | 0 | ✅Iter.38 |
+| **prep1/clustering** | o | o | o | o | - | 0 | ✅Iter.69 |
+| **prep1/clt** | o | o | o | o | o | 0 | ✅Iter.58 |
 | **prep1/bootstrap** | o | o | o | o | o | 0 | ✅Iter.17 |
-| prep1/blocking-designs | x | d | d | d | o | 2.5 | |
+| **prep1/blocking-designs** | o | o | o | o | o | 0 | ✅Iter.85 |
 | **prep1/bayes** | o | o | o | o | o | 0 | ✅Iter.11 |
-| prep1/arima | o | x | d | o | x | 2.5 | |
+| **prep1/arima** | o | o | o | o | o | 0 | ✅Iter.71 |
 | **prep1/anova1** | o | o | o | o | o | 0 | ✅Iter.4で深掘り済 |
 | **prep1/acf-pacf** | o | o | o | o | o | 0 | ✅Iter.25 |
-| math/vectors-matrices | d | d | x | o | - | 2 | |
-| math/matrix-ops | o | d | x | o | x | 2.5 | |
+| **math/vectors-matrices** | o | o | o | o | - | 0 | ✅Iter.49 |
+| **math/matrix-ops** | o | o | o | o | - | 0 | ✅Iter.46 |
 | **math/linearization** | o | o | o | o | o | 0 | ✅Iter.31 |
-| math/gradient | o | d | x | d | x | 3 | |
-| math/eigen | o | o | x | o | - | 1 | |
-| math/covariance-matrix | o | d | x | d | - | 2 | |
-| doe/rsm-error | o | d | d | d | x | 2.5 | |
-| doe/rsm | o | o | x | d | x | 2.5 | |
-| doe/robust | o | x | o | d | - | 1.5 | |
-| doe/d-optimal | o | d | d | o | x | 2 | |
+| **math/gradient** | o | o | o | o | - | 0 | ✅Iter.48 |
+| **math/eigen** | o | o | o | o | - | 0 | ✅Iter.50 |
+| **math/covariance-matrix** | o | o | o | o | - | 0 | ✅Iter.47 |
+| **doe/rsm-error** | o | o | o | o | o | 0 | ✅Iter.81 |
+| **doe/rsm** | o | o | o | o | o | 0 | ✅Iter.79 |
+| **doe/robust** | o | o | o | o | - | 0 | ✅Iter.84 |
+| **doe/d-optimal** | o | o | o | o | o | 0 | ✅Iter.80 |
 | **doe/ccd** | o | o | o | o | o | 0 | ✅Iter.29 |
 | **chemo/pls-da** | o | o | o | o | o | 0 | ✅Iter.20 |
 | **chemo/pls** | o | o | o | o | o | 0 | ✅Iter.28 |
-| chemo/opls-da | o | x | x | d | - | 2.5 | |
+| **chemo/opls-da** | o | o | o | o | - | 0 | ✅Iter.86 |
 | **prep1/regression** | o | o | o | o | o | 0 | ✅Iter.1で深掘り済 |
 | **prep1/causal-inference** | o | o | o | o | o | 0 | ✅Iter.32(新規) |
+| **prep1/lack-of-fit** | o | o | o | o | o | 0 | ✅新規(ワークフロー設計) |
+| **prep1/variable-selection** | o | o | o | o | o | 0 | ✅新規(ワークフロー設計) |
 
 ---
 
@@ -597,3 +599,707 @@
 - 検証: node --check・verify-topics.js パス（85/85）。内部リンク（multiple-regression, mle）実在。✅
 
 **次に深掘りすべきトピック**: `math/gradient`（gap 3.0・勾配と最適化）、`prep1/odds-ratio`（gap 2.5・contingencyと対）、`prep1/clt`（gap 2.5・中心極限定理）。
+
+## 2026-07-06 — Iter.33（ローカルセッション・クラウドと並行）
+
+**対象トピック**: `prep1/gauss-markov`（ガウス・マルコフの定理／BLUE）
+
+**選定理由**: gap 2.5。回帰・重回帰・GLS がこぞって参照する土台なのに L4（デモ）が皆無、L2 も定理の陳述のみで「なぜ最小分散か」が未証明、L5 なしだった。クラウドが計算統計・発展系を進めていたため、衝突しにくい推定論の基礎を選択。
+
+**埋めた層**
+- **L2（新規・証明の骨子）**: 線形不偏 $\tilde\beta=C\boldsymbol y$、不偏条件 $CX=I$。$C=C_0+D$（$C_0$=OLS）とおくと $DX=O$、$V[\tilde\beta]=V[\hat\beta]+\sigma^2 DD^\top$ と交差項が消え、半正定値 $DD^\top$ よりOLSが最小。「等分散・無相関」がこの交差項消去の前提そのもの、と明示。
+- **L4（新規デモ）**: OLS傾き vs「前半・後半の平均差」（ともに線形不偏）の標本分布を重ねる。学習目標＝BLUEの意味の可視化。操作＝不等分散の強さ・n／確認＝等分散でOLSが必ず細い（最小分散）、不等分散を上げるとOLSが最良でなくなる／対応数式＝$V[\tilde\beta]=V[\hat\beta]+\sigma^2DD^\top$。両推定量のSDを数値表示し、勝者に「←最小」ラベル。
+- **L5（新規）**: 「最良」は線形・不偏の枠内の話。枠を外せばMSEの小さいリッジ回帰が存在（不偏≠正義、MSEで測る）。定理は分散最小と言うだけで実用十分とは言わない→SE・信頼区間で不確かさごと報告。
+- **L3（温存）**: 既存の note（正規性不要・不等分散/系列相関でGLS）を保持、WLSを追記。
+
+**検算結果（python3 独立実装, reps=6000, n=20）**
+- 等分散 hetero=0: Var(OLS)=0.0340 < Var(split)=0.0457 → OLSがBLUE。✅
+- 不等分散 hetero=0.8: Var(OLS)=0.1783 > Var(split)=0.1677 → OLSは最小でない（前提依存を実証）。✅
+- ブラウザ実測: hetero=0 で OLS SD=0.183<0.210、hetero=1.5 で OLS SD=0.624>0.576（逆転）をスクリーンショット確認。デモ境界（n=8/40）で例外なし。✅
+- 検証: node --check・verify-topics.js パス（86/86＝因果推論トピック込み）。div balance 2/2、KaTeXエラー0。✅
+
+**運用メモ**: このセッション中にクラウドセッションが並行して Iter.20〜32（pls-da〜linearization）＋因果推論トピック＋デザインD3-D7 を main に反映済みだった。ローカルで先行着手した pls-da(Iter.20相当)はクラウドと重複のため破棄し、origin/main に同期のうえ本 Iter.33 を上乗せ。**以後クラウドと同時進行する場合はプッシュ直前に必ず `git fetch` で衝突確認すること**。
+
+**次に深掘りすべきトピック**: `prep1/estimator-properties`（gap 2.5・全推定論の入口）、`prep1/model-selection`（gap 2.5・AIC/BIC）、`prep1/monte-carlo`（gap 2.5）。※着手前に DEEPENING_LOG.md 最新版でクラウドの進捗を再確認すること。
+
+## 2026-07-06 — Iter.34-36（確率の基礎クラスタ・ローカル、クラウドと衝突回避のため確率基礎を担当）
+
+クラウドが計算・発展系を進めていたため、衝突しにくい「確率と確率変数」クラスタ（prob.js）を担当。3トピックとも L1・デモ(L4)は良好だったので L2（導出の「なぜ」）と L3（前提・崩れたときの注意）を追加（いずれも確率の定義系ゆえ L5 は非該当）。
+
+**Iter.34 `prep1/joint-distribution`（同時・周辺・条件付き分布）**
+- L2: 2次元標準正規で $x_0$ 断面を平方完成 → $Y|X{=}x_0\sim N(\rho x_0,\,1-\rho^2)$。条件付き平均＝回帰直線、条件付き分散 $1-\rho^2$＝$R^2$ で減る不確かさ、と回帰へ接続。
+- L3: 無相関≠独立。$X\sim N(0,1),Y=X^2$ は $\mathrm{Cov}=E[X^3]=0$ でも完全従属。「$\rho=0$→独立」は正規など特別な場合のみ、デモが2次元正規なのはその特別ケースだと明示。
+- 検算: $x_0{=}1,\rho{=}0.6$ で条件付き平均0.594(理論0.6)・分散0.652(理論0.64)、$\mathrm{Cov}(X,X^2)\approx0$。✅
+
+**Iter.35 `prep1/moments-shape`（モーメント・歪度・尖度・CV）**
+- L2: $\sigma^3,\sigma^4$ で割る＝無次元化(スケール不変)、尖度の $-3$ は正規の $\mu_4/\sigma^4=3$ を基準0にするため（超過尖度）。
+- L3: モーメント非存在（$t_3$は4次∞、コーシーは平均なし＝標本値が収束せず暴れる）、標本歪度・尖度の外れ値感受性と小標本の不安定、$CV$ は $\mu\approx0$ で爆発・比率尺度専用。
+- 検算: 標準正規 $\mu_4/\sigma^4=2.999$、$\gamma_2\approx0$。$t_3$ の4次モーメント発散。✅
+
+**Iter.36 `prep1/random-variables`（pmf/pdf/cdf/生存関数）**
+- L2: 連続で $P(X{=}x)=0$ ゆえ密度は確率でなく「単位長さあたりの確率」（$f>1$ もあり得る）、$S=1-F$、ハザード $h=f/S$。
+- L3: $F$ は任意の確率変数に存在するが $f$ は絶対連続のみ。混合型（点質量＋連続：降水量・打ち切り）は純粋な $f$ で書けず $F/S$ で扱う。裾が重く平均・分散がなくても $F,S$ は定義可能。
+- 検算: 数式のみ（定義の整理）。node --check・verify-topics.js パス。
+
+いずれも KaTeXエラー0・div balance 1/1・内部リンク（regression, survival, distributions）実在。verify-topics.js 86/86 PASS。
+
+**次に深掘りすべきトピック**: `prep1/events-probability`(1.5)・`prep1/conditional-bayes`(1.5)・`prep1/mgf`(1)（確率基礎の残り、同 prob.js）→ その後 `prep1/discrete-distributions`(2)・`prep1/continuous-distributions`(1.5)（dists.js）。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.37-39（確率基礎クラスタ・続き）
+
+prob.js の残り確率基礎3件に主に L3（前提・落とし穴）を追加。L5 は定義系ゆえ非該当。
+
+**Iter.37 `prep1/events-probability`（事象と確率・包除原理）**
+- L3新規: 排反≠独立（排反は強い依存で $P>0$ なら独立になれない）、対独立≠相互独立（$X,Y$独立コイン・$Z=X\oplus Y$）、条件付きで独立性が変わる。独立は図の重なりでなく式で判定。
+- 検算: 対独立 P(X,Z)=0.249=P(X)P(Z)、相互 P(X,Y,Z)=0 vs 0.124。✅
+
+**Iter.38 `prep1/conditional-bayes`（条件付き確率・ベイズ）**
+- L2強化: 事後オッズ＝事前オッズ×尤度比。有病率1%（1:99）×LR19→事後16%で基準率錯誤を一撃表現。
+- L3新規: 感度特異度の一定性（スペクトラムバイアス）、参照クラスの取り違え、繰り返し検査の条件付き独立崩れ、検察官の誤謬 $P(D|H)\ne P(H|D)$。
+- 検算: PPV=感度·有病率/[…]=16%（オッズ計算と一致）。✅
+
+**Iter.39 `prep1/mgf`（モーメント母関数・確率母関数）**
+- L3新規: MGFは0の近傍で存在しないと使えない（対数正規は $t>0$ で発散、t/コーシーも無し）。特性関数 $\varphi(t)=E[e^{itX}]$ は $|e^{itX}|=1$ で常に存在。一意性定理もMGF存在が前提。使い分け。
+- 検算: 対数正規 $E[e^{0.5X}]$ 標本平均が $10^{27}$ 規模に発散＝MGF非存在。✅
+
+いずれも KaTeXエラー0・div balance 1/1。verify-topics.js 86/86 PASS。
+
+**確率基礎クラスタ完了状況**: prob.js の残りは transformations(gap1)・lln(gap2)・normal-approx(gap1.5)。次はそれら or dists.js（discrete/continuous-distributions）。
+
+**次に深掘りすべきトピック**: `prep1/lln`(2)・`prep1/normal-approx`(1.5)・`prep1/transformations`(1)（prob.js完結）→ `prep1/discrete-distributions`(2)・`prep1/continuous-distributions`(1.5)（dists.js）。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.40-42（prob.js 完結）
+
+**Iter.40 `prep1/transformations`（変数変換・線形結合）**
+- L2強化: ヤコビアンの導出（$f_Y dy=f_X dx$ の確率保存→$f_Y=f_X|dx/dy|$）、非単調は枝を足す。
+- L3新規: 単調・微分可能の前提、定数区間で点質量、線形結合分散公式は常に正しいが共分散省略不可・非線形はデルタ法（近似）。
+
+**Iter.41 `prep1/lln`（大数の法則）**
+- L2強化: チェビシェフ $P(|\bar X-\mu|>\varepsilon)\le\sigma^2/(n\varepsilon^2)\to0$、平均有限なら分散なしでも可（ヒンチン）。
+- L3新規: 母平均が存在しないと破綻——コーシーの標本平均は収束せず（またコーシー）。数値でIQRが n=100→10000 で約2.0のまま。i.i.d.前提・系列相関で遅延。
+
+**Iter.42 `prep1/normal-approx`（二項・ポアソンの正規近似）**
+- L2強化: 二項＝ベルヌーイ和でCLTが働く、近似の質は歪度 $(1-2p)/\sqrt{np(1-p)}$ で決まる。連続修正の数値（P(X≤8): 厳密0.2517/修正なし0.1855/修正あり0.2512）。
+- L3新規: $p$ 極端＋小 $n$ で破綻→ポアソン近似($\lambda=np$)や厳密計算。$np\ge5,n(1-p)\ge5$ は歪度を抑える目安。
+
+**検算**: コーシーLLN失敗（IQR≈2.0不変）、二項歪度 p=0.5→0/p=0.1→0.596、連続修正 0.2512 vs 厳密0.2517。すべて✅。KaTeXエラー0、verify-topics.js 86/86 PASS。
+
+**prob.js（確率と確率変数）は全9トピック5層完備で完結**（events-probability, conditional-bayes, random-variables, joint-distribution, moments-shape, mgf, transformations, lln, normal-approx）。
+
+**次に深掘りすべきトピック**: `prep1/discrete-distributions`(2)・`prep1/continuous-distributions`(1.5)（dists.js）→ `prep1/multivariate-normal`(1.5)。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.43-45（dists.js 分布ギャラリー）
+
+**Iter.43 `prep1/discrete-distributions`**
+- L2: 二項＝ベルヌーイ和で E=np,V=np(1-p)、ポアソン＝二項極限(np=λ一定)ゆえV=E、幾何の無記憶性。
+- L3: 分布選択＝生成仮定。ポアソンの過分散(V>E)→負の二項、超幾何vs二項の有限母集団修正。
+- 検算: Bin(n,λ/n)→Po(λ) P(X=2) が0.234→0.224収束。✅
+
+**Iter.44 `prep1/continuous-distributions`**
+- L2: 指数の無記憶性＝一定ハザード、その和がガンマ、χ²=Ga(k/2,2)（平均k・分散2k）、対数正規＝乗法過程のCLT、ベータ＝割合。
+- L3: コーシーは平均分散なし（モーメント法・LLN破綻）、指数の無記憶性が崩れる摩耗系→ワイブル、正の歪みに正規は不適。
+- 検算: χ²_5=Ga(2.5,2) 平均5・分散10。✅
+
+**Iter.45 `prep1/multivariate-normal`**
+- L2: 指数部＝マハラノビス距離²、Σの固有分解で楕円軸、条件付き $X_1|X_2\sim N(\mu_1+\rho\frac{\sigma_1}{\sigma_2}(x_2-\mu_2),\sigma_1^2(1-\rho^2))$＝回帰直線。
+- L3: 楕円対称の仮定、無相関⇒独立は正規のみ、Σ正定値でないと退化（共線性の極限）、多変量t/ロバスト共分散。
+- 検算: ρ=0.7 で条件付き分散0.518≒理論0.51、平均0.700=理論0.7。✅
+
+KaTeXエラー0・div balance OK・内部リンク（clt, bayes, moments-shape, lln, survival, pca, regression, joint-distribution, multicollinearity）実在。verify-topics.js 86/86 PASS。**dists.js 分布ギャラリー3件完了**。
+
+**次に深掘りすべきトピック**: math クラスタ（`math/matrix-ops` gap2.5・`math/vectors-matrices` gap2・`math/covariance-matrix` gap2・`math/gradient` gap3・`math/eigen` gap1）。数学基礎は下流の線形代数系が参照する土台。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.46-48（math.js 線形代数・最適化）
+
+**Iter.46 `math/matrix-ops`（行列積・逆行列・連立方程式）**
+- L2: det＝面積拡大率、条件数 κ=λmax/λmin＝誤差増幅（2変数で (1+ρ)/(1-ρ)）。
+- L3: 逆行列は「書く」道具で計算は危険→LU/QR/コレスキーで直接解く、悪条件・特異はSVD擬似逆・リッジで条件数↓。
+- 検算: ρ=0.9→κ19、ρ=0.99→κ199。✅
+
+**Iter.47 `math/covariance-matrix`（分散共分散行列）**
+- L2: Σ=E[(x-μ)(x-μ)ᵀ] で対称、$\boldsymbol a^\top\Sigma\boldsymbol a=V[\boldsymbol a^\top\boldsymbol x]\ge0$ で半正定値→固有分解でPCA。
+- L3: 標本共分散は n>p でないと特異→縮小推定(Ledoit-Wolf)、外れ値に弱い→ロバスト(MCD)、線形従属のみ捕捉。
+
+**Iter.48 `math/gradient`（偏微分・勾配降下）**
+- L2: 方向微分 ∇f·u 最大化で最急方向＝∇f、収束条件 η<2/L（最大曲率）。
+- L3: 局所最小・鞍点（非凸）、悪条件の谷（κ大）でジグザグ→モメンタム・前処理・ニュートン。
+- 検算: L=4 で η=0.5収束・0.55発散（閾値2/L=0.5）。✅
+
+KaTeXエラー0・div balance OK・内部リンク（eigen, pca, regularization, multicollinearity, correlation, joint-distribution）実在。verify-topics.js 86/86 PASS。
+
+**残り（math）**: `math/vectors-matrices`(gap2)・`math/eigen`(gap1)。次バッチで math を完結予定。
+**次に深掘りすべきトピック**: `math/vectors-matrices`(2)・`math/eigen`(1) → prep1 の推定・検定の残り（estimator-properties, model-selection, neyman-pearson, multiple-comparison, nonparametric, sample-size 等）。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.49-51（math完結＋推定量の性質）
+
+**Iter.49 `math/vectors-matrices`（ベクトルと行列でデータを表す）**
+- L2: 積の各成分＝内積＝重み付き和（回帰予測 $\boldsymbol x^\top\boldsymbol\beta$）、cosθ＝中心化で相関。
+- L3: 数値データのみ（カテゴリはダミー化）、線形のみ（交互作用・多項式は列を作る）、スケール差は標準化。
+
+**Iter.50 `math/eigen`（固有値・固有ベクトル）**
+- L2: 特性方程式 $\det(A-\lambda I)=0$、固有値の和＝トレース・積＝行列式。
+- L3: 非対称は複素固有値・非直交・対角化不能もあるが、統計の対称行列はスペクトル定理（実固有値・直交・$V\Lambda V^\top$）。半正定値で固有値≥0、0は共線性。
+
+**Iter.51 `prep1/estimator-properties`（不偏・一致・有効）**
+- L2: MSE分解の導出（交差項消去でバイアス²＋分散）。
+- L3: 4性質は独立で両立せず（不偏だが不一致＝x₁のみ／偏るが一致＝MLE）、不偏推定量が存在しない例。
+- L5: 不偏≠最良——正規分散でMSEは ÷(n-1)不偏0.222 > ÷n 0.191 > ÷(n+1) 0.181。リッジ・ベイズの「偏らせて安定」。
+- 検算: 上記MSE数値（reps=20万）。✅
+
+KaTeXエラー0・div balance OK。verify-topics.js 86/86 PASS。**math.js（数学の基礎6トピック）全完了**（vectors-matrices, matrix-ops, eigen, covariance-matrix, gradient, linearization）。
+
+**次に深掘りすべきトピック**: prep1 推定・検定の残り——`prep1/model-selection`(2.5)・`prep1/neyman-pearson`(1.5)・`prep1/multiple-comparison`(1.5)・`prep1/nonparametric`(1.5)・`prep1/sample-size`(1.5)・`prep1/goodness-of-fit`(2.5)・`prep1/normal-tests`(2.5)・`prep1/delta-method`(2.5)。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.52-54（検定論・testing2.js）
+
+**Iter.52 `prep1/neyman-pearson`**
+- L2: 尤度比で切る最適性の直感（α予算あたりの検出力の稼ぎ＝尤度比が大きい順の貪欲法）。
+- L3: 厳密は単純vs単純のみ、複合はUMP不在（片側は指数型+単調尤度比で存在、両側は不在→尤度比検定で代用）、モデル誤特定で保証喪失。
+
+**Iter.53 `prep1/multiple-comparison`**
+- L3: FWER式は独立仮定（正相関で真値は小さめ＝独立が最悪ケース）、ボンフェローニは独立不要だが保守的。手法選択表（ボンフェローニ/ホルム/テューキー/FDR）、FWER vs FDRは守る対象が違う。
+- 検算: m=20,α=5%でFWER=64%。✅
+
+**Iter.54 `prep1/sample-size`**
+- L2: 式の導出（$d\sqrt n=z_{1-α/2}+z_{1-β}$、シグナルvs余裕）。
+- L3: σ既知・正規・1標本の前提（実務はt）、d決め打ちの脆さ（$n\propto1/d^2$）、事後検出力は無意味→事前分析、dを振った表で示す。
+- 検算: d=0.5→n≈31, d=0.25→n≈126（4倍）。✅
+
+KaTeXエラー0・div balance OK・内部リンク（three-tests, normal-approx）実在。verify-topics.js 86/86 PASS。
+
+**次に深掘りすべきトピック**: `prep1/normal-tests`(2.5)・`prep1/goodness-of-fit`(2.5)（testing2.js残り）→ `prep1/nonparametric`(1.5)・`prep1/model-selection`(2.5)・`prep1/delta-method`(2.5)（prep1b.js）。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.55-57（検定論の残り・testing2.js完結）
+
+**Iter.55 `prep1/normal-tests`**
+- L2: 全統計量が「推定量÷標準誤差」、t/χ²/F/正規が正規標本から芋づる式に導かれる（F=χ²比の定義）。
+- L3: 平均のtは頑健だが分散のχ²/Fは正規性に極端に敏感→Levene、等分散崩れはWelch、非正規はノンパラ。
+
+**Iter.56 `prep1/goodness-of-fit`**
+- L2: O_i≈N(E_i,E_i)（二項→正規）で (O-E)/√E≈N(0,1)、二乗和がχ²。自由度k-1-m。
+- L3: E_i≥5の目安、度数専用・独立、少数セルはフィッシャー正確検定/G検定、順序はコクラン・アーミテージ。
+
+**Iter.57 `prep1/nonparametric`**
+- L2: 帰無で順位割当がランダム→E[W]=n1(N+1)/2、Var=n1n2(N+1)/12（有限母集団）。
+- L5: ARE=3/π≈0.955（正規でも損失5%弱＝保険料）、裾重で t を上回る。分散/形が違うと解釈ぶれ、効果量はクリフのδ。
+- 検算: E[W]=105・Var=175実測一致、ARE=0.955。✅
+
+KaTeXエラー0・div balance OK・内部リンク（distributions, nonparametric, correlation, normal-approx）実在。verify-topics.js 86/86 PASS。**testing2.js の検定群（neyman-pearson, three-tests, normal-tests, goodness-of-fit, multiple-comparison, sample-size）全完了**。
+
+**残り約27**: prep1b.js（model-selection, delta-method, path-analysis, factor, arima, acf-pacf済, missing-data, log-linear済…）、ml.js/mva.js（overfitting, svm, roc-auc, kmeans, clustering, regularization済, regression-diagnostics, correlation, factor, clt, markov-chain, monte-carlo, order-statistics, odds-ratio済…）、advanced系、doe系（rsm, ccd済, d-optimal, blocking-designs, rsm-error, robust）、chemo/opls-da。
+**次**: `prep1/model-selection`(2.5)・`prep1/delta-method`(2.5)・`prep1/overfitting`(2.5)。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.58-60（CLT・相関・順序統計量）
+
+**Iter.58 `prep1/clt`** — L2: √n則の導出（分散足し算÷n²）、歪度γ1/√n減衰・ベリーエセーン。L3: 分散有限が必要（コーシー破綻）、独立、歪みで収束遅延（n≥30は対称向け）。検算: 指数の平均歪度 n=5→0.89, n=30→0.37。✅
+**Iter.59 `prep1/correlation`** — L2: r=cosθ（内積）、コーシーシュワルツで[-1,1]、r²=決定係数。L3: 外れ値・範囲制限（[-0.5,0.5]でr0.70→0.25）・シンプソン・相関≠因果。検算: 範囲制限の減衰。✅
+**Iter.60 `prep1/order-statistics`** — L3: iid連続前提（タイ・離散でずれ）、極値外挿（GEV/GPD）の不確実性、中央値の頑健性。L4: 最大値分布の非対称性を明記。
+
+KaTeXエラー0・div balance OK・内部リンク（transformations, continuous-distributions, vectors-matrices, regression, joint-distribution, survival）実在。verify-topics.js 86/86 PASS。
+
+**次に深掘りすべきトピック**: `prep1/overfitting`(2.5, ml.js)・`prep1/svm`(2, advanced2.js)・`prep1/roc-auc`(2, advanced2.js)。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.61-63（過学習・SVM・ROC/AUC）
+
+**Iter.61 `prep1/overfitting`** — L2: バイアス・バリアンス分解の導出（MSE分解の予測版）。L3/L5: 訓練誤差≠汎化、同分布前提（分布シフト）、複雑さ/nの比、二重降下に言及。
+**Iter.62 `prep1/svm`** — L2: マージン2/‖w‖の導出、双対でw=Σαyx・サポートベクターのみα>0、カーネルトリック。L3: C・γ・スケール・不均衡の表、ロジスティック/LDAとの使い分け。
+**Iter.63 `prep1/roc-auc`** — L2: AUC=P(スコア陽>陰)（マンホイットニー、検算0.855≒Φ(d/√2)0.856）、判別としきい値を分離。L3: 不均衡でROC楽観的→PR曲線、部分AUC・交差・キャリブレーション。
+
+KaTeXエラー0・div balance OK・内部リンク（estimator-properties, regularization, crossval, logistic, lda, roc-auc, nonparametric, conditional-bayes）実在。verify-topics.js 86/86 PASS。
+
+**次に深掘りすべきトピック**: `prep1/model-selection`(2.5, prep1b.js)・`prep1/delta-method`(2.5, prep1b.js)・`prep1/regression-diagnostics`(2, advanced.js)。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.64-66（モデル選択・デルタ法・回帰診断）
+
+**Iter.64 `prep1/model-selection`** — L2: AIC=-2lnL+2k（KL情報量最小化）、BIC罰k·ln n（一致性）の違い。L3/L5: 差だけ見る・選択後推論の危険・ステップワイズ不安定→Lasso。検算: AIC2k vs BIC ln(n)k。
+**Iter.65 `prep1/delta-method`** — L2: 1次テイラー→Var(g)≈[g']²Var、多変数∇gᵀΣ∇g。L3: 曲率大/σ大で乖離(eθ実測2.69vs近似1.85)、g'≈0で2次、非対称→ブートストラップ。検算: g=θ² 0.369≒0.360。
+**Iter.66 `prep1/regression-diagnostics`** — L2: ハット行列H=X(XᵀX)⁻¹Xᵀ、h_ii=∂ŷ/∂y、Σh_ii=p、クックの距離D_i。L5: 診断はp値の前工程、外れ値の機械的除去禁止・感度分析。
+
+KaTeXエラー0・div balance OK・内部リンク（crossval, regularization, transformations, bootstrap, rsm-error）実在。verify-topics.js 86/86 PASS。
+
+**残り約20**: path-analysis, factor, arima, missing-data, markov-chain, survival(advanced.js), monte-carlo, blocking-designs, sampling-survey, odds-ratio(advanced2.js), kmeans, clustering, factor(mva.js), multicollinearity, interaction, principles(doe.js), rsm, rsm-error, d-optimal, robust(doe.js), opls-da(chemo.js)。
+**次**: `prep1/multicollinearity`(2.5)・`prep1/kmeans`(1.5)・`prep1/clustering`(2.5)。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.67-69（多重共線性・k-means・階層クラスタ）
+
+**Iter.67 `prep1/multicollinearity`** — L2: Var(β̂j)=σ²/((1-Rj²)Σ..)＝VIF倍膨張、条件数と同根。L5: 予測は安定・解釈が壊れる、非有意の誤読、リッジ/PLS。検算: r=0.9→VIF5.3。
+**Iter.68 `prep1/kmeans`** — L2: 交互最小化でWCSS単調減少→局所最適収束。L3: 球状・等サイズ前提(→GMM/DBSCAN)、k選択(エルボー/シルエット)、スケール、k-means++、外れ値→k-medoids。
+**Iter.69 `prep1/clustering`** — L2: デンドログラム高さ=併合距離、切る高さでk後決め、ウォード=k-meansの階層版。L3: 距離・連結法依存(単連結チェイニング/完全連結)、標準化、k決まらない・O(n²)。
+
+KaTeXエラー0・div balance OK・内部リンク（math-ops, covariance-matrix, chemo/pls, regularization, kmeans）実在。verify-topics.js 86/86 PASS。
+
+**残り約17**: path-analysis, factor(mva.js), arima, markov-chain, survival(advanced.js), missing-data, monte-carlo, blocking-designs, sampling-survey, odds-ratio(advanced2.js), interaction, principles, rsm, rsm-error, d-optimal, robust(doe.js), opls-da(chemo.js)。
+**次**: `prep1/markov-chain`(2)・`prep1/arima`(2.5)・`prep1/survival`(2.5)（advanced.js）。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.70-72（マルコフ連鎖・ARIMA・生存解析）
+
+**Iter.70 `prep1/markov-chain`** — L2: π*=固有値1の左固有ベクトル、スペクトルギャップで収束速度、2状態解析解(0.667,0.333)。L3: 吸収状態・周期性で収束せず、高次依存、MCMCの基盤。検算: π*P=π*反復一致。
+**Iter.71 `prep1/arima`** — L2: 後退作用素・特性根|z|>1が定常条件(AR(1)は1/φ)、反転可能性。L3: 過剰階差・GARCH・SARIMA・見せかけ回帰、Ljung-Box。検算: φ=0.7根1.43定常/φ=1単位根。
+**Iter.72 `prep1/survival`** — L2: S=exp(-∫h)、KM積極限∏(1-d/n)の打ち切り処理、部分尤度。L3: 無情報打ち切り・比例ハザード性(Schoenfeld)、ハザード比は相対量。
+
+KaTeXエラー0・div balance OK・内部リンク（eigen, mcmc, timeseries, acf-pacf）実在。verify-topics.js 86/86 PASS。
+
+**残り約14**: path-analysis, factor(mva.js), missing-data, monte-carlo, blocking-designs, sampling-survey, odds-ratio(advanced2.js), interaction, principles, rsm, rsm-error, d-optimal, robust(doe.js), opls-da(chemo.js)。
+**次**: `prep1/monte-carlo`(2.5)・`prep1/odds-ratio`(2.5)・`prep1/missing-data`(2.5)（advanced2.js）。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.73-75（分割表・欠測・モンテカルロ）
+
+**Iter.73 `prep1/odds-ratio`** — L2: ORは行列入替対称ゆえ症例対照でも計算可、RRはコホート限定、まれでOR≈RR/多いとOR誇張。L5: ln区間・連続修正、交絡→調整OR、絶対リスク併記。検算: まれ2.51/2.50、多い2.67/2.00。
+**Iter.74 `prep1/missing-data`** — L2: EMは尤度単調増加で収束、単一代入はSE過小→多重代入とルービン公式。L3: MAR/MNARはデータで区別不能、感度分析、量より起こり方。
+**Iter.75 `prep1/monte-carlo`** — L2: CLTで誤差σ/√N、次元に強い(次元の呪い回避)、棄却率1/c。L3: 乱数の質・MCMC相関・分散有限、分散減少法(重点/対照/準MC)。検算: N4倍でSE0.050→0.027。
+
+KaTeXエラー0・div balance OK・内部リンク（sampling-survey, causal-inference, mle, clt, mcmc）実在(verify-topics.js全ファイルPASS)。86/86。
+
+**残り約11**: path-analysis, factor(mva.js), blocking-designs, sampling-survey(advanced2.js), interaction, principles, rsm, rsm-error, d-optimal, robust(doe.js), opls-da(chemo.js)。
+**次**: `prep1/factor`(2.5, mva.js)・`prep1/path-analysis`(2.5)・`prep1/sampling-survey`(1)（advanced2.js）。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.76-78（因子分析・パス解析・標本調査）
+
+**Iter.76 `prep1/factor`** — L2: Σ=ΛΛᵀ+Ψ、共通性h²、PCAは全分散/因子分析は共有相関のみ。L3: 回転不定・因子数・多変量正規・ヘイウッドケース、探索的→CFA。
+**Iter.77 `prep1/path-analysis`** — L2: S≈Σ(θ)最小化、間接効果=積(a·b)、適合度χ²/RMSEA。L5: 因果の向きは仮定であって検証でない・等価モデル・識別性・未観測交絡。検算: a0.5·b0.6=0.3総合0.5。
+**Iter.78 `prep1/sampling-survey`** — L2: 非復元の負相関でFPC、精度はNでなくnで決まる。L3: 層化/クラスターのトレードオフ(deff)、非標本誤差(無回答/カバレッジ)は増標本で縮まない。検算: N100/50→0.505, N1万/50→0.995。
+
+KaTeXエラー0・div balance OK・内部リンク（pca, path-analysis, multiple-regression, causal-inference）実在。verify-topics.js 86/86 PASS。
+
+**残り約8**: blocking-designs(advanced2.js), interaction, principles, rsm, rsm-error, d-optimal, robust(doe.js), opls-da(chemo.js)。
+**次**: DoEクラスタ `doe/rsm`(2.5)・`doe/rsm-error`(2.5)・`doe/d-optimal`(2)。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.79-81（DoE: RSM・D最適・誤差伝搬）
+
+**Iter.79 `doe/rsm`** — L3: 2次は局所近似、停留点の種類(ヘッセ固有値・鞍点)、領域外外挿禁止・逐次探索、ロット・オブ・フィット。L5: 停留点にも不確かさ→デザインスペース・確認実験・望ましさ関数。
+**Iter.80 `doe/d-optimal`** — L2: 信頼楕円体積∝1/√det(XᵀX)、A/G/I最適。L3: モデル依存(仮定違いで最悪)、端点集中でロット検出不能→中心点追加、局所最適。
+**Iter.81 `doe/rsm-error`** — L3: デルタ法(速い1次近似・非線形で外れる)vs MC(重いが柔軟)、σ²推定の正しさ、モデル誤り・外挿は含まない。
+
+KaTeXエラー0・div balance OK・内部リンク（rsm-error, robust, multivariate-normal, delta-method, ccd）実在。verify-topics.js 86/86 PASS。
+
+**残り約5**: blocking-designs(advanced2.js), interaction, principles, robust(doe.js), opls-da(chemo.js)。
+**次（ラスト）**: `doe/robust`(1.5)・`prep1/principles`(2.5)・`prep1/interaction`(1.5)・`prep1/blocking-designs`(2.5)・`chemo/opls-da`(2.5)。※着手前にクラウド進捗を再確認。
+
+## 2026-07-06 — Iter.82-86（DoE基礎・OPLS-DA／全トピック完了）
+
+**Iter.82 `prep1/principles`** — L2: 3原則＝誤差の3扱い（反復=測る/無作為化=無害化/局所管理=除く）。L3: 疑似反復の誤り、無作為化欠如で交絡、一般化の限界。
+**Iter.83 `prep1/interaction`** — L2: (αβ)ij＝加法で説明できないズレ、ゼロ和制約、SS分解。L3: 除去可能(非平行→変換で消える)vs質的交互作用、反復必須、有意なら主効果を単独解釈しない。
+**Iter.84 `doe/robust`** — L2: 誤差伝搬Var(y)≈∇yᵀΣ∇y、ピークでなくマージン最大、SN比。L3: モデル正しさ・境界の不確かさ・Σx見積り、ICH Q8の安全余裕。
+**Iter.85 `prep1/blocking-designs`** — L2: SS分解で乱塊法が誤差を縮める、分解能III/IV/V。L3: 疎性前提・別名を折り返しで解く・ブロック×処理交互作用、回数削減の等価交換。
+**Iter.86 `chemo/opls-da`** — L2: PLS-DAと数学的等価で回転して整理するだけ、予測力は不変。L3/L5: 「R²上昇＝過学習信号」、見た目は証拠でない、Q²・並べ替え・独立検証、S-plotと交絡漏れ。
+
+KaTeXエラー0・div balance OK・全内部リンク実在。verify-topics.js 86/86 PASS。
+
+---
+
+# ✅ 全86トピック 5層化 完了（2026-07-06）
+
+Iter.1〜86（ローカル＋クラウド並行）で、全86トピックが5層構成（L1直感/L2数式と導出/L3前提と崩れたときの影響/L4グラフ接続/L5有意性と実質的意味〔検定・推定・モデル系のみ〕）を充足。追加した数式・数値例はすべて python3 等で独立検算し、各トピックで node --check・verify-topics.js（構造・内部リンク・$$フェンス・quiz対応）・KaTeXレンダリング・デモ実行（新設分は境界値含む）を確認済み。GitHub Pages へ反映済み。
+
+**ファイル別完了**: math.js(6)・prob.js(9)・dists.js(3)・prep1.js/prep1b.js/estimation2.js/testing2.js/ml.js/mva.js/advanced.js/advanced2.js/doe.js/chemo.js の全トピック。
+
+**今後の保守メモ**: 新規トピックを足したら本ログのマトリクスに行を追加し、同じ5層基準・検算・verify-topics.js通過を満たすこと。デモを新設/変更したらブラウザで境界値まで実行確認。
+
+## 2026-07-06 — 新規2トピック＋Q²強化（ユーザー要望: lack of fit / 説明変数選択 / Q² / 過学習）
+
+ユーザー要望の4概念をカバー。過学習は既存 overfitting/crossval で充足済みのため相互リンクのみ。設計・数値検証を多エージェントワークフロー（4エージェント, 23.6万トークン, 査読含む）で並列化し、実装は本体で codebase規約に合わせて手書き、全数値を再現可能スクリプトで確定。
+
+**新規 `prep1/lack-of-fit`（適合度の欠如・純粋誤差）** — 回帰分析group, ml.js
+- 5層: $SS_E=SS_{PE}+SS_{LOF}$ 分解（交差項消去の導出）、$F=\frac{SS_{LOF}/(c-p)}{SS_{PE}/(n-c)}$、前提表（反復必須・等分散・c>p）、L5（非有意≠正しい・検出力は反復数依存・$F\propto1/MS_{PE}$）。デモ: 次数×曲がりでLOFのF/pが動く、群平均vsモデルの縦線、SS_PE不変。
+- 検算(python numpy/scipy, c=5 reps=3 n=15 seed=3): 直線 F=90.0 p=1.5e-7 R²=0.001, SS_PE=1.81; 2次 SS_LOF=0.30 F=0.84 p=0.46 R²=0.958 SS_PE不変。棄却限界 F_0.05(3,10)=3.71。✅
+- example+keypoints4+quiz4。
+
+**新規 `prep1/variable-selection`（説明変数の選択）** — 回帰分析group, ml.js
+- 5層: 戦略（総当り$2^p$/前進/後退($p\ge n$不可)/ステップワイズ=貪欲・不安定）、規準（調整R²/AIC/BIC/$C_p$=RSS/σ̂²-n+2p・σ̂²はフルモデル/CV）、Lasso連続縮小・Elastic Net、L5（選択後推論）。デモ: 前進選択の訓練誤差(単調減)vsCV誤差(U字)。
+- 検算(python): 選択後推論=全ノイズn=60,p=8でbest変数の素朴p<0.05率34.5%(名目の6.9倍, 4000反復); 選択の不安定性=500ブートストラップ前進選択で50種類に散る。✅
+- example+keypoints4+quiz4。
+
+**`prep1/crossval` 強化**: Q²（予測的決定係数）セクション新設。$\mathrm{PRESS}=\sum(y_i-\hat y_{-i})^2$, $Q^2=1-\mathrm{PRESS}/\mathrm{TSS}$, $Q^2\le R^2$・負値解釈・$R^2-Q^2$ギャップ=過学習、RMSECV/RMSEP・PLS接続・lack-of-fit使い分け。デモにR²/Q²の数値表示追加。keypoint+quiz2問追加(計4問)。
+- 検算(python, n=40 x∈[-3,3] 3次 σ=2 seed=11 TSS=643.7): R²単調増 0.64→0.80→0.87、Q²はd2-4で0.75ピーク→d10で0.22、gap 0.04→0.65。✅
+
+**双方向リンク**: model-selection→variable-selection, regression-diagnostics→lack-of-fit, overfitting→Q²(crossval)。査読の「往復リンク」「Q²↔lack-of-fit使い分け」指摘に対応。
+
+**検証**: node --check全ファイル, verify-topics.js 88トピック/88クイズ PASS。3トピックともブラウザでKaTeXエラー0・div balance 1/1・デッドリンク0、デモ境界値で例外なし・視覚確認済み。準1級トピック数 71→74。
+
+## 2026-07-12 全トピック説明監査（audit-depth.js 新設）
+
+**手法**: `tools/audit-depth.js` を新設——全88トピックの本文実質文字数（タグ・数式除去後）、h3見出し数、数式ブロック数、前提/直感/例題/まとめ/クイズの有無を一括計測。中央値1082字。字数下位＋構造フラグ（$$0個・h3≤1・前提✗）の候補18件を全文精読。
+
+**精読結果**: timeseries, testing, gradient, arima, moment-method, mle, events-probability, lda, lln, order-statistics, distributions, pca, conditional-bayes, random-variables, clustering, mgf, multicollinearity, moments-shape の18件はいずれも5層構造が保たれており、字数の短さは数式密度によるもの（監査は数式を除外して数えるため）。構造フラグの大半は表記ゆれによる誤検知（例: multicollinearity の前提✗は「診断/対処」の語で書かれているため）。
+
+**本物の説明不足として3件を増強**:
+1. **prep1/mle**（727→1014字）: 「微分して0とおくと」と結果だけだった導出を展開——対数尤度の具体形、二乗和最小化＝最小二乗との一致、スコア関数の定義と期待値0、尤度の曲率→フィッシャー情報量への接続。対数を取る理由も追記。
+2. **prep1/distributions**（781→1108字）: 「どの統計量がどの分布に従い、どの検定で使うか」の対応表を新設（t←平均/回帰係数、χ²←分散/適合度/独立性、F←分散比/ANOVA）。合言葉「平均にはt、分散にはχ²、分散の比にはF」。二項→ポアソン近似に実務例と正規近似への内部リンク追加。
+3. **prep1/pca**（797→拡張）: 「主成分をいくつ残すか・どう読むか」新設——累積寄与率・スクリープロット（肘）・カイザー基準の3目安と使い分け、負荷量による軸の意味づけ（サイズ因子/対比）、バイプロットの読み方（方向と相関）。
+
+**検証**: node --check・verify-topics.js（88/88）PASS、3ページともブラウザでKaTeXエラー0・新見出しの描画確認・consoleエラー0。
+
+## 2026-07-25 並列エージェントによる全文精読監査（第1弾: 誤り修正）
+
+**きっかけ**: 前回(2026-07-12)の audit-depth.js による監査は指標ベースで、88件中18件しか全文精読していなかった。残り70件を6つの並列サブエージェントで全文精読させたところ、**約130件の指摘、うち「説明不足」を超えた誤り・矛盾が9件**見つかった。前回の「全トピック問題なし」という結論は誤りだった。
+
+**修正した誤り9件**:
+1. `prep1/normal-approx` — ポアソン近似の条件が誤り。「$p$極小＋**小さい$n$**」と書いていたが、ポアソン近似は $n\to\infty,p\to0,np=\lambda$ 一定の極限。正規/ポアソン/厳密の使い分け表を新設。検算(python): $n{=}100,p{=}0.02$ の $P(X\le1)$ = 厳密0.4033 / ポアソン0.4060 / 正規(連続修正)0.3605。
+2. `prep1/goodness-of-fit` — 導出が破綻。$O_i\approx N(E_i,E_i)$ としていたが二項の分散は $E_i(1-p_i)$。各セル独立扱いだと自由度が $k$ になり直後の $k-1$ と矛盾していた。多項の負相関 $\mathrm{Cov}=-np_ip_j$ を含めた正しい筋に修正し、$k=2$ で $\chi^2=z^2$ になる検算を追加。
+3. `prep1/missing-data` — EMのEステップを「欠測の期待値で補完」と記述。正しくは**完全データ対数尤度の条件付き期待値** $Q(\theta|\theta^{(t)})$。この誤りのままだと直後に批判している単一代入と区別がつかない。$E[y^2]$ に条件付き分散項が要ることまで明記。
+4. `prep1/monte-carlo` — 棄却法の手順から包絡定数 $c$ が欠落（$f/g$ は1を超えうるので確率に使えない）。$f\le cg$ と3ステップ手順、採択率 $1/c$ を明記。
+5. `prep1/mcmc` — 見出しが「メトロポリス・ヘイスティングス」なのに採択確率が対称提案版。一般形 $\alpha=\min(1, p(\theta')q(\theta|\theta')/[p(\theta)q(\theta'|\theta)])$ に修正。
+6. `prep1/markov-chain` — noteが「継続確率を1にすると」と促すがスライダー上限0.95で観察不能。$|\lambda_2|=a+b-1$ を明示し上限0.95(→0.90)で確認できる記述に修正。
+7. `chemo/pls-da` ↔ `chemo/opls-da` — noteが矛盾（前者「交絡で重なる」、後者「交絡でも分離は保たれる」）。第1成分は平均差方向なので後者が正しい。pls-da側を「ノイズは重なる/交絡は分離を保ったまま軸が傾く」に修正。
+8. `chemo/pls` — デモが $R^2$ のみ表示のため、noteの「真の成分数を超えると悪化」が**絶対に観察できなかった**。一つ抜き交差検証を実装し $R^2/Q^2$ 併記＋校正(青)/CV(オレンジ)の2系列に。検証: R² 0.894→0.961 単調増、Q² は真の成分数2で0.892ピーク→8成分0.810。
+9. `doe/rsm-error` — 本文は「係数を多変量正規からサンプリング」と書くがデモは予測値を正規から直接生成しており、noteの「非対称になる」が観察不能。コレスキー分解で $\hat\beta$ を実際にサンプリングし、目的量を選択可能に（応答$\hat y$=線形／停留点$x^*=-\frac12B^{-1}b$=非線形）。検証: $\hat y$ は左右の裾 2.57 vs 2.58 で対称、$x^*$ は 0.34 vs 1.75 で右に歪む。あわせて信頼区間と予測区間の区別（根号内の$+1$、確認実験に使うのは後者）を追記。
+
+**検証**: node --check 全ファイル / verify-topics.js 88件PASS / 9ページすべてブラウザでKaTeXエラー0・consoleエラー0 / 数値はpython・ブラウザ上で再現確認。
+
+### 第2弾: 重要度「高」の欠落を補充（基礎・回帰・検定 9トピック）
+
+- `math/matrix-ops` — **タイトルに「行列の積」とあるのに本文に定義が無かった**。$(AB)_{ij}=\sum_k a_{ik}b_{kj}$ と2×2数値例、寸法規則（$X$が$n\times p$なら$X^\top X$は$p\times p$対称）、非可換 $AB\ne BA$（反例も数値で）、$(AB)^\top=B^\top A^\top$、$(AB)^{-1}=B^{-1}A^{-1}$。あわせてランク（線形独立な列数）を定義し $\mathrm{rank}(X^\top X)=\mathrm{rank}(X)\le\min(n,p)$ から「$p>n$ なら必ず特異」を論理的に閉じた。
+- `prep1/joint-distribution` — **全期待値・全分散の公式がサイト全体に無かった**。$E[Y]=E[E[Y|X]]$、$V[Y]=E[V[Y|X]]+V[E[Y|X]]$ を追加し「全変動=群内+群間」と読ませる。2次元正規で検算（$1-\rho^2$ と $\rho^2$ の和が1）、$R^2$・ANOVA平方和分解・ラオブラックウェルへの接続を明示。
+- `prep1/clt` — 最頻出の誤解「元データが正規に近づく」への明示的反論と、大数の法則との役割分担（1点への収束 vs ばらつきの形）、標準化形 $\sqrt n(\bar X-\mu)/\sigma\xrightarrow{d}N(0,1)$ を追加。
+- `prep1/confidence` — 母比率（Wald＋破綻時のWilson/Clopper-Pearson）・母分散（$\chi^2$、非対称）の区間を表で追加。数値例1本（$\bar x{=}50,s{=}10,n{=}25$ → $[45.87,54.13]$、$n{=}100$ で半分）。**信頼区間と予測区間の区別**（根号内の$+1$、$n\to\infty$で信頼区間は0に潰れるが予測区間は残る）を新設。検算(python): $t_{0.025,24}=2.064$, $t_{0.025,99}=1.984$。
+- `prep1/gauss-markov` — 前提が誤差2条件のみで**「前提が崩れても不偏性は無事」と誤解させる構成**だった。前提4つの表を作り深刻度を階層化（①内生性→不偏性・一致性が壊れる=致命的／②不等分散→効率とSEのみ=対処可能／③フルランク／④外生性）。$s^2=\mathrm{RSS}/(n-p)$ と $\mathrm{SE}(\hat\beta_j)$、$n-p$ で割る幾何的理由、不等分散対処の2段構え（形が分かる→WLS/GLS、分からない→頑健標準誤差）を追加。
+- `prep1/normal-tests` — 表に**対応のあるt検定**とWelchを追加（対応ありを独立2標本で解析すると検出力を失う点も明記）。「まずF検定で等分散確認」の古典的流れを改め、**Welchを既定にする**現代的推奨とその理由2点（F検定は正規性に敏感／予備検定は$\alpha$を歪める）、ウェルチ・サタスウェイトの自由度式を追加。フィッシャーz変換は「作れます」で止まっていたので $1/(n-3)$ と逆変換まで書き、数値例（$r{=}0.6,n{=}30$ → $[0.306,0.790]$、python検算済）。
+- `prep1/multiple-comparison` — **ホルム法とBH法が名前だけで手順が無かった**（準1級では手順そのものが問われる）。両者の手順を明記し、共通データ（$m{=}5$, $p=(0.001,0.008,0.02,0.04,0.3)$）で棄却数を比較する表を作成。検算(python): ボンフェローニ2件・ホルム2件・BH 4件。ダネット法（対照群比較、比較数$k-1$）も表に追加。
+- `prep1/sample-size` — **2群比較の式が無く、1標本の式を流用すると必要数を半分以下に見誤る**状態だった。$n_{各群}=2(z_{1-\alpha/2}+z_{1-\beta})^2/d^2$ と係数2の理由（差のSEが$\sigma\sqrt{2/n}$）を追加。検算(python): $d{=}0.5$ で1標本32・2群各63（$t$基準の正確計算では64と併記）。Cohenの目安（0.2/0.5/0.8 → 197/32/13）も追加。
+- `prep1/three-tests` — 自由度1に固定されており入れ子モデル比較に使えなかった。制約$r$本→$\chi^2_r$に一般化し、LRが「入れ子モデルの対数尤度差」＝**逸脱度の差**であること、Waldの2次形式、$r{=}1$で$t^2$に戻ることを追加。
+
+**検証**: node --check / verify-topics.js 88件PASS / 9ページすべてKaTeXエラー0・新見出しの描画確認・consoleエラー0 / 全数値をpythonで検算（うち2件の誤りを発見し修正: Cohen $d{=}0.2$ を199→197、2群を64→63）。
+
+### 第3弾: 分布ギャラリーの式を補充（3トピック）
+
+- `prep1/discrete-distributions` — **7分布すべて確率関数(pmf)の式が無かった**（平均・分散のみ）。$P(X=k)$ 列を追加（二項・超幾何・ポアソン・幾何・負の二項・離散一様・多項）。「何回成功×何回失敗×並べ方の数」の3因子で再構成する読み方を添付。**幾何と負の二項の流儀の不整合を修正**——幾何を試行回数版($k\ge1$, 平均$1/p$)、負の二項を失敗数版($k\ge0$)と別流儀で定義したまま「その一般化」と述べていたため $r=1$ で平均が一致しなかった。両流儀を明示し対応を書いた。**多項分布**（summaryとデモにあるのに本文に無かった）を追加: pmf・周辺は二項・$\mathrm{Cov}=-np_ip_j$ の負相関、これが適合度検定の自由度 $k-1$ の理由であることまで接続。離散一様も追加（サイコロ分散 $35/12\approx2.92$、検算済）。
+- `prep1/continuous-distributions` — **7分布すべて密度(pdf)も平均・分散の表も無かった**（離散側にはあるのに非対称）。密度・平均・分散の3列を追加。**ガンマの尺度/率の2流儀**（Rのrgammaは率が既定）を明示。**指数の無記憶性を2行で証明**しハザード関数 $h(t)=f/S$ を定義、ワイブルのバスタブ曲線へ接続。**対数正規**の最頻値$e^{\mu-\sigma^2}$<中央値$e^\mu$<平均$e^{\mu+\sigma^2/2}$を明示し「対数平均を戻すと中央値であって算術平均ではない」という実務の誤解を潰した（$\mu{=}0,\sigma{=}1$ で 1 vs 1.65、検算済）。**コーシー**は $t_1$・$Z_1/Z_2$ の2つの作り方と「$\bar X_n$ が同じコーシーになるので大数の法則が効かない」を追加。
+- `prep1/multivariate-normal` — **マハラノビス距離の2乗が $\chi^2_p$ に従うという最重要事実が無く、デモの「1σ楕円」が何%か分からない**状態だった。1次元の68%感覚を持ち込む誤解を明示的に否定（**2次元の1σ楕円は約39%、2σでも約86%**、検算: $1-e^{-1/2}=0.3935$, $1-e^{-2}=0.8647$）。95%楕円は $\sqrt{\chi^2_{2,0.05}}=\sqrt{5.991}\approx2.45\sigma$。外れ値検出・ホテリング$T^2$へ接続。あわせて**線形変換で閉じる**性質 $A\boldsymbol X+\boldsymbol b\sim N(A\mu+b, A\Sigma A^\top)$ を筆頭に置き、周辺分布・主成分・白色化がすべてその系であることを整理した。
+
+**検証**: node --check / verify-topics.js 88件PASS / 3ページKaTeXエラー0・表が5列に拡張されたことを確認・consoleエラー0 / 全数値python検算。
+
+### 第4弾: 実験計画法群を補充（6トピック）
+
+- `prep1/principles` — 疑似反復の判定は「実験単位とは何か」に依存するのに**その用語が未定義**だった。「処理をランダムに割り付ける最小の対象」と定義し、分析化学の対比表（1バッチ3回注入=実験単位1・誤差自由度0 / 別々に3バッチ=実験単位3・自由度2）を追加。判定法「処理を割り付け直したところから独立にやり直したか？」。
+- `prep1/anova1` — 分散分析の核心である**平方和分解の導出が結論のみ**だった。$x_{ij}-\bar x$ を2段に分け、交差項が「群内偏差の和=0」で消える＝直交分解（ピタゴラス）であることを明示。自由度 $k-1$／$N-k$ の由来も。さらに**期待平均平方** $E[MS_W]=\sigma^2$、$E[MS_B]=\sigma^2+\sum n_i\alpha_i^2/(k-1)$ を追加し、「分母は常に$\sigma^2$、分子だけに効果が上乗せ」→$F\approx1$ vs $F>1$、$n_i$比例から検出力の話まで読めるようにした。
+- `prep1/orthogonal` — **直交表がテーマなのに $L_8$ の実物が載っていなかった**（表が「実験3」で打ち切られていた）。8行7列の $L_8$ 全体を掲載し、$L_8(2^7)$ の表記の読み方、どの2列でも4組が2回ずつ現れることを自分で数えられる形に。3列=1列×2列の交互作用列であること（水準1→+1のコード化で一致することをpythonで検証、当初符号を誤り修正）と割付＝交絡の設計であることを追加。**検証: 全21ペアで直交性を確認**。
+- `doe/rsm` — 停留点が「微分して0」で止まっていた。行列形 $\hat y=\beta_0+b^\top x+x^\top Bx$ と閉じた解 $x_s=-\frac12B^{-1}b$、**正準分析**（$B$の固有値で極大/極小/鞍点/尾根を判定）を追加。$\det B\approx0$ で停留点が遠方に飛ぶ注意も。**最急上昇法**の3ステップ手順（1次モデル→勾配方向へ等間隔→頭打ち付近でCCD）とコード化変数の換算注意、曲率検定を新設。
+- `doe/ccd` — **Box-Behnken がデモの選択肢にあるのに配置が未定義**だった。作り方（2因子を$\pm1$・残りは0、全ペア＋中心点、3因子で15回）とCCDとの使い分け表（水準数5 vs 3、角を使うか）を追加。**2因子では定義できない**旨も明記（デモは模式図）。直交ブロック化・逐次実施の利点も追加。
+- `doe/robust` — ロバスト設計の中核である**制御因子と誤差因子の区別・内側/外側配置が完全に欠落**しており、「分散を最小化」と言いながら分散をどう測るのかが不明だった。2種類の要因を定義し、内側配置の各行に外側配置を実施して平均と分散を得る2層構造を説明。SN比は「平均²/分散」の簡略式のみだったのを望目/望大/望小の3式（dB）に正し、2段階最適化（SN比→調整因子）を追加。
+
+**検証**: node --check / verify-topics.js 88件PASS / 6ページKaTeXエラー0・新見出しと表の描画確認・consoleエラー0 / $L_8$ の直交性と交互作用列をpythonで検証（符号の誤りを1件発見し修正）。
+
+### 第5弾: 発展トピック群を補充（6トピック）
+
+- `prep1/regression-diagnostics` — **$V[e_i]=\sigma^2(1-h_{ii})$ に触れず生の残差で外れ値を読ませていた**（てこ比の高い点ほど残差が構造的に小さく出るので、最も影響力の大きい点を見逃す誤解に直結）。標準化残差 $r_i=e_i/(s\sqrt{1-h_{ii}})$（目安$|r_i|>2$）とスチューデント化残差を追加し、クックの距離に $h_{ii}/(1-h_{ii})^2$ が現れる理由と接続。
+- `prep1/survival` — デモが2群比較なのに**その標準的検定であるログランク検定がサイト全体に無かった**（第5層=有意性が欠落）。各イベント時刻の$2\times2$表・期待値 $E_{1i}=d_in_{1i}/n_i$・$\chi^2_1$、比例ハザード下で最も検出力が高くCoxのスコア検定と一致すること、早期重視のBreslow型を追加。打ち切りの3種（右/左/区間）と無情報打ち切りの形式的定義（共変量を与えたもとで $C\perp T$）も。
+- `prep1/svm` — **表で$C$を調整せよと指示しながら$C$が未定義**、本文はハードマージンのみだった。スラック変数によるソフトマージンの定式化、$C$＝「マージンの広さと違反許容の交換レート」、$\xi$の3段階の意味を追加。さらに制約を消すと**SVM＝ヒンジ損失＋L2正則化**になることを示し、ロジスティック回帰（対数損失＋正則化）との対比、カーネル3種と$\gamma$の意味を表で追加。
+- `prep1/roc-auc` — **適合率・特異度が定義されないまま「PR曲線の方が実態を映す」と推奨していた**。6指標の定義表を追加し「分母が何か」で読む型を提示。**感度・特異度・FPRの分母には陰性/陽性の総数が入るが適合率の分母には陰性総数が入らない**という一点が不均衡データでのROC vs PRの差を生むことを明示。
+- `prep1/blocking-designs` — 「一部を**賢く選んで**実施」の中身（生成子・定義関係）が空白で、別名・分解能・折り返しが暗記になっていた。$2^{3-1}$ で生成子 $C=AB$ →定義関係 $I=ABC$ →別名 $A=BC,B=AC,C=AB$ →語長3＝分解能IIIまでを3ステップで実演。折り返し実験が「定義関係の奇数語を消す」操作であることも説明。
+- `chemo/pls` — **VIPが3トピックで「効いた変数の選び方」の答えとして使われるのに定義がサイト内に無かった**（生薬フィンガープリントのQ-marker選定で最も実務的な指標）。式・「成分の重みを$Y$説明量で加重平均」という読み解き・$\mathrm{VIP}^2$の平均が1になる規格化ゆえの**VIP>1基準**を追加。相関変数群では個別VIPが下がる点、因果を保証しない点も注意として明記。
+
+**検証**: node --check / verify-topics.js 88件PASS / 6ページKaTeXエラー0・新規内容の存在確認・consoleエラー0。
+
+### 第6弾: 回帰・分割表・推論の基礎を補充（8トピック・最終）
+
+- `prep1/causal-inference` — **バックドア基準が比喩1つで済まされ、表の禁止事項（合流点で条件づけるな等）が暗記になっていた**。DAGとバックドア経路（$T$に矢印が入る向きから始まる経路）を定義し、条件2つ（$T$の子孫でない／全経路を塞ぐ）を明記。最小3パターンの表（$T\leftarrow X\rightarrow Y$＝交絡→調整すべき／$T\rightarrow M\rightarrow Y$＝中間変数→効果が消える／$T\rightarrow C\leftarrow Y$＝合流点→無かった関連が生まれる）で、「交絡しそうな変数は全部入れる」という典型的誤りを潰した。
+- `prep1/multiple-regression` — 直交射影と言いながら**ハット行列が未導入**、$\sigma^2$ 推定もSEも無いまま$t$検定を論じていた。$H=X(X^\top X)^{-1}X^\top$（対称・冪等・$\mathrm{tr}H=p+1$）とてこ比、$\hat\sigma^2=\mathrm{RSS}/(n-p-1)$・$\mathrm{SE}(\hat\beta_j)$・$t_{n-p-1}$ を追加。**ダミー変数**（$k-1$本・基準カテゴリ・ダミー変数の罠）と**全体$F$検定・部分$F$検定**（共線変数は個別$t$で非有意でもまとめれば有意になりうる）も新設。
+- `prep1/contingency` — **適合度・独立性・同質性の区別が無く、同じ式を見た読者が混同する**状態だった。3検定の対比表（データの取り方・帰無仮説・自由度）を追加。また$(O-E)/\sqrt E$が「おおよそ」でしかない理由（周辺度数固定下で分散は$E_{ij}(1-p_{i\cdot})(1-p_{\cdot j})$）と**調整済み標準化残差**（$|d_{ij}|>2$で「どのセルがズレたか」を読む）を追加。
+- `prep1/model-selection` — 調整$R^2$の係数が天下りだった。$\bar R^2=1-\frac{\mathrm{RSS}/(n-k-1)}{\mathrm{SST}/(n-1)}$と書き直して「不偏分散どうしの比」＝下がりうる理由を明示。AICは2つの式が併記されるだけだったので、正規線形モデルの$\ln\hat L$から第1式が出る導出、$k$の数え方（切片と$\sigma^2$も数えるがモデル間で共通なので順位不変＝ソフトで絶対値が違う理由）、$\Delta$の目安（2以内は同等）、小標本補正AICcを追加。
+- `prep1/bootstrap` — パーセンタイル法のみで「なぜ$\hat\theta^*$の分位点をそのまま$\theta$の区間にしてよいか」に未回答だった。**基本ブートストラップ**（$[2\hat\theta-\theta^*_{(0.975)},\,2\hat\theta-\theta^*_{(0.025)}]$＝反転する形）を示し、それでもパーセンタイル法が使われる理由（変換不変）を説明。$B$の目安（SEなら200、区間なら2000〜$10^4$、誤差は$1/\sqrt B$）も追加。
+- `prep1/nonparametric` — **同順位（タイ）の扱いに一言も触れていなかった**（実データでは必発）。平均順位の割当と分散の補正項 $-n_1n_2\sum(t^3-t)/[12N(N-1)]$、補正を忘れると保守的になりすぎる点を追加。
+- `prep1/delta-method` — **分散安定化変換に一言も触れていなかった**（準1級頻出のフィッシャーz変換の根拠）。$g'\propto1/\sqrt{h(\theta)}$ という設計原理と代表3例の表（ポアソン→$\sqrt{}$、二項→$\arcsin\sqrt{p}$、相関→$z$変換で$1/(n-3)$）を追加し、「変換は推論を可能にするためにある」と位置づけた。
+- `prep1/bayes` — **ベイズの定理の等式（分母の周辺尤度）が一度も出てこず、$\propto$ で済ませてよい理由が宙に浮いていた**。$p(D)=\int p(D|\theta)p(\theta)d\theta$ を明記し、$\theta$を含まない定数だから形を追うだけなら無視できること、それが共役性の読み取りとMCMCが正規化定数不要な理由に直結することを説明。
+
+**最終検証**: node --check 全ファイル / verify-topics.js 88件PASS / **全88トピックをブラウザで巡回しKaTeXエラー0・デモ例外0** / consoleエラー0。
+
+---
+
+## 第7弾: 独立再監査（context窓を空にしてやり直し）
+
+### 経緯
+第1〜6弾はcontext窓が逼迫した状態で実施したため、ユーザー要請により**新しいcontextで一から監査をやり直した**。前回と同じ方法を繰り返しても同じ見落としをするだけなので、**前回カバーしていない次元**を狙って設計した。
+
+### 監査した3つの次元
+
+**(1) 第1〜6弾の追記内容の全文再読（469行 / 93KB）**
+`git diff -U0 3c1249a~1 a32a387` の追加行をすべて読み直し、数値主張をPythonで独立に再計算した。
+- L8直交表の直交性（全21列ペア）と「3列 = 1列×2列」→ 正
+- CCD回転可能性の予測分散、二項の厳密/ポアソン/正規近似（n=100, p=0.02）、サンプルサイズ（d=0.2/0.5/0.8）、Fisher z区間（r=0.6, n=30）、χ²₂の被覆（0.393 / 0.865）、二項の歪度、Holm/BH の判定表 → すべて正
+
+**(2) デモの数値的破綻（新規次元・前回未実施）**
+`tools/audit-demos.js` を新規作成。Node の `vm` にブラウザ環境をスタブして全デモをヘッドレス実行し、パラメータの**端・境界値**を総当たり（総当たりが600通り以下なら全組合せ、それ以上は1因子振り＋2因子ペア全組合せ）。
+- 検出対象: 例外 / NaN座標 / 軸範囲の退化（xmax≤xmin 等）/ 表示テキスト中のNaN / **入力データのNaN**
+- 最後の項目が要点: `Plot.line` は非有限点を自動スキップするため、ctx側だけ見ると「線が静かに欠ける」不具合を見逃す。入力配列を直接検査するようにした
+- ハーネス自体の検出力を、意図的に壊したデモ3種で自己テストし確認済み
+- 結果: **デモ88件 / 6046ケース / 問題0件**
+
+**(3) クイズ146問の正答キー＋例題27件の計算（前回未実施）**
+- 正答キー146問: 誤り0件
+- 例題27件: 26件は再計算で一致（t検定 p=0.0745、相関 t=3.182 p=0.0052、ANOVA F=21 p=0.00195、χ²検定 p=0.120/0.416、二項正規近似 0.1316 vs 0.1318、選択後推論の偽陽性率 34.5%≒自前MCで33.8%、LOF の F=90.0 p=1.55e-7 および2次モデル後の p=0.46 など）
+
+### 修正した3件
+
+| 内容 | 重大度 |
+|---|---|
+| `prep1/regression` の例題（OpenIntro学資援助）で**単位が不整合**。「$x$ 千ドル・$y$ ドル」と宣言しながら式は $\hat y=24{,}319-0.0431x$（切片はドル・傾きは千ドル基準）。原データは両方とも千ドル単位 | **誤り** |
+| `doe/ccd` の「予測分散 全点 0.281」は中心点4回のときの値だが条件が未記載で読者が再現できない | 再現性 |
+| 残差分散の自由度が `estimation2/gauss-markov` では $n-p$（$p$=係数の数）、`prep1b/multiple-regression` では $n-p-1$（$p$=説明変数の数）で、同じ記号 $p$ が別の意味 | 整合性 |
+
+単位の件は「係数の値は単位で変わる」という実務的な教訓に転化して書き直した。
+
+### 検証
+- `node tools/verify-topics.js` → 88/88 OK
+- `node tools/audit-demos.js` → 6046ケース 問題0
+- ブラウザ: 3ページとも KaTeX エラー0・console エラー0・修正内容の反映を確認
+
+### 申し送り
+- 第1〜6弾の内容自体には、再監査で誤りは見つからなかった（数値主張はすべて再計算で一致）。context逼迫下の作業だったが、**検算を挟んでいた部分は保っていた**
+- 一方、**検算の網に入っていなかった領域**（例題の単位、クイズの正答キー、デモの境界値）から1件の誤りと2件の不備が出た。監査の穴は「難しい内容」ではなく「検査対象に入れていなかった場所」に空く
+- `tools/audit-demos.js` は今後デモを触るたびに回すこと（17秒）
+
+---
+
+## 第8弾: 重要度「中」の残り約90件を消化（16トピック）
+
+第7弾までで「範囲外」と明示していた、6エージェント全文監査の重要度 中・低の指摘を全て潰した。
+
+### 補充内容
+
+| トピック | 追加した内容 |
+|---|---|
+| math/vectors-matrices | 正射影 $\mathrm{proj}_u(v)$、残差の直交性から**正規方程式を微分なしで導出**、$H^2=H$ の直感 |
+| math/eigen | $\begin{pmatrix}4&1\\1&4\end{pmatrix}$ を手で解く数値例、**トレース・行列式による検算**、固有ベクトルの符号の不定性（PCAで符号が反転する理由）、固有値重複時の不安定性 |
+| math/linearization | **Box-Cox変換**（$\lambda\to0$ で $\ln y$ になる理由）、**ロジット変換**と経験ロジット、GLMのリンク関数への橋渡し |
+| prep1/transformations | **多変量のヤコビ行列式**（多変量正規の $|\Sigma|^{-1/2}$ の由来）、**確率積分変換**と逆関数法・分布診断 |
+| prep1/correlation | **Fisher z区間**（数値例つき・戻すと非対称になる点）、**スピアマン/ケンドール**、**偏相関**（残差相関との同値性） |
+| prep1/factor | **主因子法/最尤法**、**平行分析**、**直交回転(バリマックス)/斜交回転(プロマックス)**、パターン行列と構造行列の区別 |
+| prep1/acf-pacf | **ユール・ウォーカー方程式**（AR(2)の閉形式つき、PACFが「切れる」理由）、**ユング・ボックス検定**（残差診断での自由度） |
+| prep1/regularization | **ソフト閾値作用素の導出**（場合分けで $|b|\le\gamma$ が0に落ちる）、**Elastic Net**（グループ化効果） |
+| prep1/glm | **指数型分布族**と分散関数 $V(\mu)$、**正準リンク**、**逸脱度**、**オフセット** |
+| prep1/path-analysis | **ソベル検定**とその限界、ブートストラップ推奨、**適合度指標**（RMSEA/CFI/SRMR）と同値モデル |
+| prep1/mds-ca | **ストレス**（Kruskalの目安）、計量/非計量MDS、**CCAの一般化固有値問題**の導出と正準相関の過大評価 |
+| prep1/log-linear | **$\lambda^{AB}$ と対数オッズ比の同値性**を導出（制約の流儀で係数は変わるがORは不変） |
+| prep1/sampling-survey | **必要標本サイズの逆算**（$\pm3\%$で1067人、母集団サイズにほぼ依存しない）、**ネイマン配分**とコスト最適配分 |
+| doe/d-optimal | **交換アルゴリズム**（局所解と多重初期値）、**D効率**（回数比としての読み方）、A/G/I最適との使い分け |
+| chemo/pls | **前処理**（SNV/MSC/微分/Savitzky-Golay の効く方向の違い、CV内で前処理する原則）、**ホテリング $T^2$ と Q統計量** |
+| chemo/opls-da | **直交成分の抽出手続き**（正射影そのもの）、**S-プロット**の2軸の意味と「有意性を含まない」罠 |
+
+### 検算（Pythonで独立に再計算）
+- 射影の残差直交性、固有値/トレース/行列式、Box-Coxの $\lambda\to0$ 極限
+- Fisher z区間 $[0.306,0.790]$ と非対称性（下側0.294/上側0.190）、偏相関の式＝残差相関（6桁一致）、単調曲線でスピアマン=1
+- ユール・ウォーカーの閉形式＝連立解＝真値、ユング・ボックスの較正（白色雑音3000回で棄却率4.47%／名目5%）
+- ソフト閾値の式＝数値最適解（3ケース）、リッジの $b/(1+2\gamma)$
+- 標本サイズ $n_0=1067.1$・有限修正後964、ネイマン配分が比例配分より分散小（0.132 vs 0.252）
+- $\ln\mathrm{OR}=4\lambda_{11}^{AB}$（和ゼロ制約下で6桁一致）、CCAの固有値＝正準相関の2乗
+- 直交計画の D効率=1.0、交換アルゴリズムが200回中199回で総当たり最適に到達（＝局所解は実在する）
+- $T^2$＝スコア空間のマハラノビス距離2乗、SNVが加法＋乗法変動を除去
+
+**検算で1件の誤りを自己検出して修正**：標本サイズの有限修正後の値を963と書いていた（正しくは964）。
+
+### 検証
+- `node tools/verify-topics.js` → 88/88 OK
+- `node tools/audit-demos.js` → 6046ケース 問題0
+- ブラウザ: 16トピック全てで追加見出しの反映・KaTeXエラー0・デモ要素存在・consoleエラー0
+- 本文実質文字数の中央値: 1301 → **1412**
+
+### 申し送り
+6エージェント全文監査で挙がった指摘は**これで全件消化**した。今後の改善は新規の監査からになる。
+
+---
+
+## 第9弾: 学習を閉じる（例題13件・確認問題47問追加）＋**クイズの致命的欠陥を発見・修正**
+
+### 発見した欠陥（最重要）
+
+確認問題を追加している最中、正答位置の分布を数えて気づいた：
+
+```
+正答位置の分布: {"0": 193}
+```
+
+**193問すべて、正解が選択肢の一番上**だった。コンテンツ側が「正答を先頭に書く」規約で書かれており、`quizHtml()` がそれをそのまま出していたため、**一番上を選び続ければ全問正解できる**状態。確認問題として一切機能していなかった。
+
+#### 修正
+`app.js` の `quizHtml()` で表示時に選択肢を並べ替える（`shuffledChoices()`）。乱数ではなく **トピックキー＋問番号から作る決定的ハッシュ（FNV-1a）を種にした Fisher-Yates** を使う。理由は2つ：
+- 再描画（テーマ切替・やり直し・戻る操作）で並びが変わると学習者が混乱する
+- 別の日に開いても同じ並びになる
+
+結果：正答位置が **0:57 / 1:47 / 2:46 / 3:43** に分散。193問すべてで「全選択肢が1回ずつ出る」「並べ替え後の data-answer が元の正答を指す」ことをコードで検証済み。コンテンツ側は1行も触っていない（規約はそのまま活かせる）。
+
+### 追加したコンテンツ
+
+**例題 13件**（27 → 40/88）。いずれも数値をPythonで検算済み。
+- math/linearization: Box-Cox の $\lambda$ を数値で選び分ける（10,100,1000 が対数で等間隔）
+- prep1/transformations: 逆関数法で指数乱数（$u=0.30\to x=0.713$、$F(0.713)=0.300$ で検算）
+- prep1/factor: 共通性 $h^2=0.8^2+0.3^2=0.73$、ヘイウッドケース
+- prep1/acf-pacf: ユール・ウォーカーで $r_1=0.6,r_2=0.2\to\phi=(0.75,-0.25)$、検算つき
+- prep1/regularization: ソフト閾値とリッジの数値比較（$0.4\to0$ が消える）
+- prep1/glm: オフセット（3/10 vs 12/100 で件数と率が逆転、$\ln2.5=0.916$）
+- prep1/path-analysis: 間接効果 $ab=0.20$、ソベル $z=3.12$、ブートストラップ推奨
+- prep1/mds-ca: ストレスの肘で次元数を決める
+- prep1/log-linear: $4\lambda_{11}^{AB}=\ln\mathrm{OR}=1.7918$
+- prep1/sampling-survey: $\pm3\%$ で1067人、$N$ にほぼ依存しない
+- doe/d-optimal: D効率 0.64 → 必要回数1.56倍
+- chemo/pls: ホテリング $T^2=2.563$ vs 管理限界 6.51
+- chemo/opls-da: S-プロットの2軸を3ピークで読み分ける
+
+**確認問題 47問**（146 → 193問）。確認問題が1問以下のトピックが **36 → 0**。
+
+### 検証
+- `node tools/verify-topics.js` → 88/88 OK
+- `node tools/audit-demos.js` → 6046ケース 問題0
+- ブラウザ: 正解クリックで ○・不正解で ×＋正解に印・解説表示・やり直しボタン、いずれも実際にクリックして確認
+- 並びの決定性: 別トピックへ移動して戻る／テーマ切替のいずれでも `data-answer` が不変
+- 例題6トピック抽出確認・KaTeXエラー0・consoleエラー0
+
+### 申し送り
+- **今後クイズを追加するときも「正答は先頭に書く」規約でよい**（表示側で並べ替わる）
+- 例題は 40/88。残り48トピックは今後の候補
+- 「指標を数える」ことで見つかった欠陥だった。文章を読むだけの監査では永久に見つからなかった種類の問題で、**集計してみる**という手数の価値を示している
+
+---
+
+## 第10弾: 欠陥クラスを恒久的な検査に落とす（tools/audit-content.js）＋第2の欠陥を発見・修正
+
+### 動機
+第9弾で「正答が全部先頭」という欠陥を、文章を読む監査では見つけられず**集計して初めて**発見した。同種の欠陥が二度と潜伏しないよう、恒久的な検査ツールに落とす。
+
+### `tools/audit-content.js`（新規）
+確認問題・例題・まとめの「作りの品質」を検査する。
+
+| 検査 | 狙い |
+|---|---|
+| 正答位置の偏り（シャッフル後、χ²検定） | 「一番上が正解」の再発防止 |
+| シャッフルの健全性 | 全選択肢が1回ずつ出るか／正答が正しく追跡されるか |
+| 問題文・選択肢一式の重複 | コピペ由来の重複問題 |
+| 同一問題内の選択肢重複・空の問題文/解説 | 単純ミス |
+| **正答だけが極端に長い** | 「長い選択肢が正解」で当てられる |
+| インライン `$` の個数が奇数 | 数式の閉じ忘れによる表示崩れ |
+| 例題・まとめ・確認問題のカバレッジ | 不足の可視化 |
+
+シャッフルは `app.js` の `quizHtml()` と同一実装を持つ（片方を変えたら両方合わせること、とコメントに明記）。
+
+### 新ツールが即座に見つけた第2の欠陥
+
+**22問で、正答だけが誤答の2.5倍以上長かった**。「長い選択肢が正解」は有名な受験テクニックで、これも中身を知らずに当てられてしまう。
+
+原因は書き方の癖で、正答は完全な文なのに誤答が「収束が速くなる」「何も影響がない」のように素っ気なかったこと。**誤答を「実際にありがちな誤解」として書き直す**方向で修正した（正答を削るのではなく）。これは教材としても正しい方向で、たとえば：
+
+- 「収束が速くなる」→「状態にとどまる時間が長く各状態が十分に測られるため、収束はかえって速くなる」（もっともらしい誤推論を明示）
+- 「何も影響がない」→「最小二乗法は分散の仮定を使わないので、標準誤差を含め何も影響を受けない」（どこを誤解しているかが分かる形に）
+
+### ツール自身の精度も1件修正
+`prep1/glm` の1問が誤検出された。LaTeX ソースは長いが**表示は短い**ため。長さの測定を「学習者が画面で見る長さ」に直した（タグを除去し、インライン数式を一律4文字のプレースホルダに潰す）。修正後、ブラウザで実際の描画長を測り、最大でも正答/誤答比は約2.4倍（閾値2.5倍以下）であることを確認。
+
+### 検証
+- 逆テスト：修正前のコンテンツに新ツールを当てると12件検出（＝検査が空振りでないことの確認）
+- `node tools/verify-topics.js` → 88/88 OK
+- `node tools/audit-content.js` → 問題0
+- `node tools/audit-demos.js` → 6046ケース 問題0
+- ブラウザ：書き換えた6トピックで KaTeXエラー0・consoleエラー0・選択肢の描画長が同程度になったことを実測
+
+### 申し送り
+- **コンテンツを触ったら `verify-topics` / `audit-content` / `audit-demos` の3本を回す**（合計30秒程度）
+- 確認問題を書くときは「誤答も完全な文で、ありがちな誤解を表現する」こと。素っ気ない誤答は長さで見破られる
+- 例題は 40/88。残り48トピックが次の候補
+
+---
+
+## 第11弾: 全88トピックに例題を完備（48件追加）
+
+サイト設計上「例題→まとめ→確認問題」で学習が閉じる建て付けなのに、例題は40/88しかなかった。残り48件をすべて執筆し、**88/88 で完備**。
+
+### 執筆方針
+- 数値は必ず手で追える形にし、**検算のステップを本文に入れる**（例：連立方程式の解を元の式に戻す、固有値をトレース・行列式で確認、KM推定量のリスク集合を表で示す）
+- 「計算できた」で終わらせず、**そこから何を読むか**を最後の段落に置く
+- 全数値をPython/scipyで独立に再計算してから執筆
+
+### 特に発見のある例題
+| トピック | 内容 |
+|---|---|
+| prep1/timeseries | 独立なランダムウォーク同士の回帰を2000回。5%水準で有意になる割合が**77.1%**（見せかけの回帰の破壊力） |
+| prep1/mcmc | 提案幅を0.1/1.0/10に変えて採択率と有効サンプル数を実測。18,000サンプルでも提案幅0.1では**実質55個** |
+| prep1/missing-data | 平均代入で不偏分散が50→5（**10分の1**）。SEを3分の1に見せる |
+| prep1/overfitting | $n=10$ 点に9次多項式で訓練RMSEがぴったり**0.000**。「$n$ 点は $n$ パラメータで必ず完全補間できる」 |
+| prep1/regression-diagnostics | $x=(1,2,3,4,10)$ のてこ比 $(0.38,0.28,0.22,0.20,\mathbf{0.92})$、$\sum h_{ii}=2$ で検算 |
+| prep1/roc-auc | 感度0.80・特異度0.944でも適合率0.615。正解率93%は「全部陰性」の90%から3ポイントしか改善していない |
+| prep1/distributions | $t_{10}(0.025)^2=4.9646=F_{0.05}(1,10)$ が**完全一致**することを数値で確認 |
+| prep1/gauss-markov | 不等分散下でOLS/WLSを2000回比較。中心はどちらも3.00（不偏性は無事）、SDは0.0632/0.0552で**効率だけが31%劣る** |
+| prep1/sufficiency | $\delta=X_1$ をラオ・ブラックウェル化して $\bar X$ に。分散が $p(1-p)\to p(1-p)/n$ と**$1/n$ 倍** |
+| doe/robust | 平均がどちらも10.00で同じ2条件のSN比が34.8dB vs 14.8dB（20dB差＝ばらつき10倍） |
+
+### 執筆中に自己検出して修正した誤り
+- ネイマン・ピアソンの例題で「$n=10$ なら検出力は約89%」と書いたが、再計算で**93.5%**。94%に修正
+- ポアソンの例題に**キリル文字の単語（"месяц"）が混入**していた（→「月」に修正）。この混入は `audit-content.js` に**想定外の文字体系の検査**として恒久化した（ギリシャ文字は本文で意図的に使うため対象外）
+
+### 最終状態
+- 例題 **88/88**、まとめ 88/88、確認問題 **193問**（1問以下のトピックは0）
+- `verify-topics` / `audit-content` / `audit-demos` すべて問題0
+- ブラウザで**全88トピックを走査**：例題要素・確認問題・デモ要素がすべて存在、KaTeXエラー0、consoleエラー0
+
+---
+
+## 第12弾: モバイルの横スクロールを修正（原因はKaTeXの絶対配置要素の脱出）
+
+例題48件で表と数式ブロックが大幅に増えたため、375px幅で全88トピックを走査したところ、**7トピックでページ全体に横スクロール**が出ていた（375px幅に対し最大463px）。
+
+### 原因の切り分け
+ブラウザ上で要素を1つずつ無効化して原因を特定した。
+
+1. **デモのスライダー（`.ctl`）**｜「ラベル＋スライダー＋値」が1行に収まらず親をはみ出していた。→ モバイル幅で `.ctl` を折り返し可能にし、スライダーを `flex: 1 1 140px; max-width: 100%` に。
+
+2. **`table.simple` からのKaTeXの脱出**（こちらが本命）｜表には `display:block; overflow-x:auto` が入っており、表自体は正しく幅343pxに収まっていた。にもかかわらずページが463pxまで広がる。切り分けると：
+   - 表を消す → 375px（解消）
+   - 数式を消す → 375px（解消）
+   - 表に `position: relative` を付ける → **375px（解消）**
+
+   **KaTeX は内部で `position: absolute` の要素を使う**。絶対配置要素の包含ブロックは「位置指定された最も近い祖先」なので、`position: static` の表は包含ブロックにならず、セル内の数式が表のクリップを**飛び越えて**ページを押し広げていた。`overflow: auto` はそれ自体では包含ブロックを作らない。
+
+### 修正
+`table.simple` と3か所の `.katex-display` に `position: relative` を追加（理由をコメントで明記）。CSSの4行で、コンテンツには一切手を触れていない。
+
+### 検証
+- モバイル375px・ダークモードで**全88トピックを走査 → 横溢れ0**
+- デスクトップ1280pxでも横溢れなし。広い表（内容幅878px）は本文幅に収まりスクロール不要
+- KaTeXエラー0、consoleエラー0、スクリーンショットで見た目を確認
+
+### 申し送り
+**`overflow: auto` のスクロール枠の中にKaTeXを入れるときは `position: relative` を必ずセットで付ける**。付け忘れると数式だけが枠から漏れ、モバイルで横スクロールが出る。今後 `.note` などに新しいスクロール枠を作る場合も同様。
+
+---
+
+## 第13弾: 新機能「グラフを動かして答える課題」を全88デモに実装
+
+### 診断で見つけた欠落
+サイトの中心思想は「パラメータを動かして挙動を見ることで、数式の意味を直感に接続する」こと。ところがデモの note を全件集計すると、**挙動を文章で説明してしまっている**——「相関を強めると第1主成分が長くなります」と書いてあれば、読者はスライダーを動かす必要がありません。
+
+改善ループの診断項目Cにある「<strong>グラフを操作する課題形式の演習があるか。答え合わせが可能か</strong>」が、**88デモすべてで欠けていました**。
+
+### 実装
+- `demo.task = { q, a }` を追加。デモ直下に**緑（`--ok`）のカード**で描画（注記/まとめ＝スレート、例題＝琥珀、課題＝緑、と「読む」ものと「手を動かす」ものを色で分離）
+- 答えは既定で畳み、「答え合わせ」ボタンで開閉。`wireTopicChrome()` で配線（DOM書き込みは `render()` に集約という規律を維持）
+- 課題は必ず**操作しないと答えられない問い**にする。「$\phi$ を0.7と$-0.9$で比べ、ACFとPACFの振る舞いはどう違いますか」のように、比較する設定値を明示
+
+### 課題の設計方針
+1. **具体的な設定値を指定**して比較させる（「0.5にしたときと0.95にしたとき」）
+2. 答えには**具体的な数値**と**なぜそうなるか**を書く
+3. 多くの課題に「ここで最も多い誤解」を潰す一段落を入れた
+
+代表例：
+| トピック | 課題が突きつけること |
+|---|---|
+| prep1/markov-chain | 継続確率0.5と0.95で**定常分布は同じなのに収束速度がまるで違う**（$\|\lambda_2\|=0$ vs $0.90$） |
+| prep1/roc-auc | しきい値を動かしても**AUCは1ミリも動かない**（分類器の性能と運用の選択は別） |
+| prep1/clt | $n$ を上げると**標本平均の分布だけが対称化し、元分布は歪んだまま** |
+| prep1/logistic | 傾きを上げても**決定境界は動かない**——変わるのは確率の較正だけ |
+| prep1/multicollinearity | 相関0.98で係数のばらつきは5倍。**でも予測は悪化しない** |
+| math/covariance-matrix | 「$\rho$ を上げる」と「$\sigma$ を変える」はどちらも細長い楕円だが**傾きが違う**＝単位の違いをPCAで拾う罠 |
+| prep1/sampling-survey | $N=500$・20%より $N=2000$・20%のほうが精度が良い＝**効くのは抽出率でなく $n$** |
+| prep1/odds-ratio | OR=16 でもリスク比は4——**「16倍危険」は4倍の誇張** |
+
+### 検算
+全数値を**サイト自身の `Stats` ライブラリ**で独立に再計算（anaconda が使えなくなったため Node に移行）。デモが実際に出す値と一致することも同時に確認できる利点があった。マルコフの $|\lambda_2|$、$\mathrm{AUC}=\Phi(d/\sqrt2)$、FWER、CRLB、CCDの回転可能性（$\alpha=1.41$ で予測分散が全方向 0.281 一定）、SN比、VIF など。
+
+### 検証で見つけて直した問題
+**ダークモードでボタンのコントラスト比が 2.28** しかなかった（WCAG AA は4.5必要）。ダークでは `--ok` が明るいティール `#3fbfa8` になるため、白文字では読みにくい。文字色を地の色に反転して **8.36** に改善（ライトは5.47）。カード本体は 11.2 / 16.97。
+
+### 検証
+- `verify-topics` / `audit-content` / `audit-demos` すべて問題0
+- `audit-content.js` に**課題のカバレッジ検査**を追加（課題なし・問いや答えが空・問いが答えより長い・`$` の奇数を検出）
+- ブラウザ：デスクトップで全88トピック（課題・例題・確認問題の存在、KaTeXエラー0）、モバイル375px・ダークで**答えを開いた状態**で全88トピック横溢れ0
+
+### 申し送り
+- 新しいデモを追加したら **`task` も必ず書く**（`audit-content.js` が検出する）
+- 課題は「操作しないと答えられない問い」にすること。挙動の説明は note の役目
+- パフォーマンスも測定済み：デモ再描画は中央値0.11ms、16ms超は2件（gauss-markov 22.6ms、bootstrap 16.8ms）でいずれもモンテカルロ系。実用上の問題はない

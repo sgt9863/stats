@@ -30,6 +30,36 @@
   --font: "Inter", "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", system-ui, -apple-system, sans-serif;
 }
 
+/* ---------- ダークモード ----------
+ * トークンを差し替えるだけで、var(--*) を使うコンポーネントは自動追従する。
+ * ハードコードした明色（スライダー等）は末尾の個別上書きで対応。
+ * グラフ（Canvas/Plotly）の配色は app.js 側の Plot.themes / PlotlyTheme.themes。 */
+:root[data-theme="dark"] {
+  --bg: #0f1013;
+  --panel: #17181d;
+  --surface: #22242c;
+  --ink: #e8e9ee;
+  --ink-2: #f3f3f6;
+  --ink-3: #d3d5dd;
+  --muted: #9aa0b0;
+  --muted-2: #7d8394;
+  --nav-ink: #b7bcc8;
+  --accent: #7c87a1;
+  --accent-deep: #626d86;
+  --accent-soft: #262a34;
+  --accent2: #ff7a52;
+  --line: #2a2c34;
+  --line-strong: #3a3d47;
+  --hover: #232530;
+  --ok: #3fbfa8;
+  --ok-soft: #16332e;
+  --ng: #f0774a;
+  --ng-soft: #34241c;
+  --warn-bg: #2a2512;
+  --warn-line: #4a4222;
+  --warn-bar: #d4a017;
+}
+
 * { box-sizing: border-box; }
 
 html { scroll-behavior: smooth; }
@@ -413,6 +443,8 @@ a { color: var(--accent); }
 .body li::marker { color: var(--muted-2); }
 
 .body .katex-display {
+  /* table.simple と同じ理由で position:relative が要る（KaTeX の絶対配置要素の封じ込め） */
+  position: relative;
   overflow-x: auto;
   overflow-y: hidden;
   padding: 6px 0;
@@ -437,6 +469,11 @@ table.simple {
   font-size: 13.5px;
   background: var(--panel);
   display: block;
+  /* position:relative は必須。KaTeX は内部で position:absolute の要素を使うため、
+     この表が「位置指定された祖先」でないと、それらが下の overflow-x:auto の
+     クリップを飛び越えてページ全体に横スクロールを作る
+     （実測: 375px幅のセルに数式入りの表があると 463px まで膨らんでいた）。 */
+  position: relative;
   overflow-x: auto;
   max-width: 100%;
   border-radius: 10px;
@@ -613,12 +650,62 @@ table.simple th {
 }
 .example-body { font-size: 14.5px; }
 .example-body ol, .example-body ul { padding-left: 1.4em; }
-.example-body .katex-display { overflow-x: auto; overflow-y: hidden; }
+.example-body .katex-display { position: relative; overflow-x: auto; overflow-y: hidden; }
 .example-body .step {
   border-left: 3px solid var(--warn-bar);
   padding: 3px 0 3px 14px;
   margin: 1em 0;
 }
+
+/* ---------- グラフを動かして答える課題 ----------
+   コールアウトの色分け: 注記/まとめ=スレート、例題=琥珀、課題=緑(--ok)。
+   「読む」ものと「手を動かす」ものを色で区別する。 */
+.demo-task {
+  background: var(--ok-soft);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--ok);
+  border-radius: var(--radius);
+  padding: 18px 24px 20px;
+  margin: 1.6em 0 0;
+}
+.demo-task h2 {
+  font-size: 15px;
+  font-weight: 800;
+  margin: 0 0 8px;
+  color: var(--ink);
+  border: 0;
+  padding: 0;
+}
+.dt-q { margin: 0 0 14px; font-size: 14.5px; }
+.dt-toggle {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--ok);
+  border: 1px solid var(--ok);
+  border-radius: 8px;
+  padding: 6px 16px;
+  cursor: pointer;
+  transition: opacity 0.12s ease;
+}
+.dt-toggle:hover { opacity: 0.85; }
+/* ダークでは --ok が明るいティール(#3fbfa8)になるため、白文字だとコントラスト比が
+   2.3 しか出ず WCAG AA(4.5) を満たさない。文字を地の色に反転して確保する。 */
+:root[data-theme="dark"] .dt-toggle { color: var(--bg); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .dt-toggle { color: var(--bg); }
+}
+.dt-a {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 14px;
+}
+.dt-a > :first-child { margin-top: 0; }
+.dt-a > :last-child { margin-bottom: 0; }
+/* table.simple と同じ理由（KaTeX の絶対配置要素の封じ込め） */
+.dt-a .katex-display, .dt-q .katex-display { position: relative; overflow-x: auto; overflow-y: hidden; }
 
 /* ---------- まとめ（キーポイント） ---------- */
 .keypoints {
@@ -703,7 +790,7 @@ table.simple th {
   font-size: 13.5px;
   line-height: 1.8;
 }
-.quiz-explain .katex-display { overflow-x: auto; overflow-y: hidden; }
+.quiz-explain .katex-display { position: relative; overflow-x: auto; overflow-y: hidden; }
 
 /* ---------- ページャ ---------- */
 .pager {
@@ -731,8 +818,364 @@ table.simple th {
 }
 
 /* ---------- モバイル ---------- */
+/* ---------- topbar 右側（検索＋テーマ切替） ---------- */
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-left: auto;
+}
+.theme-toggle {
+  flex: none;
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* ---------- 検索（topbar 内） ---------- */
+.search {
+  position: relative;
+  width: min(340px, 42vw);
+}
+.search-input, #search-input {
+  width: 100%;
+  font: inherit;
+  font-size: 13.5px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 8px;
+  padding: 7px 30px 7px 12px;
+  outline: none;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+#search-input::placeholder { color: rgba(255, 255, 255, 0.55); }
+#search-input:focus {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+#search-input::-webkit-search-cancel-button { -webkit-appearance: none; }
+.search-key {
+  position: absolute;
+  right: 9px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 4px;
+  padding: 0 5px;
+  pointer-events: none;
+  font-family: var(--font);
+}
+#search-input:focus ~ .search-key { display: none; }
+.search-results {
+  position: absolute;
+  top: calc(100% + 7px);
+  right: 0;
+  width: min(460px, 88vw);
+  max-height: min(70vh, 520px);
+  overflow-y: auto;
+  background: var(--panel);
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  box-shadow: 0 12px 34px rgba(16, 16, 20, 0.18);
+  padding: 6px;
+  z-index: 40;
+  scrollbar-width: thin;
+}
+.search-hit {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  padding: 9px 11px;
+  border-radius: 7px;
+}
+.search-hit.sel, .search-hit:hover { background: var(--surface); }
+.sh-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.sh-title { font-weight: 700; font-size: 13.5px; }
+.sh-sec { font-size: 11px; color: var(--muted); white-space: nowrap; }
+.sh-snip {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.sh-snip mark, .search-hit mark {
+  background: #fde68a;
+  color: #1b1b1f;
+  border-radius: 2px;
+  padding: 0 1px;
+}
+.search-empty { padding: 14px 12px; color: var(--muted); font-size: 13px; }
+
+/* ---------- 学習進捗 ---------- */
+.progress-summary {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 20px 18px;
+  margin: 0 0 26px;
+}
+.ps-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 11px;
+}
+.ps-title { font-weight: 800; font-size: 15px; }
+.ps-frac { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ps-bar {
+  height: 9px;
+  background: var(--surface);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.ps-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+.ps-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+.ps-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: 10px 13px;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.ps-card:hover { border-color: var(--accent); background: var(--panel); }
+.ps-card.full { border-color: var(--ok); background: var(--ok-soft); }
+.ps-card-icon { font-size: 18px; line-height: 1; }
+.ps-card-body { flex: 1; min-width: 0; }
+.ps-card-title {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ps-card-check { color: var(--ok); }
+.ps-card-mini {
+  display: block;
+  height: 6px;
+  background: var(--surface);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.ps-card.full .ps-card-mini { background: #cbe6df; }
+.ps-card-mini-fill {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+.ps-card.full .ps-card-mini-fill { background: var(--ok); }
+.ps-card-frac {
+  font-size: 12px;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.ps-note { font-size: 12.5px; color: var(--muted); margin: 13px 0 0; line-height: 1.7; }
+.ps-reset {
+  font: inherit;
+  font-size: 12px;
+  color: var(--ng);
+  background: none;
+  border: 0;
+  padding: 0 2px;
+  margin-left: 4px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.ps-reset:hover { color: var(--accent2); }
+
+/* ナビの完了マーク */
+#sidebar .nav-check {
+  display: inline-block;
+  width: 1.1em;
+  color: var(--ok);
+  font-weight: 800;
+  font-size: 11px;
+}
+#sidebar a.nav-link.done { color: var(--muted); }
+#sidebar a.nav-link.done.active { color: var(--ink); }
+#sidebar .count.done {
+  color: var(--ok);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+/* トピック下部の完了ボタン */
+.done-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 30px 0 6px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.done-toggle {
+  font: inherit;
+  font-weight: 700;
+  font-size: 14px;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  padding: 9px 20px;
+  cursor: pointer;
+  transition: background 0.12s ease, transform 0.06s ease;
+}
+.done-toggle:hover { background: var(--accent-deep); }
+.done-toggle:active { transform: translateY(1px); }
+.done-bar.is-done .done-toggle {
+  color: var(--ok);
+  background: var(--ok-soft);
+  border-color: var(--ok);
+}
+.done-next {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--accent);
+  text-decoration: none;
+}
+.done-next:hover { text-decoration: underline; }
+
+/* 続きから（再開）CTA */
+.ps-resume {
+  display: inline-block;
+  margin-top: 14px;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+  color: #fff;
+  background: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 9px;
+  padding: 10px 18px;
+  transition: background 0.12s ease;
+}
+.ps-resume:hover { background: var(--accent-deep); }
+.ps-done-all {
+  margin-top: 14px;
+  font-weight: 700;
+  color: var(--ok);
+  background: var(--ok-soft);
+  border: 1px solid var(--ok);
+  border-radius: 9px;
+  padding: 10px 16px;
+}
+
+/* 関連トピック */
+.related { margin-top: 30px; }
+.rel-chips { display: flex; flex-wrap: wrap; gap: 9px; }
+.rel-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 6px 14px;
+  transition: border-color 0.12s ease, background 0.12s ease;
+}
+.rel-chip:hover { border-color: var(--accent); background: var(--surface); }
+.rel-sec { font-size: 13px; }
+.rel-check { color: var(--ok); font-weight: 800; margin-left: 1px; }
+
+/* ページャのキーボードヒント */
+.pager-hint { text-align: center; font-size: 11.5px; color: var(--muted-2); margin: 12px 0 0; }
+.pager-hint kbd {
+  font-family: var(--font);
+  font-size: 11px;
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--ink-3);
+}
+
+/* クイズ見出しとやり直し */
+.quiz-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.quiz-reset {
+  font: inherit;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--accent);
+  background: var(--surface);
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  padding: 5px 12px;
+  cursor: pointer;
+}
+.quiz-reset:hover { background: var(--hover); border-color: var(--accent); }
+
+/* ---------- ダークモード：ハードコード明色の個別上書き ---------- */
+:root[data-theme="dark"] mark { color: #1b1b1f; }
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #3a3d47; }
+:root[data-theme="dark"] ::-webkit-scrollbar-thumb:hover { background: #4a4d59; }
+:root[data-theme="dark"] .ctl label { color: var(--muted); }
+:root[data-theme="dark"] .ctl input[type="range"]::-webkit-slider-runnable-track { background: #33353f; }
+:root[data-theme="dark"] .ctl input[type="range"]::-moz-range-track { background: #33353f; }
+:root[data-theme="dark"] .ctl input[type="range"]::-webkit-slider-thumb { border-color: var(--panel); }
+:root[data-theme="dark"] .ctl input[type="range"]::-moz-range-thumb { border-color: var(--panel); }
+:root[data-theme="dark"] .ctl select { background: #1c1e25; color: var(--ink); }
+:root[data-theme="dark"] .ctl-value { background: var(--accent-soft); color: var(--ink); }
+:root[data-theme="dark"] .btn {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+:root[data-theme="dark"] .btn:hover { background: var(--accent-deep); }
+:root[data-theme="dark"] .btn:active { background: var(--accent); }
+:root[data-theme="dark"] .quiz-choice { background: var(--surface); }
+:root[data-theme="dark"] .quiz-choice:hover:not(:disabled) { border-color: var(--accent); }
+:root[data-theme="dark"] .rel-chip:hover,
+:root[data-theme="dark"] .ps-card:hover { background: var(--hover); }
+
 @media (max-width: 900px) {
   .layout { grid-template-columns: 1fr; }
+  .topbar { flex-wrap: wrap; }
+  .topbar-right { width: 100%; }
+  .search { flex: 1; width: auto; }
+  .ps-cards { grid-template-columns: 1fr; }
 
   #sidebar {
     position: static;
@@ -748,6 +1191,14 @@ table.simple th {
   .demo-canvas { height: 320px; }
   .demo { padding: 18px 15px 20px; }
   .topic h1 { font-size: 22px; }
-  .ctl input[type="range"] { width: 180px; }
+
+  /* スライダーは指で操作するので大きくしたいが、
+     「ラベル + スライダー + 値」が1行に収まらないと .ctl が親をはみ出し、
+     ページ全体に横スクロールが出る（実測: 375px幅で417pxまで膨らんでいた）。
+     .ctl を折り返し可能にし、スライダーは残り幅いっぱいまでに制限する。 */
+  .ctl { flex-wrap: wrap; max-width: 100%; }
+  .ctl label { white-space: normal; }
+  .ctl input[type="range"] { width: 180px; max-width: 100%; flex: 1 1 140px; }
   .ctl input[type="range"]::-webkit-slider-thumb { width: 20px; height: 20px; margin-top: -8px; }
+  .ctl select { max-width: 100%; }
 }
