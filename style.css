@@ -25,6 +25,13 @@
   --warn-line: #eadfb8;
   --warn-bar: #d4a017;
   --radius: 12px;
+  /* 「墨ソリッド」面の色。--ink はダークで明色に反転するため、白文字を載せる面
+     （topbar・hero・btn・表頭など）にそのまま使うと読めなくなる。
+     実測でコントラスト比 1.21（WCAG AA は 4.5 必要）だった。
+     反転しない専用トークンを用意し、ダークではページ背景から浮く濃度にする。 */
+  --ink-solid: #101014;
+  --ink-solid-2: #1c1c22;
+  --ink-solid-3: #2a2a33;
   /* 本文の読み幅（measure）: 全角約42字。プロースだけに適用し、図表・デモは全幅。 */
   --measure: 42em;
   --font: "Inter", "Noto Sans JP", "Hiragino Sans", "Yu Gothic UI", system-ui, -apple-system, sans-serif;
@@ -58,6 +65,18 @@
   --warn-bg: #2a2512;
   --warn-line: #4a4222;
   --warn-bar: #d4a017;
+  /* ダークではページ背景(#0f1013)より少し明るくして「浮いた面」に見せる */
+  --ink-solid: #202229;
+  --ink-solid-2: #2a2d35;
+  --ink-solid-3: #343742;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ink-solid: #202229;
+    --ink-solid-2: #2a2d35;
+    --ink-solid-3: #343742;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -100,8 +119,8 @@ a { color: var(--accent); }
   position: sticky;
   top: 0;
   z-index: 20;
-  background: var(--ink);
-  border-bottom: 1px solid var(--ink);
+  background: var(--ink-solid);
+  border-bottom: 1px solid var(--ink-solid);
   padding: 12px 22px;
   display: flex;
   align-items: baseline;
@@ -213,9 +232,9 @@ a { color: var(--accent); }
 /* ---------- ホーム（ソリッドな黒ヒーロー） ---------- */
 .hero {
   position: relative;
-  background: var(--ink);
+  background: var(--ink-solid);
   color: #f2f2f5;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--ink-solid);
   border-radius: 14px;
   padding: 36px 38px 32px;
   overflow: hidden;
@@ -245,7 +264,7 @@ a { color: var(--accent); }
 }
 
 .hero-points li {
-  background: var(--ink-2);
+  background: var(--ink-solid-2);
   border: 1px solid #33333d;
   border-radius: 8px;
   padding: 6px 14px;
@@ -308,7 +327,7 @@ a { color: var(--accent); }
   font-size: 11.5px;
   font-weight: 700;
   color: #fff;
-  background: var(--ink);
+  background: var(--ink-solid);
   border-radius: 6px;
   padding: 3px 10px;
   font-variant-numeric: tabular-nums;
@@ -486,15 +505,15 @@ table.simple th, table.simple td {
   text-align: left;
 }
 
-table.simple tr:first-child th { border-top: 1px solid var(--ink); }
+table.simple tr:first-child th { border-top: 1px solid var(--ink-solid); }
 table.simple th:first-child, table.simple td:first-child { border-left: 1px solid var(--line); }
-table.simple tr:first-child th:first-child { border-top-left-radius: 10px; border-left: 1px solid var(--ink); }
-table.simple tr:first-child th:last-child, table.simple tr:first-child td:last-child { border-top-right-radius: 10px; border-right: 1px solid var(--ink); }
+table.simple tr:first-child th:first-child { border-top-left-radius: 10px; border-left: 1px solid var(--ink-solid); }
+table.simple tr:first-child th:last-child, table.simple tr:first-child td:last-child { border-top-right-radius: 10px; border-right: 1px solid var(--ink-solid); }
 table.simple tr:last-child td:first-child, table.simple tr:last-child th:first-child { border-bottom-left-radius: 10px; }
 table.simple tr:last-child td:last-child { border-bottom-right-radius: 10px; }
 
 table.simple th {
-  background: var(--ink);
+  background: var(--ink-solid);
   color: #fff;
   font-weight: 700;
   border-right-color: var(--ink-3);
@@ -603,9 +622,9 @@ table.simple th {
 }
 
 .btn {
-  background: var(--ink);
+  background: var(--ink-solid);
   color: #fff;
-  border: 1px solid var(--ink);
+  border: 1px solid var(--ink-solid);
   border-radius: 8px;
   padding: 8px 18px;
   font-size: 13px;
@@ -615,8 +634,8 @@ table.simple th {
   transition: background 0.12s ease, transform 0.12s ease;
 }
 
-.btn:hover { background: var(--ink-3); transform: translateY(-1px); }
-.btn:active { background: var(--ink); transform: translateY(0.5px); }
+.btn:hover { background: var(--ink-solid-3); transform: translateY(-1px); }
+.btn:active { background: var(--ink-solid); transform: translateY(0.5px); }
 
 .canvas-wrap { position: relative; }
 
@@ -1163,6 +1182,7 @@ table.simple th {
   border-color: var(--accent);
   color: #fff;
 }
+:root[data-theme="dark"] .btn { color: var(--bg); }
 :root[data-theme="dark"] .btn:hover { background: var(--accent-deep); }
 :root[data-theme="dark"] .btn:active { background: var(--accent); }
 :root[data-theme="dark"] .quiz-choice { background: var(--surface); }

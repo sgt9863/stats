@@ -406,7 +406,7 @@
       controls: [
         { type: 'range', id: 'a', label: '事前 a（表の擬似回数）', min: 1, max: 20, step: 1, value: 2 },
         { type: 'range', id: 'b', label: '事前 b（裏の擬似回数）', min: 1, max: 20, step: 1, value: 2 },
-        { type: 'range', id: 'heads', label: '観測: 表の回数', min: 0, max: 50, step: 1, value: 8 },
+        { type: 'range', id: 'heads', label: '観測: 表の回数', min: 0, max: 100, step: 1, value: 8 },
         { type: 'range', id: 'tails', label: '観測: 裏の回数', min: 0, max: 50, step: 1, value: 2 },
       ],
       draw(canvas, p) {
