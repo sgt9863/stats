@@ -1226,20 +1226,20 @@ table.simple th {
 
 /* DADS-aligned domain UI. Chart series retain their existing semantic colors. */
 :root {
-  --bg: #ffffff; --panel: #ffffff; --surface: #f3f6ff;
+  --bg: #ffffff; --panel: #ffffff; --surface: #f7f1fc;
   --ink: #1a1a1c; --ink-2: #1a1a1c; --ink-3: #333338;
   --muted: #525258; --muted-2: #626268; --nav-ink: #333338;
-  --accent: #0031d8; --accent-deep: #001d99; --accent-soft: #f3f6ff;
-  --line: #d8d8dc; --line-strong: #76767c; --hover: #edf2ff;
+  --accent: #6b2fb5; --accent-deep: #491b85; --accent-soft: #f7f1fc;
+  --line: #d8d8dc; --line-strong: #76767c; --hover: #efe3fa;
   --radius: 8px;
   --font: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", system-ui, sans-serif;
 }
 :root[data-theme="dark"] {
-  --bg: #101114; --panel: #1a1b20; --surface: #242a38;
+  --bg: #101114; --panel: #1a1b20; --surface: #30243d;
   --ink: #f5f5f7; --ink-2: #f5f5f7; --ink-3: #dedee3;
   --muted: #c0c0ca; --muted-2: #b1b1bd; --nav-ink: #e1e1e8;
-  --accent: #a5baff; --accent-deep: #c3d0ff; --accent-soft: #242a38;
-  --line: #50515b; --line-strong: #92939e; --hover: #2a3247;
+  --accent: #d4b4ff; --accent-deep: #e4ceff; --accent-soft: #30243d;
+  --line: #50515b; --line-strong: #92939e; --hover: #3c2c4d;
 }
 body { font-size: 16px; line-height: 1.8; }
 a { text-underline-offset: .2em; text-decoration-thickness: .08em; }
@@ -1249,7 +1249,7 @@ a:hover { text-decoration: underline; }
   box-shadow: 0 0 0 6px #ffd43d;
 }
 .skip-link { position: fixed; top: -100px; left: 16px; z-index: 100;
-  padding: 12px 20px; background: #fff; color: #0031d8; }
+  padding: 12px 20px; background: #fff; color: #6b2fb5; }
 .skip-link:focus { top: 12px; }
 .topbar { background: var(--panel); border-bottom: 1px solid var(--line);
   align-items: center; gap: 16px; min-height: 72px; }

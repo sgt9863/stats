@@ -11,3 +11,5 @@
 - Chrome / Playwright：1440px・390pxで線形回帰ページの横はみ出しなし、検索結果表示、明暗テーマ切り替え、完了チェックを確認。JavaScript例外なし。
 - モバイルトップの目視確認、キーボードでスキップリンクからmainへフォーカス移動することを確認。
 - 未確認：全88デモの個別操作、実機スマートフォン、スクリーンリーダー。公開は統合作業側で行う。
+
+User follow-up: use a different primary color for each site. Statistics now uses purple #6b2fb5 (white contrast 7.78), matching pale/dark variants; layout and yellow/black focus remain common.
