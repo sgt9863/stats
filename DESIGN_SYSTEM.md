@@ -1,3 +1,9 @@
+> 2026-10-09 更新：sgt9863.com 全体の統一方針により、UI はデジタル庁デザインシステムを参照した教科書型に変更しました。以下の旧スレート色・15px本文・墨色ヘッダーの記述より、`style.css` 末尾の DADS トークンを優先します。グラフの系列色と学習機能は維持しています。
+
+現在の基準：白背景、本文 #1a1a1c、リンク #0031d8、本文16px・行間1.8、44px以上の操作領域、黒と黄色の二重フォーカス。ダークモードは明るい青と暗い面を組み合わせ、既存のテーマ切り替えを維持します。日本語フォントは端末のフォントを使用します。
+
+参照：[色](https://design.digital.go.jp/dads/foundations/color/)、[文字組み](https://design.digital.go.jp/dads/foundations/typography/)、[レイアウト](https://design.digital.go.jp/dads/foundations/layout/)。確認日：2026-10-09。公式の認証や完全準拠を表すものではありません。
+
 # DESIGN_SYSTEM — Stats Learning Hub
 
 このサイトの視覚設計を支えるトークン定義。**場当たり的にCSSを触らず、必ずここで定義した CSS 変数（`style.css` の `:root`）を参照する。**

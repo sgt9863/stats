@@ -16,9 +16,6 @@
 })();
 </script>
 <meta name="description" content="統計検定2級の知識から、準1級・実験計画法・機械学習・多変量解析までをインタラクティブなグラフで学べる教材サイト">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&display=swap">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
@@ -27,8 +24,10 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📊</text></svg>">
 </head>
 <body>
+<a class="skip-link" href="#main" onclick="document.getElementById('main').focus(); return false;">本文へ移動</a>
 <header class="topbar">
   <a class="brand" href="#/"><span class="logo">📊</span> Stats Learning Hub</a>
+  <a class="domain-home" href="/">sgt9863.com トップ</a>
   <div class="topbar-right">
     <div class="search" role="search">
       <input id="search-input" type="search" placeholder="トピックを検索…" autocomplete="off" spellcheck="false" aria-label="トピックを検索" aria-expanded="false" aria-controls="search-results">
@@ -40,7 +39,7 @@
 </header>
 <div class="layout">
   <nav id="sidebar" aria-label="トピック一覧"></nav>
-  <main id="main"></main>
+  <main id="main" tabindex="-1"></main>
 </div>
 <script src="topics/math.js"></script>
 <script src="topics/prob.js"></script>
